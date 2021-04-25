@@ -1,0 +1,36 @@
+<div class="modal-login">
+    <div class="m-header">
+        <img class="icon-modal" src="../../../assets/icons/icone_principal.png" alt="">
+        <button type="button" class="close close-button" aria-label="Close" (click)="modalService.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="m-body">
+        <form [formGroup]="formGroup" (submit)="submitLogin()">
+
+            <div class="login-field">
+                <!-- Campo Usuário -->
+                <div class="icon-field">
+                    <img src="../../../assets/icons/svg/perfil_black.svg">
+                </div>
+                <input formControlName="user" class="m-input" placeholder="E-MAIL" type="email">
+                <!-- Campo Usuário -->
+
+                <!-- Campo Senha -->
+                <div class="icon-field">
+                    <img src="../../../assets/icons/svg/cadeado_black.svg">
+                </div>
+                <input formControlName="pass" class="m-input" placeholder="SENHA" type="password">
+                <!-- Campo Senha -->
+            </div>
+
+            <button type="submit" class="login-button">LOGIN</button>
+            <div class="text-aux">
+                Não tem login? <a class="register" (click)="modalService.hide()" [routerLink]="loginType === 'user' ? '' : routes.REGISTER_ESTABLHISHMENT">Cadastre-se</a>
+            </div>
+            <div class="link-forget">
+                <a class="forget-pass" href="">Esqueceu a senha?</a>
+            </div>
+        </form>
+    </div>
+</div>

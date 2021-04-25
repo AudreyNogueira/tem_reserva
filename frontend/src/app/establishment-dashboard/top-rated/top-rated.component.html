@@ -1,0 +1,26 @@
+<div id="top-rated">
+    <div class="container">
+        <h2 class="title">
+            {{ zone }}Melhores Avaliações
+        </h2>
+    </div>
+    <div class="carousel">
+        <div #slide class="slide">
+            <div *ngIf="carouselElements" class="elements-scroll">
+                <div *ngFor="let est of carouselElements" #element class="establishment">
+                    <img [src]="'data:image/png;base64,' + est.image" class="img-establishment">
+                    <div class="name">{{ est.restaurantName }}</div>
+                    <div class="address">{{ est.address.address }}, {{ est.address.restaurantNumber }}</div>
+                    <div class="capacity">Lotação disponivel {{ est.actualNumberOfPeople}}/{{ est.maxNumberOfPeople }}</div>
+                </div>
+            </div>
+        </div>
+
+        <a (click)="navigateCarousel('prev')" class="control left d-none d-lg-flex">
+            <img src="../../../assets/icons/svg/arrow-left.svg">
+        </a>
+        <a (click)="navigateCarousel('next')" class="control right d-none d-lg-flex">
+            <img src="../../../assets/icons/svg/arrow-right.svg">
+        </a>
+    </div>
+</div>

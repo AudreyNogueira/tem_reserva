@@ -1,0 +1,19 @@
+<div id="establishment-list">
+    <div class="container">
+        <div class="header">
+            <h2 class="title">{{ param ? 'Estabelecimentos' : zone.zoneName }}</h2>
+            <div *ngIf="!param">
+                <button [routerLink]="[zoneRoute, zoneEnum[zone.zoneName]]" class="more">Ver mais</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div *ngFor="let est of zone.restaurantList" #element class="col-12 col-md-3 establishment">
+                <img [src]="'data:image/png;base64,' + est.image" class="img-establishment">
+                <div class="name">{{ est.restaurantName }}</div>
+                <div class="address">{{ est.address.address }}, {{ est.address.restaurantNumber }}</div>
+                <div class="capacity">Lotação disponivel {{ est.actualNumberOfPeople}}/{{ est.maxNumberOfPeople }}</div>
+            </div>
+        </div>
+    </div>
+</div>

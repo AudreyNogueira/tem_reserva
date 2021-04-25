@@ -1,0 +1,14 @@
+@import ".//../assets/variables";
+
+.app {
+    background-color: $white;
+}
+
+menu {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    min-height: calc(100vh - #{ $headerHeight + $footerHeight });
+}
