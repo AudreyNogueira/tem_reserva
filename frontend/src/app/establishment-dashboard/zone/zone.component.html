@@ -1,0 +1,19 @@
+<div *ngIf="zoneResponse?.topRated?.length > 1">
+
+    <!-- Componente de estabelecimentos com melhores avaliações -->
+    <top-rated [param]="zoneResponse.zoneName" [carouselElements]="zoneResponse.topRated"></top-rated>
+    <!-- Componente de estabelecimentos com melhores avaliações -->
+    
+    <!-- Componente de lista de estabelecimentos -->
+    <div>
+        <establishment-list [param]="zoneResponse.zoneName" [zone]="zoneResponse"></establishment-list>
+    </div>
+    <!-- Componente de lista de estabelecimentos -->
+    
+</div>
+
+
+<div *ngIf="zoneResponse?.topRated?.length < 1" class="gif">
+    <div class="spinner-border text-dark" role="status">
+    </div>
+</div>

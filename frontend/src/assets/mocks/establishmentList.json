@@ -1,0 +1,194 @@
+{
+    "topRated": [
+        {
+            "url": "../../../assets/images/Painting.png",
+            "establishment": "Bar do Harada",
+            "address": "Rua Tuiuti, 230",
+            "currentCapacity": 20,
+            "totalCapacity": 1000
+        },
+        {
+            "url": "../../../assets/images/Painting.png",
+            "establishment": "Bar do Harada1",
+            "address": "Rua Tuiuti, 230",
+            "currentCapacity": 50,
+            "totalCapacity": 100
+        },
+        {
+            "url": "../../../assets/images/Painting.png",
+            "establishment": "Bar do Harada2",
+            "address": "Rua Tuiuti, 230",
+            "currentCapacity": 32,
+            "totalCapacity": 100
+        },
+        {
+            "url": "../../../assets/images/Painting.png",
+            "establishment": "Bar do Harada3",
+            "address": "Rua Tuiuti, 230",
+            "currentCapacity": 20,
+            "totalCapacity": 50
+        },
+        {
+            "url": "../../../assets/images/Painting.png",
+            "establishment": "Bar do Harada4",
+            "address": "Rua Tuiuti, 230",
+            "currentCapacity": 20,
+            "totalCapacity": 200
+        },
+        {
+            "url": "../../../assets/images/Painting.png",
+            "establishment": "Bar do Harada5",
+            "address": "Rua Tuiuti, 230",
+            "currentCapacity": 20,
+            "totalCapacity": 100
+        },
+        {
+            "url": "../../../assets/images/Painting.png",
+            "establishment": "Bar do Harada6",
+            "address": "Rua Tuiuti, 230",
+            "currentCapacity": 20,
+            "totalCapacity": 100
+        },
+        {
+            "url": "../../../assets/images/Painting.png",
+            "establishment": "Bar do Harada7",
+            "address": "Rua Tuiuti, 230",
+            "currentCapacity": 20,
+            "totalCapacity": 100
+        }
+    ],
+    "zone": [
+        {
+            "name": "Zona Leste",
+            "list": [
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Leste",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 20,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Leste1",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 50,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Leste2",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 32,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Leste3",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 20,
+                    "totalCapacity": 50
+                }
+            ]
+        },
+        {
+            "name": "Zona Norte",
+            "list": [
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Norte",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 20,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Norte1",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 50,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Norte2",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 32,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Norte3",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 20,
+                    "totalCapacity": 50
+                }
+            ]
+        },
+        {
+            "name": "Zona Sul",
+            "list": [
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Oeste",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 20,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Oeste1",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 50,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Oeste2",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 32,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Oeste3",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 20,
+                    "totalCapacity": 50
+                }
+            ]
+        },
+        {
+            "name": "Zona Oeste",
+            "list": [
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Sul",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 20,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Sul1",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 50,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Sul2",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 32,
+                    "totalCapacity": 100
+                },
+                {
+                    "url": "../../../assets/images/Painting.png",
+                    "establishment": "Bar do Sul3",
+                    "address": "Rua Tuiuti, 230",
+                    "currentCapacity": 20,
+                    "totalCapacity": 50
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,67 @@
+@import "../../assets/variables";
+
+#menu {
+    background-color: $white;
+    padding: 22px 16px;
+
+    .logo {
+        height: 45px;
+        width: 190px;
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        
+        .image {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .menu-item {
+        font-family: Mulish;
+        font-size: 14px;
+        color: $black_text;
+        position: relative;
+        
+        &:hover {
+            color: $beige;
+        }
+    }
+
+    .action-buttons {
+        margin-left: auto;
+        font-family: Mulish;
+        font-size: 14px;
+        
+        .login {
+            font-weight: bold;
+            border: none;
+            background: none;
+            color: $beige;
+            display: block;
+        }
+        
+        .register {
+            display: block;
+            font-weight: bold;
+            background: $beige;
+            color: $white;
+            border: none;
+            width: 121px;
+            height: 45px;
+            margin-left: 20px;
+            
+        }
+
+        @media (max-width: 992px) {
+            .login {
+                margin: auto;
+                margin-top: 8px;
+            }
+            .register {
+                margin: auto;
+                margin-top: 22px;
+            }
+        }
+    }
+}

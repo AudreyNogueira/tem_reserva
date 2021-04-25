@@ -1,0 +1,56 @@
+<div id="login">
+    <div class="container-xl">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h2>Fazer Login</h2>
+                <p class="description">Escolha com qual tipo de login que você quer entrar</p>
+                
+                <!-- Card de cliente -->
+                <div class="card-custom" (click)="openModal('loginModal', 'user')" [ngClass]="{ 'clicked': loginType === 'user'}">
+                    <div class="icon-card">
+                        <img class="icon" src="./../../assets/icons/svg/perfil.svg" alt="Card image cap">
+                    </div>
+                    <div class="body">
+                        <h5 class="title">Cliente</h5>
+                        <p class="text">Faça o seu login para realizar a reserva e garantir seu lugar tranquilamente.
+                        </p>
+                    </div>
+                </div>
+                <!-- Card de cliente -->
+                
+                <!-- Card de estabelecimento -->
+                <div class="card-custom" (click)="openModal('loginModal', 'establishment')" [ngClass]="{ 'clicked': loginType === 'establishment'}">
+                    <div class="icon-card">
+                        <img class="icon" src="./../../assets/icons/svg/maleta.svg" alt="Card image cap">
+                    </div>
+                    <div class="body">
+                        <h5 class="title">Estabelecimento</h5>
+                        <p class="text">Faça o login para ter acesso as reservas do seu estabelecimento. </p>
+                    </div>
+                </div>
+                <!-- Card de estabelecimento -->
+
+            </div>
+
+            <!-- Mosaico -->
+            <div class="d-none d-md-block col-md-6">
+                <div class="mosaico">
+                    <div class="img-1">
+                        <img class="w-100 h-100" src="../../assets/images/login/bar.png">
+                    </div>
+                    <div class="img-2">
+                        <img class="w-100 h-100" src="../../assets/images/login/cerveja.png">
+                    </div>
+                    <div class="img-3">
+                        <img class="w-100 h-100" src="../../assets/images/login/resturante.png">
+                    </div>
+                    <div class="img-4">
+                        <img class="w-100 h-100" src="../../assets/images/login/pizza.png">
+                    </div>
+                </div>
+            </div>
+            <!-- Mosaico -->
+
+        </div>
+    </div>
+</div>

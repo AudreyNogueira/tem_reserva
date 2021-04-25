@@ -1,0 +1,59 @@
+@import '../../../assets/variables';
+
+#establishment-list {
+
+    padding-top: 64px;
+
+    .header {
+        margin-bottom: 60px;
+
+        .title {
+            font-size: 30px;
+            font-family: Mulish;
+            font-weight: bold;
+            color: $black_text;
+        }
+        
+        .more {
+            font-size: 18px;
+            font-family: Mulish;
+            color: $black_text;
+            float: right;
+            background: none;
+            border: none;
+        }
+    }
+
+    .establishment {
+        font-family: Mulish;
+        margin-bottom: 40px;
+
+        .img-establishment {
+            width: 100%;
+            min-height: 180px;
+            margin-bottom: 16px;
+        }
+
+        @media (min-width: 992px) {
+            .img-establishment {
+                min-height: 255px;
+            }
+        }
+        
+        .name {
+            font-size: 16px;
+        }
+        
+        .address {
+            font-size: 14px;
+            color: $light_gray;
+        }
+        
+        .capacity {
+            font-size: 14px;
+            color: $light_gray;
+        }
+
+    }
+
+}

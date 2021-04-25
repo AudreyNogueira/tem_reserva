@@ -1,0 +1,165 @@
+@import '../../../assets/variables';
+
+#establishment {
+    padding: 80px 0 0 0;
+
+    .block {
+        margin-bottom: 60px;
+    }
+
+    .header {
+        margin-bottom: 34px;
+
+        .title {
+            font-size: 30px;
+            font-family: Mulish;
+            font-weight: bold;
+            color: $black_text;
+        }
+
+        .address {
+            font-size: 16px;
+            color: $light_gray;
+        }
+        
+        .capacity {
+            font-size: 16px;
+            color: $light_gray;
+        }
+    }
+
+    .calendar {
+
+        .title {
+            font-family: Mulish;
+            color: $black_text;
+            margin-bottom: 9px;
+        }
+    }
+
+    .carousel-lg {
+        width: 100%;
+        height: 100%;
+        max-height: 550px;
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-rows: repeat(9, 1fr);
+        gap: 3px;
+
+        .img-principal {
+            display: flex;
+            align-items: center;
+            grid-row: 1/7;
+            grid-column: 1/10;
+
+            .button {
+                width: 60px;
+                height: 100px;
+                background-color: $yellow;
+                position: absolute;
+                cursor: pointer;
+                align-items: center;
+                justify-content: center;
+                color: $white;
+                text-align: center;
+                display: flex;
+
+                &.left {
+                    left: 0;
+                }
+
+                &.right {
+                    right: 0;
+                }
+            }
+        }
+        
+        .img-1 {
+            grid-row: 7/10;
+            grid-column: 1/4;
+        }
+
+        .img-2 {
+            grid-row: 7/10;
+            grid-column: 4/7;
+        }
+
+        .img-3 {
+            grid-row: 7/10;
+            grid-column: 7/10;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .carousel-lg {
+            max-height: 350px;
+        }
+    }
+
+    .topic {
+        margin-bottom: 15px;
+        color: $black_text;
+
+        .title {
+            margin-bottom: 0;
+            font-size: 26px;
+            font-family: Mulish;
+        }
+
+        .text {
+            font-size: 18px;
+            font-family: Mulish;
+        }
+    }
+
+}
+
+@media (max-width: 576px) {
+    #establishment {
+        padding: 40px 0 0 0;
+    }
+}
+
+::ng-deep bs-datepicker-inline {
+
+    .bs-datepicker {
+        border-radius: 10px 10px 0px 0px;
+        box-shadow: 0 1px 3px 0 #aaa;
+        
+        .bs-datepicker-container {
+            border-radius: 10px 10px 0px 0px;
+            background-color: $calendar_color;
+            
+            .bs-datepicker-head {
+                background: none;
+                .current {
+                    pointer-events: none;
+                    color: $black_text;
+                }
+                
+                .previous, .next {
+                    color: $light_orange;
+                }
+            }
+            
+            .bs-datepicker-body {
+                .week {
+                    span {
+                        display: none;
+                    }
+                }
+                
+                .weeks {
+                    .selected {
+                        background-color: $light_orange;
+                    }
+                    
+                    th {
+                        color: $light_orange;
+                    }
+                }
+            }
+        }
+    }
+}
+

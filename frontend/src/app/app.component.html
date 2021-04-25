@@ -1,0 +1,20 @@
+<div class="app">
+
+  <!-- Menu -->
+  <menu></menu>
+  <!-- Menu -->
+
+  <!-- Páginas -->
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+  <!-- Páginas -->
+
+</div>
+
+
+<!-- Modal -->
+<ng-template #modalTemplate>
+  <modal-login *ngIf="modalName === 'loginModal'" [loginType]="loginType"></modal-login>
+</ng-template>
+<!-- Modal -->

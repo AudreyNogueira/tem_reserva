@@ -1,0 +1,133 @@
+{
+    "name": "Zona Leste",
+    "topRated": [
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Harada",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Harada1",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 50,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Harada2",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 32,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Harada3",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 50
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Harada4",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 200
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Harada5",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Harada6",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Harada7",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 100
+        }
+    ],
+    "list": [
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste1",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 50,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste2",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 32,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste3",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 50
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste2",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 32,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste3",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 50
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste2",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 32,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste3",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 50
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste2",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 32,
+        "totalCapacity": 100
+        },
+        {
+        "url": "../../../assets/images/Painting.png",
+        "establishment": "Bar do Leste3",
+        "address": "Rua Tuiuti, 230",
+        "currentCapacity": 20,
+        "totalCapacity": 50
+        }
+    ]
+}

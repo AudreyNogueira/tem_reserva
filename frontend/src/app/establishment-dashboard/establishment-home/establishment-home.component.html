@@ -1,0 +1,18 @@
+<div *ngIf="establishmentsResponse?.topRated?.length > 1">
+
+    <!-- Componente de estabelecimentos com melhores avaliações -->
+    <top-rated [carouselElements]="establishmentsResponse.topRated"></top-rated>
+    <!-- Componente de estabelecimentos com melhores avaliações -->
+
+    <!-- Componente de lista de estabelecimentos -->
+    <div *ngFor="let estZone of establishmentsResponse.zone">
+        <establishment-list [zone]="estZone"></establishment-list>
+    </div>
+    <!-- Componente de lista de estabelecimentos -->
+
+</div>
+
+<div *ngIf="establishmentsResponse?.topRated?.length < 1" class="gif">
+    <div class="spinner-border text-dark" role="status">
+    </div>
+</div>

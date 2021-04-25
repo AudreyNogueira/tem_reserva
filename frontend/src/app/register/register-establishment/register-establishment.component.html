@@ -1,0 +1,99 @@
+<div class="register-establishment">
+    <div class="container">
+        <div class="card-register">
+            <div class="d-none d-lg-block img-register">
+                <img class="img-fluid float-right" src="../../../assets/images/register/cadastro-estabelecimento.png">
+            </div>
+            <div class="form-register">
+                <div class="title-box">
+                    <h2 class="title">{{ title }}</h2>
+                    <p *ngIf="isFirstForm" class="subtitle">Já possui uma conta? <a (click)="openModal()" class="login-link">Fazer Login</a></p>
+                </div>
+                <form [formGroup]="formGroup" (submit)="submitForm()">
+                    <!-- Primeiro Formulário -->
+                    <div class="group-fields" *ngIf="isFirstForm">
+                        <div class="field">
+                            <label class="label" for="cnpj">CNPJ<span class="asterisk">*</span></label>
+                            <input formControlName="cnpj" 
+                                class="input"
+                                name="cnpj"
+                                type="text"
+                                maxlength="14"
+                                (keypress)="onlyInputNumber($event)"
+                                (paste)="onlyPasteNumber($event)"
+                                autocomplete="nope"
+                                placeholder="Digite seu CNPJ">
+                            <div *ngIf="cnpjInvalid" class="feedback">
+                                <div class="text">CNPJ inválido</div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="establhisment">Nome do Estabelecimento<span class="asterisk">*</span></label>
+                            <input formControlName="establhisment" class="input" name="establhisment" type="text"
+                            placeholder="Digite o nome do estabelecimento">
+                        </div>
+                        <div class="field">
+                            <label class="label" for="address">Endereço do Estabelecimento<span class="asterisk">*</span></label>
+                            <input formControlName="address" class="input" name="address" type="text"
+                            placeholder="Digite o endereço do estabelecimento">
+                        </div>
+                        <div class="field">
+                            <label class="label" for="capacity">Qual a capacide de pessoas que o lugar comporta<span class="asterisk">*</span></label>
+                            <input formControlName="capacity"
+                                class="input"
+                                name="capacity"
+                                type="text"
+                                maxlength="6"
+                                (keypress)="onlyInputNumber($event)"
+                                (paste)="onlyPasteNumber($event)"
+                                autocomplete="nope"
+                                placeholder="Digite a quantidade de pessoas que o lugar comporta">
+                        </div>
+                    </div>
+                    <!-- Primeiro Formulário -->
+
+                    <!-- Segundo Formulário -->
+                    <div class="group-fields" *ngIf="!isFirstForm">
+                        <div class="field">
+                            <label class="label" for="address">E-mail<span class="asterisk">*</span></label>
+                            <span class="description">Digite um e-mail que irá gerenciar o perfil do seu estabelecimento no Tem Reserva?</span>
+                            <input formControlName="user"
+                                class="input"
+                                name="address"
+                                type="text"
+                                autocomplete="nope"
+                                placeholder="Digite o endereço do estabelecimento">
+                        </div>
+                        <div class="field">
+                            <label class="label" for="capacity">Senha<span class="asterisk">*</span></label>
+                            <input formControlName="password"
+                                class="input"
+                                name="capacity"
+                                type="text"
+                                autocomplete="nope"
+                                placeholder="Digite a quantidade de pessoas que o lugar comporta">
+                            <div class="checkbox-box">
+                                <input [checkbox]="checkboxValue" (change)="checkboxValue = !checkboxValue" class="checkbox" type="checkbox" id="agreeTerms">
+                                <label class="checkbox-label" for="agreeTerms">Eu concordo com os termos e condições</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Segundo Formulário -->
+
+                    <!-- Feedback de Erro -->
+                    <div class="feedback negative-margin">
+                        <div *ngFor="let error of feedbacks" class="text">{{ error }}</div>
+                    </div>
+                    <!-- Feedback de Erro -->
+
+                    <!-- Botão do Formulário -->
+                    <button type="submit" class="btn btn-lg btn-block confirm-button">
+                        {{ buttonLabel }}<img *ngIf="isFirstForm" class="icon-button" src="../../../assets/icons/svg/seta.svg">
+                    </button>
+                    <button *ngIf="!isFirstForm" (click)="isFirstForm = !isFirstForm" class="btn btn-lg btn-block back-button">Voltar</button>
+                    <!-- Botão do Formulário -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
