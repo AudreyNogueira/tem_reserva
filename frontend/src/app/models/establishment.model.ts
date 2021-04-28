@@ -1,15 +1,15 @@
 export interface Establishment {
-    email?: string,
-    password?: string,
-    cnpj?: string,
+    email?: string;
+    password?: string;
+    cnpj?: string;
     restaurantName?: string;
     address?: AddressEstablishment;
-    description?: string,
-    openDaysOfWeek?: string,
-    openingTime?: string,
-    closingTime?: string,
-    cleaningPeriodicity?: number,
-    spacingOfTables?: number,
+    description?: string;
+    openDaysOfWeek?: string;
+    openingTime?: string;
+    closingTime?: string;
+    cleaningPeriodicity?: number;
+    spacingOfTables?: number;
     phone?: string;
     carousel?: string[];
     actualNumberOfPeople?: number;

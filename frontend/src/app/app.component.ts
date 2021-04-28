@@ -38,12 +38,12 @@ export class AppComponent implements OnInit {
   }
 
 
-  /** 
-   * MOCK 
+  /**
+   * MOCK
    * TODAS AS TRATATIVAS FEITAS SÃO POR CAUSA DO MOCK
    * SOLUÇÃO PALEATIVA
-  */
-  criarMock() {
+   */
+  criarMock(): void {
     this.mock = [
       {
         password: '123',
@@ -520,13 +520,13 @@ export class AppComponent implements OnInit {
       });
   }
 
-  test(id?: any) {
-    const number = Math.floor(Math.random() * (8) + 1);
-    var blob = null;
-    var xhr = new XMLHttpRequest();
-    var file;
-    xhr.open("GET", `/assets/images/Painting${number}.png`);
-    xhr.responseType = "blob";
+  test(id?: any): void {
+    const num = Math.floor(Math.random() * (8) + 1);
+    let blob = null;
+    const xhr = new XMLHttpRequest();
+    let file;
+    xhr.open('GET', `/assets/images/Painting${num}.png`);
+    xhr.responseType = 'blob';
     xhr.onload = () => {
       blob = xhr.response;
       file = new File([blob], 'logo.png', { type: 'image/png' });
@@ -539,7 +539,7 @@ export class AppComponent implements OnInit {
           if (this.cont === this.mock.length) {
             setTimeout(() => {
               this.establishmentListService.loadMock$.next(true);
-            }, 500)
+            }, 500);
           }
         });
       }, 750);

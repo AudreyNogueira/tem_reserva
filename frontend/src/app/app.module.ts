@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ModalLoginComponent } from './modals/modal-login/modal-login.component';
 import { RegisterEstablishmentComponent } from './register/register-establishment/register-establishment.component';
 import { EstablishmentDashboardModule } from './establishment-dashboard/establishment-dashboard.module';
+import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { EstablishmentDashboardModule } from './establishment-dashboard/establis
     LoginComponent,
     ModalLoginComponent,
     RegisterEstablishmentComponent,
+    FooterComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,4 +5,5 @@ export enum RoutesEnum {
     REGISTER_ESTABLHISHMENT = '/cadastrar-estabelecimento',
     ESTABLISHMENTS_DASHBOARD = '/estabelecimentos',
     ZONE = '/zona',
+    ABOUT = '/sobre',
 }
