@@ -14,7 +14,11 @@ const routes: Routes = [
   },
   {
     path: 'estabelecimentos',
-    loadChildren: () => import('../app/establishment-dashboard/establishment-dashboard.module').then(m => m.EstablishmentDashboardModule),
+    loadChildren: () => import('./establishment-dashboard/establishment-dashboard.module').then(m => m.EstablishmentDashboardModule),
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
   },
   {
     path: '**',

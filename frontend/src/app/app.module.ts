@@ -11,7 +11,8 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalLoginComponent } from './modals/modal-login/modal-login.component';
 import { RegisterEstablishmentComponent } from './register/register-establishment/register-establishment.component';
-import { EstablishmentDashboardModule } from './establishment-dashboard/establishment-dashboard.module';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { EstablishmentDashboardModule } from './establishment-dashboard/establis
     BrowserAnimationsModule,
     ModalModule.forRoot(),
     ReactiveFormsModule,
-    EstablishmentDashboardModule,
+    HttpClientModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
