@@ -13,6 +13,8 @@ import { ModalLoginComponent } from './modals/modal-login/modal-login.component'
 import { RegisterEstablishmentComponent } from './register/register-establishment/register-establishment.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { SharedModule } from './shared/shared.module';
     LoginComponent,
     ModalLoginComponent,
     RegisterEstablishmentComponent,
+    FooterComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
