@@ -2,6 +2,8 @@ package com.temreserva.backend.temreserva_backend.business;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -22,19 +24,55 @@ public class ImageBusiness {
         this.imageRepository = imageRepository;
     }
 
-    public byte[] getImageByRestaurantId(Long id) {
-        Image img = imageRepository.findById(id).orElse(null);
-        if(img != null)
+    public byte[] getProfileImageByOwnerId(Long ownerId, Boolean isRestaurant) {
+        Image img = imageRepository.findImage(ownerId, true, isRestaurant).orElse(null);
+
+        if (img != null)
             return decompressBytes(img.getPicByte());
 
         return null;
     }
 
-    public HttpStatus restaurantImageUpload(MultipartFile file, Long restaurantId) throws IOException {
-        Image image = Image.builder().name(file.getOriginalFilename()).type(file.getContentType())
-                .picByte(compressBytes(file.getBytes())).build();
-        imageRepository.save(image);
-        return HttpStatus.OK;
+    public List<byte[]> getRestaurantImagesByOwner(Long ownerId) {
+        List<Image> images = imageRepository.findRestaurantImages(ownerId, false, true).orElse(null);
+
+        if (images != null) {
+            List<byte[]> response = new ArrayList<byte[]>();
+            images.forEach(x -> response.add(decompressBytes(x.getPicByte())));
+            return response;
+        }
+
+        return null;
+    }
+
+    public HttpStatus imageUpload(MultipartFile file, Long imageOwnerId, Boolean isProfilePic, Boolean isRestaurant)
+            throws IOException {
+
+        Image image = imageRepository.findImage(imageOwnerId, isProfilePic, isRestaurant).map(i -> {
+            try {
+                if (!isProfilePic)
+                    return buildImage(file, imageOwnerId, isProfilePic, isRestaurant);
+
+                i.setPicByte(compressBytes(file.getBytes()));
+                return imageRepository.save(i);
+            } catch (IOException e) {
+                return null;
+            }
+        }).orElse(buildImage(file, imageOwnerId, isProfilePic, isRestaurant));
+
+        if (image != null) {
+            imageRepository.save(image);
+            return HttpStatus.OK;
+        }
+
+        return HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+
+    private Image buildImage(MultipartFile file, Long imageOwnerId, Boolean isProfilePic, Boolean isRestaurant)
+            throws IOException {
+        return Image.builder().imageOwnerId(imageOwnerId).isProfilePic(isProfilePic).isRestaurant(isRestaurant)
+                .name(file.getOriginalFilename()).type(file.getContentType()).picByte(compressBytes(file.getBytes()))
+                .build();
     }
 
     public static byte[] compressBytes(byte[] data) {
@@ -70,5 +108,12 @@ public class ImageBusiness {
         } catch (DataFormatException e) {
         }
         return outputStream.toByteArray();
+    }
+
+    public void deleteImageByOwnerId(Long ownerId) {
+        imageRepository.findByOwnerId(ownerId).map(imgs -> {
+            imgs.forEach(i -> imageRepository.delete(i));            
+            return Void.TYPE;
+        });
     }
 }

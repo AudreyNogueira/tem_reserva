@@ -73,9 +73,9 @@ public class RestaurantBusiness {
                     Enumerators.apiExceptionCodeEnum.CREATE_EXISTING_USER.getEnumValue());
     }
 
-    public HttpStatus restaurantImageUpload(MultipartFile file, Long id) throws IOException {
+    public HttpStatus restaurantImageUpload(MultipartFile file, Long id, Boolean isProfilePic) throws IOException {
         if (restaurantRepository.findById(id).orElse(null) != null)
-            return imageBusiness.restaurantImageUpload(file, id);
+            return imageBusiness.imageUpload(file, id, isProfilePic, true);
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue());
@@ -137,7 +137,7 @@ public class RestaurantBusiness {
             return HttpStatus.CREATED;
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
+                    Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
         }
     }
 
@@ -168,8 +168,15 @@ public class RestaurantBusiness {
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // GET
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public Restaurant getRestaurantById(long id) {
-        return restaurantRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+    public RestaurantModel getRestaurantById(long id) {
+        return restaurantRepository.findById(id).map(r -> {
+            return RestaurantModel.builder().id(id).email(r.getCredential().getEmail())
+                    .averageStars(r.getAverageStars()).address(getAddressModelFromAddress(addressRepository.findByRestaurant(r)))
+                    .actualNumberOfPeople(r.getActualNumberOfPeople()).maxNumberOfPeople(r.getMaxNumberOfPeople())
+                    .restaurantName(r.getRestaurantName())
+                    .restaurantImages(imageBusiness.getRestaurantImagesByOwner(id))
+                    .profileImage(imageBusiness.getProfileImageByOwnerId(id, true)).build();
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
     }
 
@@ -199,9 +206,9 @@ public class RestaurantBusiness {
         for (Restaurant restaurant : restaurants) {
             try {
                 Address address = addressRepository.findByRestaurant(restaurant);
-                byte[] img = imageBusiness.getImageByRestaurantId(address.getRestaurant().getId());
+                byte[] img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
                 RestaurantModel model = RestaurantModel.builder().id(restaurant.getId())
-                        .email(restaurant.getCredential().getEmail()).image(img)
+                        .email(restaurant.getCredential().getEmail()).profileImage(img)
                         .address(getAddressModelFromAddress(address)).restaurantName(restaurant.getRestaurantName())
                         .actualNumberOfPeople(restaurant.getActualNumberOfPeople())
                         .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())

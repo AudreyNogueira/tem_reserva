@@ -15,6 +15,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.RestaurantDTO;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.HomeRestaurantsModel;
+import com.temreserva.backend.temreserva_backend.web.model.Responses.RestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantsViewModel;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Async;
 
 @RestController
 @RequestMapping("/restaurant")
@@ -57,14 +57,15 @@ public class RestaurantController {
 
     @PostMapping("/upload")
     public HttpStatus restaurantImageUpload(@RequestParam("imageFile") MultipartFile file,
-            @RequestParam("restaurantId") Long id) throws IOException {
-        return business.restaurantImageUpload(file, id);
+            @RequestParam("restaurantId") Long id,
+            @RequestParam("isProfilePic") Boolean isProfilePic) throws IOException {
+        return business.restaurantImageUpload(file, id, isProfilePic);
     }
 
-    @PutMapping("/id={id}&idCredential={idCredential}")
+    @PutMapping("/id={id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateRestaurant(@PathVariable Long id, @PathVariable Long idUser, @RequestBody Restaurant restaurant) {
-        business.updateRestaurant(id, idUser, restaurant);
+    public void updateRestaurant(@PathVariable Long id, @RequestBody RestaurantDTO restaurant) {
+        // business.updateRestaurant(id, restaurant);
     }
 
     @GetMapping("/name={name}")
@@ -93,7 +94,7 @@ public class RestaurantController {
 
     @GetMapping("/id={id}")
     @ResponseStatus(HttpStatus.OK)
-    public Restaurant getRestaurantById(@PathVariable Long id) {
+    public RestaurantModel getRestaurantById(@PathVariable Long id) {
         return business.getRestaurantById(id);
     }
 }
