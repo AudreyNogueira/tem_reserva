@@ -15,7 +15,8 @@ public class Enumerators {
         UNEXISTENT_USER("0009"),
         CREATE_CREDENTIAL_ERROR("0010"),
         MISSING_RESERVE_INFO("0011"),
-        BAD_RESERVE("0011")
+        BAD_RESERVE("0011"),
+        CREDENTIALS_NOT_FOUND("0012")
         ;
 
         private final String apiCode;

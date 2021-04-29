@@ -30,6 +30,15 @@ public class Image {
     @Column(name = "TIPO")
     private String type;
 
+    @Column(name = "RESTAURANTE")
+    private Boolean isRestaurant;
+
+    @Column(name = "FOTO_PERFIL")
+    private Boolean isProfilePic;
+
+    @Column(name = "ID_DONO")
+    private Long imageOwnerId;
+
     @Column(name = "BYTES", length = 10000000)
     private byte[] picByte;
 }

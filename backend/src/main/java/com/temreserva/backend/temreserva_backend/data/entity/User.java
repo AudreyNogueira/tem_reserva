@@ -52,8 +52,6 @@ public class User {
     @JoinColumn(name = "ID_CREDENCIAL",nullable = false, updatable = false)
     private Credential credential;
 
-    public String accessToken;
-
     @Column(name = "DATA_CADASTRO", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime registerDate;
@@ -67,8 +65,6 @@ public class User {
         setRegisterDate(LocalDateTime.now());
         setUpdateDate(LocalDateTime.now());
     }
-
-    
 
     public User(UserDTO dto) {
         name = dto.getName();

@@ -1,24 +1,32 @@
 package com.temreserva.backend.temreserva_backend.business;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+
 import com.temreserva.backend.temreserva_backend.data.entity.Credential;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.UserDTO;
+import com.temreserva.backend.temreserva_backend.web.model.Responses.UserModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserBusiness {
     private final UserRepository userRepository;
     private final CredentialBusiness credentialBusiness;
-    public final OAuthBusiness oauthBusiness;
+    private final ImageBusiness imageBusiness;
+    private final OAuthBusiness oauthBusiness;
 
-    public UserBusiness(UserRepository userRepository, CredentialBusiness credentialBusiness) {
+    public UserBusiness(UserRepository userRepository, ImageBusiness imageBusiness,
+            CredentialBusiness credentialBusiness) {
         this.userRepository = userRepository;
         this.credentialBusiness = credentialBusiness;
+        this.imageBusiness = imageBusiness;
         oauthBusiness = new OAuthBusiness();
     }
 
@@ -34,7 +42,7 @@ public class UserBusiness {
         if (accessToken != null) {
             Credential userCredentials = credentialBusiness.getCredentialByEmail(username);
             User user = userRepository.findByCredential(userCredentials);
-            user.setAccessToken(accessToken);
+            // user.setAccessToken(accessToken);
             user.getCredential().setPassword(null);
             return user;
         }
@@ -49,7 +57,8 @@ public class UserBusiness {
         if (user.getCredential() != null) {
             userRepository.save(user);
             user.getCredential().setPassword(null);
-            user.setAccessToken(oauthBusiness.getAcessToken(dto.getEmail(), dto.getPassword()));
+            // user.setAccessToken(oauthBusiness.getAcessToken(dto.getEmail(),
+            // dto.getPassword()));
             return HttpStatus.CREATED;
         }
 
@@ -63,5 +72,47 @@ public class UserBusiness {
         else
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     Enumerators.apiExceptionCodeEnum.CREATE_EXISTING_USER.getEnumValue());
+    }
+
+    public void updateUser(Long id, UserDTO user) {
+        User userResponse = userRepository.findById(id).map(u -> {
+            u.setName(user.getName() != null ? user.getName() : u.getName());
+            u.setPhoneNumber(user.getPhoneNumber() != null ? user.getPhoneNumber() : u.getPhoneNumber());
+            u.setCpf(user.getCpf() != null ? user.getCpf() : u.getCpf());
+            u.setUpdateDate(LocalDateTime.now());
+            return userRepository.save(u);
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
+
+        credentialBusiness.updateCredentialById(userResponse.getCredential().getId(), user.getEmail(),
+                user.getPassword());
+    }
+
+    public HttpStatus userImageUpload(MultipartFile file, Long id) throws IOException {
+        if (userRepository.findById(id).orElse(null) != null)
+            return imageBusiness.imageUpload(file, id, true, false);
+
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue());
+    }
+
+    public UserModel getUserById(Long id) {
+        return userRepository.findById(id).map(u -> {
+            return UserModel.builder().phoneNumber(u.getPhoneNumber()).id(id).email(u.getCredential().getEmail())
+                    .cpf(u.getCpf()).name(u.getName()).image(imageBusiness.getProfileImageByOwnerId(id, false)).build();
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.findById(id).map( u -> {
+            Long idCred =u.getCredential().getId();
+                imageBusiness.deleteImageByOwnerId(id);
+                userRepository.delete(u);
+                credentialBusiness.deleteCredentialById(idCred);
+                return Void.TYPE;
+            })
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
     }
 }
