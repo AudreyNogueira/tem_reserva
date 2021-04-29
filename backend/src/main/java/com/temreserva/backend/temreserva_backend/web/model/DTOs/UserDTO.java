@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
     private String password;
 
+    private String actualPassword;
+
     private String name;
 
     @CPF

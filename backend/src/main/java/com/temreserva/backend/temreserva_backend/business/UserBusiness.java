@@ -84,8 +84,12 @@ public class UserBusiness {
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
 
-        credentialBusiness.updateCredentialById(userResponse.getCredential().getId(), user.getEmail(),
-                user.getPassword());
+        if (userResponse.getCredential().getPassword().equals(user.getActualPassword()))
+            credentialBusiness.updateCredentialById(userResponse.getCredential().getId(), user.getEmail(),
+                    user.getPassword());
+        else
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    Enumerators.apiExceptionCodeEnum.WRONG_PASSWORD.getEnumValue());
     }
 
     public HttpStatus userImageUpload(MultipartFile file, Long id) throws IOException {
@@ -105,14 +109,13 @@ public class UserBusiness {
     }
 
     public void deleteUser(Long id) {
-        userRepository.findById(id).map( u -> {
-            Long idCred =u.getCredential().getId();
-                imageBusiness.deleteImageByOwnerId(id);
-                userRepository.delete(u);
-                credentialBusiness.deleteCredentialById(idCred);
-                return Void.TYPE;
-            })
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
-            Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
+        userRepository.findById(id).map(u -> {
+            Long idCred = u.getCredential().getId();
+            imageBusiness.deleteImageByOwnerId(id);
+            userRepository.delete(u);
+            credentialBusiness.deleteCredentialById(idCred);
+            return Void.TYPE;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
     }
 }
