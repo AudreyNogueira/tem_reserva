@@ -19,5 +19,6 @@
 <!-- Modal -->
 <ng-template #modalTemplate>
   <modal-login *ngIf="modalName === 'loginModal'" [loginType]="loginType"></modal-login>
+  <modal-confirm *ngIf="modalName === 'confirmModal'"></modal-confirm>
 </ng-template>
 <!-- Modal -->

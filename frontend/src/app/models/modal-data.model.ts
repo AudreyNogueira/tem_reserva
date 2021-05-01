@@ -1,4 +1,4 @@
-export class ModalData {
+export interface ModalData {
     modalName?: any;
     loginType?: string;
 }

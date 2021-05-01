@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/modals/service/modal.service';
 import { cnpjValidator } from '../../validators/cnpj-validator';
 import { onlyInputNumber, onlyPasteNumber } from '../../validators/input-methods';
+import { cnpjMask } from '../../masks/cnpj-mask';
 
 @Component({
   selector: 'register-establishment',
@@ -21,8 +22,11 @@ export class RegisterEstablishmentComponent implements OnInit {
   FIELD_ERROR = 'Todos os campos são obrigatórios';
   CHECKBOX_ERROR = 'É necessário aceitar os termos e condições';
 
+  submitted = false;
+  maskCnpj = cnpjMask;
+
   formGroup: FormGroup = this.formBuilder.group({
-    cnpj: [null, [Validators.required]],
+    cnpj: [null, [Validators.required, cnpjValidator]],
     establhisment: [null, [Validators.required]],
     address: [null, [Validators.required]],
     capacity: [null, [Validators.required]],
@@ -42,6 +46,7 @@ export class RegisterEstablishmentComponent implements OnInit {
    * Chama o serviço para realizar a conclusão do registro de estabelecimento
    */
   submitForm(): void {
+    this.submitted = true;
     this.feedbacks = [];
     if (this.validateForm()) return;
 
@@ -66,17 +71,14 @@ export class RegisterEstablishmentComponent implements OnInit {
     const fields = this.isFirstForm ? Object.keys(this.formGroup.controls).slice(0, 4) : Object.keys(this.formGroup.controls).slice(4, 6);
 
     /** Valida se algum campo possui erro */
-    if (fields.some(f => this.formGroup.get(f).invalid)) {
+    if (fields.some(f => this.formGroup.get(f).getError('required'))) {
       this.feedbacks.push(this.FIELD_ERROR);
       hasError = true;
     }
 
     /** Verifica se o CNPJ é valido */
-    if (!cnpjValidator(this.formGroup.get('cnpj').value)) {
-      this.cnpjInvalid = true;
+    if (this.formGroup.get('cnpj').getError('invalidCnpj')) {
       hasError = true;
-    } else {
-      this.cnpjInvalid = false;
     }
 
     /** Verifica se o checkbox de Termos e Condições foi selecionado */

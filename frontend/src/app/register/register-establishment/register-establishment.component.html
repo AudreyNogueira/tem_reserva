@@ -18,12 +18,12 @@
                                 class="input"
                                 name="cnpj"
                                 type="text"
-                                maxlength="14"
+                                [textMask]="{ mask: maskCnpj, guide: true }"
                                 (keypress)="onlyInputNumber($event)"
                                 (paste)="onlyPasteNumber($event)"
                                 autocomplete="nope"
                                 placeholder="Digite seu CNPJ">
-                            <div *ngIf="cnpjInvalid" class="feedback">
+                            <div *ngIf="submitted && this.formGroup.get('cnpj').getError('invalidCnpj')" class="feedback">
                                 <div class="text">CNPJ inválido</div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                     <button type="submit" class="btn btn-lg btn-block confirm-button">
                         {{ buttonLabel }}<img *ngIf="isFirstForm" class="icon-button" src="../../../assets/icons/svg/seta.svg">
                     </button>
-                    <button *ngIf="!isFirstForm" (click)="isFirstForm = !isFirstForm" class="btn btn-lg btn-block back-button">Voltar</button>
+                    <button *ngIf="!isFirstForm" (click)="isFirstForm = !isFirstForm; feedbacks = []" class="btn btn-lg btn-block back-button">Voltar</button>
                     <!-- Botão do Formulário -->
                 </form>
             </div>
