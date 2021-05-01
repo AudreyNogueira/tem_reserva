@@ -41,7 +41,7 @@ public class UserBusiness {
                 "@");
         String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
         String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
-
+        
         if (accessToken != null) {
             Credential userCredentials = credentialBusiness.getCredentialByEmail(username);
             User user = userRepository.findByCredential(userCredentials);

@@ -1,6 +1,6 @@
 package com.temreserva.backend.temreserva_backend.data.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -55,7 +57,8 @@ public class User {
 
     @Column(name = "DATA_NASCIMENTO", updatable = true)
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date birthDate;
+    // @Temporal(TemporalType.DATE)
+    private LocalDate birthDate;
 
     @Column(name = "DATA_CADASTRO", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
@@ -77,5 +80,6 @@ public class User {
         phoneNumber = dto.getPhoneNumber();
         registerDate = LocalDateTime.now();
         updateDate = LocalDateTime.now(); 
+        birthDate = dto.getBirthDate();
     }   
 }
