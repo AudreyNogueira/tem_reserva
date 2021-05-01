@@ -1,5 +1,7 @@
 package com.temreserva.backend.temreserva_backend.web.model.DTOs;
 
+import java.sql.Date;
+
 import javax.validation.constraints.Email;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -23,4 +25,6 @@ public class UserDTO {
     private String email;
 
     private String phoneNumber;
+
+    private Date birthDate;
 }

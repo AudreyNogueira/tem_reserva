@@ -18,6 +18,7 @@ import com.temreserva.backend.temreserva_backend.web.model.Responses.HomeRestaur
 import com.temreserva.backend.temreserva_backend.web.model.Responses.RestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantsViewModel;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,10 +63,10 @@ public class RestaurantController {
         return business.restaurantImageUpload(file, id, isProfilePic);
     }
 
-    @PutMapping("/id={id")
+    @PutMapping("/id={id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateRestaurant(@PathVariable Long id, @RequestBody RestaurantDTO restaurant) {
-        // business.updateRestaurant(id, restaurant);
+        business.updateRestaurant(id, restaurant);
     }
 
     @GetMapping("/name={name}")
@@ -96,5 +97,11 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.OK)
     public RestaurantModel getRestaurantById(@PathVariable Long id) {
         return business.getRestaurantById(id);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRestaurant( @PathVariable Long id ){
+        business.deleteRestaurant(id);
     }
 }

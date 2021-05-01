@@ -1,5 +1,6 @@
 package com.temreserva.backend.temreserva_backend.data.entity;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -51,6 +52,10 @@ public class User {
     @OneToOne
     @JoinColumn(name = "ID_CREDENCIAL",nullable = false, updatable = false)
     private Credential credential;
+
+    @Column(name = "DATA_NASCIMENTO", updatable = true)
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthDate;
 
     @Column(name = "DATA_CADASTRO", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")

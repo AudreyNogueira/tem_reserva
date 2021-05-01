@@ -41,31 +41,30 @@ public class Restaurant {
     @JoinColumn(name = "ID_CREDENCIAL",nullable = false, updatable = false)
     private Credential credential;
 
-    @Column(name = "CNPJ", nullable = false, length = 14, updatable = false)
+    @Column(name = "CNPJ", nullable = false, length = 14, updatable = true)
     @NotEmpty(message = "CNPJ não pode ser vazio")
     @CNPJ(message = "Insira um CNPJ válido")
     private String cnpj;
 
-    @Column(name = "NOME", nullable = false, length = 1000, updatable = false)
+    @Column(name = "TELEFONE", nullable = true, length = 11, updatable = true)
+    private String phoneNumber;
+
+    @Column(name = "NOME", nullable = false, length = 1000, updatable = true)
     @NotEmpty(message = "Nome não pode ser vazio")
     private String restaurantName;
 
-    @Column(name = "DESCRICAO", nullable = true, length = 1000, updatable = false)
-    // @NotEmpty(message = "Descrição não pode ser vazia")
+    @Column(name = "DESCRICAO", nullable = true, length = 1000, updatable = true)
     private String description;
 
     @Column(name = "DIAS_SEMANAIS_ABERTOS", nullable = false, length = 500, updatable = true)
-    // @NotEmpty(message = "Dias semanais não pode ser nulo")
     private String openDaysOfWeek;
 
     @Column(name = "HORA_INICIO", nullable = false, updatable = true)
     @JsonFormat(pattern = "hh:mm:ss")
-    // @NotNull(message = "O horário de abertura não pode ser vazio")
     private Time openingTime;
 
     @Column(name = "HORA_FIM", nullable = false, updatable = true)
     @JsonFormat(pattern = "hh:mm:ss")
-    // @NotNull(message = "O horário de fechamento não pode ser vazio")
     private Time closingTime;
 
     @Column(name = "DISTANCIAMENTO_MESAS", nullable = false, updatable = true)
@@ -107,6 +106,7 @@ public class Restaurant {
 
     public Restaurant(RestaurantDTO dto) {
         cnpj = dto.getCnpj();
+        phoneNumber = dto.getPhoneNumber();
         restaurantName = dto.getRestaurantName();
         description = dto.getDescription() == null ? "" : dto.getDescription();
         openDaysOfWeek = dto.getOpenDaysOfWeek() == null ? "" : dto.getOpenDaysOfWeek();

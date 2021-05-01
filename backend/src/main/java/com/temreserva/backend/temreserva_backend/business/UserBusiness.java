@@ -3,6 +3,8 @@ package com.temreserva.backend.temreserva_backend.business;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import javax.transaction.Transactional;
+
 import com.temreserva.backend.temreserva_backend.data.entity.Credential;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@Transactional
 public class UserBusiness {
     private final UserRepository userRepository;
     private final CredentialBusiness credentialBusiness;
@@ -74,22 +77,26 @@ public class UserBusiness {
                     Enumerators.apiExceptionCodeEnum.CREATE_EXISTING_USER.getEnumValue());
     }
 
+    @Transactional(rollbackOn = ResponseStatusException.class)
     public void updateUser(Long id, UserDTO user) {
         User userResponse = userRepository.findById(id).map(u -> {
             u.setName(user.getName() != null ? user.getName() : u.getName());
             u.setPhoneNumber(user.getPhoneNumber() != null ? user.getPhoneNumber() : u.getPhoneNumber());
             u.setCpf(user.getCpf() != null ? user.getCpf() : u.getCpf());
             u.setUpdateDate(LocalDateTime.now());
+            u.setBirthDate(user.getBirthDate() != null ? user.getBirthDate() : u.getBirthDate());
             return userRepository.save(u);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
 
-        if (userResponse.getCredential().getPassword().equals(user.getActualPassword()))
-            credentialBusiness.updateCredentialById(userResponse.getCredential().getId(), user.getEmail(),
-                    user.getPassword());
-        else
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    Enumerators.apiExceptionCodeEnum.WRONG_PASSWORD.getEnumValue());
+        if (user.getActualPassword() != null && user.getPassword() != null) {
+            if (userResponse.getCredential().getPassword().equals(user.getActualPassword()))
+                credentialBusiness.updateCredentialById(userResponse.getCredential().getId(), user.getEmail(),
+                        user.getPassword());
+            else
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        Enumerators.apiExceptionCodeEnum.WRONG_PASSWORD.getEnumValue());
+        }
     }
 
     public HttpStatus userImageUpload(MultipartFile file, Long id) throws IOException {
