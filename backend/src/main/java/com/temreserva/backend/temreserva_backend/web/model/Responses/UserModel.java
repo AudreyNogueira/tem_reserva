@@ -1,6 +1,6 @@
 package com.temreserva.backend.temreserva_backend.web.model.Responses;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ public class UserModel {
 
     private String email;
     
-    private Date birthDate;
+    private LocalDate birthDate;
 
     private String phoneNumber;
 
