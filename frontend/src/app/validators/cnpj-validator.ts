@@ -1,47 +1,65 @@
+import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+
 /**
  * Função para verificar se o CNPJ é válido
- * @param cnpj CNPJ
- * @returns {boolean} `true` = se o CNPJ for válido, `falso` = se o CNPJ for inválido
+ * @param control controle do CNPJ
+ * @returns validador de CNPJ
  */
-export function cnpjValidator(cnpj: string): boolean {
 
-    if (cnpj === '' || cnpj === null) return false;
+export const cnpjValidator: ValidatorFn = (control: AbstractControl): ValidationErrors => {
+    let valorCnpj: string = control.value;
 
-    cnpj = cnpj.replace(/[^\d]+/g, '');
-
-    if (cnpj.length !== 14) return false;
-
-    if (Object.keys(cnpj).every(n => cnpj.charAt(0) === cnpj[n])) return false;
-
-    let tamanho;
-    let numeros;
-    let digitos;
-    let soma;
-    let pos;
-    let resultado;
-
-    tamanho = cnpj.length - 2;
-    numeros = cnpj.substring(0, tamanho);
-    digitos = cnpj.substring(tamanho);
-    soma = 0;
-    pos = tamanho - 7;
-    for (let i = tamanho; i >= 1; i--) {
-        soma += numeros.charAt(tamanho - i) * pos--;
-        if (pos < 2) pos = 9;
+    if (!valorCnpj) {
+        return {};
     }
-    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-    if (resultado !== Number(digitos.charAt(0))) return false;
 
-    tamanho = tamanho + 1;
-    numeros = cnpj.substring(0, tamanho);
-    soma = 0;
-    pos = tamanho - 7;
-    for (let i = tamanho; i >= 1; i--) {
-        soma += numeros.charAt(tamanho - i) * pos--;
-        if (pos < 2) pos = 9;
+    const multiplicador1: number[] = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    const multiplicador2: number[] = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    let soma: number;
+    let resto: number;
+    let digito: string;
+    let tempCnpj: string;
+    valorCnpj = valorCnpj.trim();
+    valorCnpj = valorCnpj.replace(/[\.\-\/]/g, '');
+
+    if (valorCnpj.length !== 14) {
+        return { invalidCnpj: true };
     }
-    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-    if (resultado !== Number(digitos.charAt(1))) return false;
+    let isEqual = true;
 
-    return true;
-}
+    for (let i = 1; i < 14 && isEqual; i++) {
+        if (valorCnpj[i] !== valorCnpj[0]) {
+            isEqual = false;
+        }
+    }
+
+    if (isEqual) {
+        return { invalidCnpj: true };
+    }
+
+    tempCnpj = valorCnpj.substring(0, 12);
+    soma = 0;
+    for (let i = 0; i < 12; i++) {
+        soma += Number(tempCnpj[i].toString()) * multiplicador1[i];
+    }
+    resto = (soma % 11);
+    if (resto < 2) {
+        resto = 0;
+    } else {
+        resto = 11 - resto;
+    }
+    digito = resto.toString();
+    tempCnpj = tempCnpj + digito;
+    soma = 0;
+    for (let i = 0; i < 13; i++) {
+        soma += Number(tempCnpj[i].toString()) * multiplicador2[i];
+    }
+    resto = (soma % 11);
+    if (resto < 2) {
+        resto = 0;
+    } else {
+        resto = 11 - resto;
+    }
+    digito = digito + resto.toString();
+    return valorCnpj.endsWith(digito) ? {} : { invalidCnpj: true };
+};
