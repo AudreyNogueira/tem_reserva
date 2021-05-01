@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import com.temreserva.backend.temreserva_backend.data.entity.*;
 import com.temreserva.backend.temreserva_backend.data.repository.AddressRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
@@ -26,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 
 @Service
+@Transactional
 public class RestaurantBusiness {
     private final RestaurantRepository restaurantRepository;
     private final CredentialBusiness credentialBusiness;
@@ -144,25 +147,32 @@ public class RestaurantBusiness {
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // UPDATE
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public void updateRestaurant(Long id, Long idCredential, Restaurant restaurant) {
-        restaurantRepository.findById(id).map(r -> {
-            r.setOpenDaysOfWeek(restaurant.getOpenDaysOfWeek());
-            r.setOpeningTime(restaurant.getOpeningTime());
-            r.setClosingTime(restaurant.getClosingTime());
-            r.setSpacingOfTables(restaurant.getSpacingOfTables());
-            r.setHandicappedAdapted(restaurant.getHandicappedAdapted());
-            r.setCleaningPeriodicity(restaurant.getCleaningPeriodicity());
-            r.setMaxNumberOfPeople(restaurant.getMaxNumberOfPeople());
-            r.setActualNumberOfPeople(restaurant.getMaxNumberOfPeople());
-            r.setAverageStars(restaurant.getAverageStars());
+    @Transactional(rollbackOn = ResponseStatusException.class)
+    public void updateRestaurant(Long id, RestaurantDTO restaurant) {
+        Restaurant restaurantResponse = restaurantRepository.findById(id).map(r -> {
+            r.setOpenDaysOfWeek(restaurant.getOpenDaysOfWeek() == null ? r.getOpenDaysOfWeek() : restaurant.getOpenDaysOfWeek());
+            r.setOpeningTime(restaurant.getOpeningTime() == null ? r.getOpeningTime() : restaurant.getOpeningTime());
+            r.setClosingTime(restaurant.getClosingTime() == null ? r.getClosingTime() : restaurant.getClosingTime());
+            r.setSpacingOfTables(restaurant.getSpacingOfTables() == null ? r.getSpacingOfTables() : restaurant.getSpacingOfTables());
+            r.setHandicappedAdapted(restaurant.getHandicappedAdapted() == null ? r.getHandicappedAdapted() : restaurant.getHandicappedAdapted());
+            r.setCleaningPeriodicity(restaurant.getCleaningPeriodicity() == null ? r.getCleaningPeriodicity() : restaurant.getCleaningPeriodicity());
+            r.setMaxNumberOfPeople(restaurant.getMaxNumberOfPeople() == null ? r.getMaxNumberOfPeople() : restaurant.getMaxNumberOfPeople());
+            r.setActualNumberOfPeople(restaurant.getActualNumberOfPeople() == null ? r.getActualNumberOfPeople() : restaurant.getActualNumberOfPeople());
+            r.setAverageStars(restaurant.getAverageStars() == null ? r.getAverageStars() : restaurant.getAverageStars());
             r.setUpdateDate(LocalDateTime.now());
-            if (r.getCredential().getId() == idCredential)
-                return restaurantRepository.save(r);
-            else
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                        Enumerators.apiExceptionCodeEnum.UPDATE_RESTAURANT_UNAUTHORIZED.getEnumValue());
+            r.setPhoneNumber(restaurant.getPhoneNumber() == null ? r.getPhoneNumber() : restaurant.getPhoneNumber());
+            return restaurantRepository.save(r);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
+
+        if (restaurant.getActualPassword() != null && restaurant.getPassword() != null) {
+            if (restaurantResponse.getCredential().getPassword().equals(restaurant.getActualPassword()))
+                credentialBusiness.updateCredentialById(restaurantResponse.getCredential().getId(),
+                        restaurant.getEmail(), restaurant.getPassword());
+            else
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        Enumerators.apiExceptionCodeEnum.WRONG_PASSWORD.getEnumValue());
+        }
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
@@ -171,11 +181,13 @@ public class RestaurantBusiness {
     public RestaurantModel getRestaurantById(long id) {
         return restaurantRepository.findById(id).map(r -> {
             return RestaurantModel.builder().id(id).email(r.getCredential().getEmail())
-                    .averageStars(r.getAverageStars()).address(getAddressModelFromAddress(addressRepository.findByRestaurant(r)))
+                    .averageStars(r.getAverageStars())
+                    .address(getAddressModelFromAddress(addressRepository.findByRestaurant(r)))
                     .actualNumberOfPeople(r.getActualNumberOfPeople()).maxNumberOfPeople(r.getMaxNumberOfPeople())
                     .restaurantName(r.getRestaurantName())
                     .restaurantImages(imageBusiness.getRestaurantImagesByOwner(id))
-                    .profileImage(imageBusiness.getProfileImageByOwnerId(id, true)).build();
+                    .profileImage(imageBusiness.getProfileImageByOwnerId(id, true)).phoneNumber(r.getPhoneNumber())
+                    .build();
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
     }
@@ -212,7 +224,7 @@ public class RestaurantBusiness {
                         .address(getAddressModelFromAddress(address)).restaurantName(restaurant.getRestaurantName())
                         .actualNumberOfPeople(restaurant.getActualNumberOfPeople())
                         .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
-                        .build();
+                        .phoneNumber(restaurant.getPhoneNumber()).build();
 
                 response.add(model);
             } catch (Exception ex) {
@@ -264,4 +276,18 @@ public class RestaurantBusiness {
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue());
     }
 
+    // ------------------------------------------------------------------------------------------------------------------------------------------
+    // GET
+    // ------------------------------------------------------------------------------------------------------------------------------------------
+    public void deleteRestaurant(Long id) {
+        restaurantRepository.findById(id).map(r -> {
+            Long idCred = r.getCredential().getId();
+            imageBusiness.deleteImageByOwnerId(id);
+            addressRepository.delete(addressRepository.findByRestaurant(r));
+            restaurantRepository.delete(r);
+            credentialBusiness.deleteCredentialById(idCred);
+            return Void.TYPE;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
+    }
 }
