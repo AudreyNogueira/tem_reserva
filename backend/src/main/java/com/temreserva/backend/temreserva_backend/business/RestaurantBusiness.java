@@ -150,25 +150,43 @@ public class RestaurantBusiness {
     @Transactional(rollbackOn = ResponseStatusException.class)
     public void updateRestaurant(Long id, RestaurantDTO restaurant) {
         Restaurant restaurantResponse = restaurantRepository.findById(id).map(r -> {
-            r.setOpenDaysOfWeek(restaurant.getOpenDaysOfWeek() == null ? r.getOpenDaysOfWeek() : restaurant.getOpenDaysOfWeek());
+            r.setCnpj(restaurant.getCnpj() == null ? r.getCnpj() : restaurant.getCnpj());
+            r.setRestaurantName(restaurant.getRestaurantName() == null ? r.getCnpj() : restaurant.getCnpj());
+            r.setOpenDaysOfWeek(
+                    restaurant.getOpenDaysOfWeek() == null ? r.getOpenDaysOfWeek() : restaurant.getOpenDaysOfWeek());
             r.setOpeningTime(restaurant.getOpeningTime() == null ? r.getOpeningTime() : restaurant.getOpeningTime());
             r.setClosingTime(restaurant.getClosingTime() == null ? r.getClosingTime() : restaurant.getClosingTime());
-            r.setSpacingOfTables(restaurant.getSpacingOfTables() == null ? r.getSpacingOfTables() : restaurant.getSpacingOfTables());
-            r.setHandicappedAdapted(restaurant.getHandicappedAdapted() == null ? r.getHandicappedAdapted() : restaurant.getHandicappedAdapted());
-            r.setCleaningPeriodicity(restaurant.getCleaningPeriodicity() == null ? r.getCleaningPeriodicity() : restaurant.getCleaningPeriodicity());
-            r.setMaxNumberOfPeople(restaurant.getMaxNumberOfPeople() == null ? r.getMaxNumberOfPeople() : restaurant.getMaxNumberOfPeople());
-            r.setActualNumberOfPeople(restaurant.getActualNumberOfPeople() == null ? r.getActualNumberOfPeople() : restaurant.getActualNumberOfPeople());
-            r.setAverageStars(restaurant.getAverageStars() == null ? r.getAverageStars() : restaurant.getAverageStars());
+            r.setSpacingOfTables(
+                    restaurant.getSpacingOfTables() == null ? r.getSpacingOfTables() : restaurant.getSpacingOfTables());
+            r.setHandicappedAdapted(restaurant.getHandicappedAdapted() == null ? r.getHandicappedAdapted()
+                    : restaurant.getHandicappedAdapted());
+            r.setCleaningPeriodicity(restaurant.getCleaningPeriodicity() == null ? r.getCleaningPeriodicity()
+                    : restaurant.getCleaningPeriodicity());
+            r.setMaxNumberOfPeople(restaurant.getMaxNumberOfPeople() == null ? r.getMaxNumberOfPeople()
+                    : restaurant.getMaxNumberOfPeople());
+            r.setActualNumberOfPeople(restaurant.getActualNumberOfPeople() == null ? r.getActualNumberOfPeople()
+                    : restaurant.getActualNumberOfPeople());
+            r.setAverageStars(
+                    restaurant.getAverageStars() == null ? r.getAverageStars() : restaurant.getAverageStars());
             r.setUpdateDate(LocalDateTime.now());
             r.setPhoneNumber(restaurant.getPhoneNumber() == null ? r.getPhoneNumber() : restaurant.getPhoneNumber());
+            credentialBusiness.updateEmailByID(r.getCredential().getId(), restaurant.getEmail());            
             return restaurantRepository.save(r);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
 
+        if(restaurant.getAddress() != null){
+            Address currentAddress = addressRepository.findByRestaurant(restaurantResponse);
+            Address address = getAddressByDto(restaurant);
+            address.setRestaurant(currentAddress.getRestaurant());
+            address.setId(currentAddress.getId());
+            addressRepository.save(address);
+        }
+
         if (restaurant.getActualPassword() != null && restaurant.getPassword() != null) {
             if (restaurantResponse.getCredential().getPassword().equals(restaurant.getActualPassword()))
-                credentialBusiness.updateCredentialById(restaurantResponse.getCredential().getId(),
-                        restaurant.getEmail(), restaurant.getPassword());
+                credentialBusiness.updatePasswordById(restaurantResponse.getCredential().getId(),
+                        restaurant.getPassword());
             else
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         Enumerators.apiExceptionCodeEnum.WRONG_PASSWORD.getEnumValue());

@@ -29,37 +29,37 @@ public class Address {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "ID_RESTAURANTE",nullable = false, updatable = false)
+    @JoinColumn(name = "ID_RESTAURANTE",nullable = false, updatable = true)
     private Restaurant restaurant;
 
-    @Column(name = "CEP", nullable = false, length = 1000, updatable = false)
+    @Column(name = "CEP", nullable = false, length = 1000, updatable = true)
     @NotEmpty(message = "CEP não pode ser vazio")
     private String cep;
 
-    @Column(name = "BAIRRO", nullable = false, length = 1000, updatable = false)
+    @Column(name = "BAIRRO", nullable = false, length = 1000, updatable = true)
     @NotEmpty(message = "Bairro não pode ser vazio")
     private String district;
 
-    @Column(name = "LOGRADOURO", nullable = false, length = 1000, updatable = false)
+    @Column(name = "LOGRADOURO", nullable = false, length = 1000, updatable = true)
     @NotEmpty(message = "Logradouro não pode ser vazio")
     private String address;
 
-    @Column(name = "COMPLEMENTO", nullable = false, length = 1000, updatable = false)
+    @Column(name = "COMPLEMENTO", nullable = false, length = 1000, updatable = true)
     private String complement;
 
-    @Column(name = "LOCALIDADE", nullable = false, length = 1000, updatable = false)
+    @Column(name = "LOCALIDADE", nullable = false, length = 1000, updatable = true)
     @NotEmpty(message = "Localidade não pode ser vazio")
     private String locality;
 
-    @Column(name = "NUMERO", nullable = false, length = 1000, updatable = false)
+    @Column(name = "NUMERO", nullable = false, length = 1000, updatable = true)
     @NotNull(message = "Número não pode ser nulo")
     private int restaurantNumber;
 
-    @Column(name = "ZONA", nullable = false, length = 1000, updatable = false)
+    @Column(name = "ZONA", nullable = false, length = 1000, updatable = true)
     @NotEmpty(message = "Zona não pode ser vazio")
     private String zone;
 
-    @Column(name = "UF", nullable = false, length = 1000, updatable = false)
+    @Column(name = "UF", nullable = false, length = 1000, updatable = true)
     @NotEmpty(message = "UF não pode ser vazio")
     private String uf;
 }

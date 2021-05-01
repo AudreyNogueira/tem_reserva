@@ -41,7 +41,7 @@ public class UserBusiness {
                 "@");
         String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
         String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
-        
+
         if (accessToken != null) {
             Credential userCredentials = credentialBusiness.getCredentialByEmail(username);
             User user = userRepository.findByCredential(userCredentials);
@@ -85,14 +85,14 @@ public class UserBusiness {
             u.setCpf(user.getCpf() != null ? user.getCpf() : u.getCpf());
             u.setUpdateDate(LocalDateTime.now());
             u.setBirthDate(user.getBirthDate() != null ? user.getBirthDate() : u.getBirthDate());
+            credentialBusiness.updateEmailByID(u.getCredential().getId(), user.getEmail());
             return userRepository.save(u);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
 
         if (user.getActualPassword() != null && user.getPassword() != null) {
             if (userResponse.getCredential().getPassword().equals(user.getActualPassword()))
-                credentialBusiness.updateCredentialById(userResponse.getCredential().getId(), user.getEmail(),
-                        user.getPassword());
+                credentialBusiness.updatePasswordById(userResponse.getCredential().getId(), user.getPassword());
             else
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         Enumerators.apiExceptionCodeEnum.WRONG_PASSWORD.getEnumValue());
@@ -110,7 +110,8 @@ public class UserBusiness {
     public UserModel getUserById(Long id) {
         return userRepository.findById(id).map(u -> {
             return UserModel.builder().phoneNumber(u.getPhoneNumber()).id(id).email(u.getCredential().getEmail())
-                    .cpf(u.getCpf()).birthDate(u.getBirthDate()).name(u.getName()).image(imageBusiness.getProfileImageByOwnerId(id, false)).build();
+                    .cpf(u.getCpf()).birthDate(u.getBirthDate()).name(u.getName())
+                    .image(imageBusiness.getProfileImageByOwnerId(id, false)).build();
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
     }
