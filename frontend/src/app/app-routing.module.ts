@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
+    loadChildren: () => import('./management/management.module').then(m => m.ManagementModule),
   },
   {
     path: 'sobre',
