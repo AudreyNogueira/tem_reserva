@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { UserManagementComponent } from './user-management.component';
+import { ManagementComponent } from './management.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: UserManagementComponent,
+    component: ManagementComponent,
     children: [
       {
         path: 'editar-usuario',
@@ -20,4 +20,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UserManagementRoutingModule { }
+export class ManagementRoutingModule { }
