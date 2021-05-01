@@ -110,7 +110,7 @@ public class UserBusiness {
     public UserModel getUserById(Long id) {
         return userRepository.findById(id).map(u -> {
             return UserModel.builder().phoneNumber(u.getPhoneNumber()).id(id).email(u.getCredential().getEmail())
-                    .cpf(u.getCpf()).name(u.getName()).image(imageBusiness.getProfileImageByOwnerId(id, false)).build();
+                    .cpf(u.getCpf()).birthDate(u.getBirthDate()).name(u.getName()).image(imageBusiness.getProfileImageByOwnerId(id, false)).build();
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.UNEXISTENT_USER.getEnumValue()));
     }
