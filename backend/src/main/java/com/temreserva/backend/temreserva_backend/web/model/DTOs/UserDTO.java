@@ -1,6 +1,6 @@
 package com.temreserva.backend.temreserva_backend.web.model.DTOs;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
 
@@ -26,5 +26,5 @@ public class UserDTO {
 
     private String phoneNumber;
 
-    private Date birthDate;
+    private LocalDate birthDate;
 }
