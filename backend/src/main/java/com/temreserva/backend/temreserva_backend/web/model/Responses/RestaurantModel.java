@@ -16,6 +16,8 @@ public class RestaurantModel {
 
     private String restaurantName;
 
+    private String phoneNumber;
+
     private String email;
 
     private Integer maxNumberOfPeople;
