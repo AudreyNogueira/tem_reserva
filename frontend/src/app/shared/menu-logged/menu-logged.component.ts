@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { RoutesEnum } from 'src/app/models/routes.enum';
 
 @Component({
   selector: 'menu-logged',
@@ -7,15 +8,19 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class MenuLoggedComponent implements OnInit {
 
-  @Output() close = new EventEmitter();
+  @Output() closeMenu = new EventEmitter();
+  routesEnum = RoutesEnum;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  closeMenu() {
-    this.close.emit();
+  /**
+   * Emite evento para fechar o menu
+   */
+  close(): void {
+    this.closeMenu.emit();
   }
 
 }
