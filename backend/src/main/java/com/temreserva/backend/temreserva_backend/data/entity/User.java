@@ -41,7 +41,7 @@ public class User {
     @NotEmpty(message = "Nome não pode ser nulo")
     private String name;
 
-    @Column(name="CPF", nullable = false, length = 11, updatable = false, unique = true)
+    @Column(name="CPF", nullable = false, length = 11, updatable = true, unique = true)
     @NotEmpty(message = "Cpf não pode ser vazio")
     @CPF(message = "CPF deve estar no modelo correto")
     private String cpf;
