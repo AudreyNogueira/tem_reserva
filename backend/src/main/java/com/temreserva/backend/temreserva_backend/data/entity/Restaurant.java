@@ -56,42 +56,42 @@ public class Restaurant {
     @Column(name = "DESCRICAO", nullable = true, length = 1000, updatable = true)
     private String description;
 
-    @Column(name = "DIAS_SEMANAIS_ABERTOS", nullable = false, length = 500, updatable = true)
+    @Column(name = "DIAS_SEMANAIS_ABERTOS", nullable = true, length = 500, updatable = true)
     private String openDaysOfWeek;
 
-    @Column(name = "HORA_INICIO", nullable = false, updatable = true)
+    @Column(name = "HORA_INICIO", nullable = true, updatable = true)
     @JsonFormat(pattern = "hh:mm:ss")
     private Time openingTime;
 
-    @Column(name = "HORA_FIM", nullable = false, updatable = true)
+    @Column(name = "HORA_FIM", nullable = true, updatable = true)
     @JsonFormat(pattern = "hh:mm:ss")
     private Time closingTime;
 
-    @Column(name = "DISTANCIAMENTO_MESAS", nullable = false, updatable = true)
+    @Column(name = "DISTANCIAMENTO_MESAS", nullable = true, updatable = true)
     @NotNull(message = "A sinalização de espaçamento entre as mesas não pode ser nula")
     private Integer spacingOfTables;
 
-    @Column(name = "ADAPTACAO_DEFICIENTE", nullable = false, updatable = true)
+    @Column(name = "ADAPTACAO_DEFICIENTE", nullable = true, updatable = true)
     private Boolean handicappedAdapted;
 
-    @Column(name = "PERIODICIDADE_HIGIENIZACAO", nullable = false, updatable = true)
+    @Column(name = "PERIODICIDADE_HIGIENIZACAO", nullable = true, updatable = true)
     private Integer cleaningPeriodicity;
 
-    @Column(name = "QTD_PESSOAS_MAXIMA", nullable = false, updatable = true)
+    @Column(name = "QTD_PESSOAS_MAXIMA", nullable = true, updatable = true)
     // @NotNull(message = "A quantidade de pessoas máxima não pode ser nula")
     private Integer maxNumberOfPeople;
 
-    @Column(name = "QTD_PESSOAS_ATUAL", nullable = false, updatable = true)
+    @Column(name = "QTD_PESSOAS_ATUAL", nullable = true, updatable = true)
     private Integer actualNumberOfPeople;
 
-    @Column(name = "NOTA_AVALIACAO_MEDIA", nullable = false, updatable = true)
+    @Column(name = "NOTA_AVALIACAO_MEDIA", nullable = true, updatable = true)
     private Integer averageStars;
 
-    @Column(name = "DATA_CADASTRO", nullable = false, updatable = false)
+    @Column(name = "DATA_CADASTRO", nullable = true, updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime registerDate;
 
-    @Column(name = "DATA_ATUALIZACAO", nullable = false, updatable = true)
+    @Column(name = "DATA_ATUALIZACAO", nullable = true, updatable = true)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime updateDate;
 

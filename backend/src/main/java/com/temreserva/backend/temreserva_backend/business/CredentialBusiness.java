@@ -55,13 +55,24 @@ public class CredentialBusiness implements UserDetailsService {
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // UPDATE
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public void updateCredentialById(Long id, String email, String password) {
-        credentialRepository.findById(id).map(c -> {
-            c.setEmail(email);
-            c.setPassword(password);
-            return credentialRepository.save(c);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                Enumerators.apiExceptionCodeEnum.CREDENTIALS_NOT_FOUND.getEnumValue()));
+    public void updatePasswordById(Long id, String password) {
+        if(password != null && password != "") {
+            credentialRepository.findById(id).map(c -> {
+                c.setPassword(password);
+                return credentialRepository.save(c);
+            }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    Enumerators.apiExceptionCodeEnum.CREDENTIALS_NOT_FOUND.getEnumValue()));
+        }        
+    }
+
+    public void updateEmailByID(Long id, String email) {
+        if(email != null) {
+            credentialRepository.findById(id).map(c -> {
+                c.setEmail(email);
+                return credentialRepository.save(c);
+            }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    Enumerators.apiExceptionCodeEnum.CREDENTIALS_NOT_FOUND.getEnumValue()));
+        }        
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
@@ -72,6 +83,6 @@ public class CredentialBusiness implements UserDetailsService {
             credentialRepository.delete(c);
             return Void.TYPE;
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-        Enumerators.apiExceptionCodeEnum.CREDENTIALS_NOT_FOUND.getEnumValue()));
+                Enumerators.apiExceptionCodeEnum.CREDENTIALS_NOT_FOUND.getEnumValue()));
     }
 }
