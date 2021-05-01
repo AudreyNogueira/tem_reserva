@@ -151,7 +151,7 @@ public class RestaurantBusiness {
     public void updateRestaurant(Long id, RestaurantDTO restaurant) {
         Restaurant restaurantResponse = restaurantRepository.findById(id).map(r -> {
             r.setCnpj(restaurant.getCnpj() == null ? r.getCnpj() : restaurant.getCnpj());
-            r.setRestaurantName(restaurant.getRestaurantName() == null ? r.getCnpj() : restaurant.getCnpj());
+            r.setRestaurantName(restaurant.getRestaurantName() == null ? r.getRestaurantName() : restaurant.getRestaurantName());
             r.setOpenDaysOfWeek(
                     restaurant.getOpenDaysOfWeek() == null ? r.getOpenDaysOfWeek() : restaurant.getOpenDaysOfWeek());
             r.setOpeningTime(restaurant.getOpeningTime() == null ? r.getOpeningTime() : restaurant.getOpeningTime());
