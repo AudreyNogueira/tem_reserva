@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { onlyInputAlphanumeric, onlyInputNumber, onlyPasteAlphanumeric, onlyPasteNumber, spaceNotAllowed } from 'src/app/validators/input-methods';
 import { EditUserService } from '../services/edit-user.service';
@@ -7,13 +7,15 @@ import { phoneMask } from '../../masks/phone-mask';
 import { cpfValidator } from '../../validators/cpf-validator';
 import { phoneValidator } from '../../validators/phone-validator';
 import { cpfMask } from '../../masks/cpf-mask';
+import { ModalService } from 'src/app/modals/service/modal.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'edit-user',
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss']
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent implements OnInit, OnDestroy {
 
   maskPhone = phoneMask;
   maskCPF = cpfMask;
@@ -33,16 +35,25 @@ export class EditUserComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private readonly editUserService: EditUserService,
+    private modalServiceLocal: ModalService,
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.modalServiceLocal.$comunication.unsubscribe();
   }
 
   /**
    * Deleta o usuário
    */
   deleteUser(): void {
-    this.editUserService.deleteUser(1).subscribe();
+    this.modalServiceLocal.$openModal.next({ modalName: 'confirmModal' });
+
+    this.modalServiceLocal.$comunication.pipe(first()).subscribe(resp => {
+      if (resp) this.editUserService.deleteUser(1).subscribe();
+    })
   }
 
   /**

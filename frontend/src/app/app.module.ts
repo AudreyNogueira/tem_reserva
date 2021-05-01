@@ -16,6 +16,7 @@ import { SharedModule } from './shared/shared.module';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { TextMaskModule } from 'angular2-text-mask';
+import { ModalConfirmComponent } from './modals/modal-confirm/modal-confirm.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     RegisterEstablishmentComponent,
     FooterComponent,
     HomeComponent,
+    ModalConfirmComponent,
   ],
   imports: [
     BrowserModule,
