@@ -14,6 +14,12 @@ import lombok.NoArgsConstructor;
 public class RestaurantModel {
     private Long id;
 
+    private String cnpj;
+
+    private String payment;
+
+    private String cleaning;
+
     private String restaurantName;
 
     private String phoneNumber;
@@ -25,10 +31,13 @@ public class RestaurantModel {
     private Integer actualNumberOfPeople;
 
     private Integer averageStars;
+    
+    private String description;
 
     private AddressModel address;
 
     private byte[] profileImage;
 
     private List<byte[]> restaurantImages;
+
 }

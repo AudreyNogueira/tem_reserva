@@ -75,7 +75,7 @@ public class Restaurant {
     private Boolean handicappedAdapted;
 
     @Column(name = "PERIODICIDADE_HIGIENIZACAO", nullable = true, updatable = true)
-    private Integer cleaningPeriodicity;
+    private String cleaning;
 
     @Column(name = "QTD_PESSOAS_MAXIMA", nullable = true, updatable = true)
     // @NotNull(message = "A quantidade de pessoas máxima não pode ser nula")
@@ -86,6 +86,9 @@ public class Restaurant {
 
     @Column(name = "NOTA_AVALIACAO_MEDIA", nullable = true, updatable = true)
     private Integer averageStars;
+
+    @Column(name = "FORMA_PAGAMENTO", nullable = true, updatable = true)
+    private String payment;
 
     @Column(name = "DATA_CADASTRO", nullable = true, updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
@@ -113,12 +116,13 @@ public class Restaurant {
         openingTime = dto.getOpeningTime() == null ? new Time(0) : dto.getOpeningTime();
         closingTime = dto.getClosingTime() == null ? new Time(0) : dto.getClosingTime();
         spacingOfTables = dto.getSpacingOfTables() == null ? 0 : dto.getSpacingOfTables();
-        cleaningPeriodicity = dto.getCleaningPeriodicity() == null ? 0 : dto.getCleaningPeriodicity();   
+        cleaning = dto.getCleaning();   
         maxNumberOfPeople = dto.getMaxNumberOfPeople() == null ? 0 : dto.getMaxNumberOfPeople(); 
         handicappedAdapted = false;
         actualNumberOfPeople = 0;
         averageStars = 0;
         registerDate = LocalDateTime.now();
         updateDate = LocalDateTime.now(); 
+        payment = dto.getPayment();
     }
 }

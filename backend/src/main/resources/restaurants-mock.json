@@ -8,7 +8,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 100,
           "address": {
@@ -31,7 +31,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 200,
           "address": {
@@ -54,7 +54,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 50,
           "address": {
@@ -77,7 +77,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 90,
           "address": {
@@ -100,7 +100,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 20,
           "address": {
@@ -123,7 +123,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 500,
           "address": {
@@ -146,7 +146,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 20,
           "address": {
@@ -169,7 +169,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 660,
           "address": {
@@ -192,7 +192,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 94,
           "address": {
@@ -215,7 +215,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 330,
           "address": {
@@ -238,7 +238,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 260,
           "address": {
@@ -261,7 +261,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 20,
           "address": {
@@ -284,7 +284,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 40,
           "address": {
@@ -307,7 +307,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 20,
           "address": {
@@ -330,7 +330,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 80,
           "address": {
@@ -353,7 +353,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 132,
           "address": {
@@ -376,7 +376,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 70,
           "address": {
@@ -399,7 +399,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 62,
           "address": {
@@ -422,7 +422,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 10,
           "address": {
@@ -445,7 +445,7 @@
           "openDaysOfWeek": "MONDAY;TUESDAY",
           "openingTime": "09:00:00",
           "closingTime": "18:00:00",
-          "cleaningPeriodicity": 15,
+          "cleaning": "15",
           "spacingOfTables": 2,
           "maxNumberOfPeople": 20,
           "address": {

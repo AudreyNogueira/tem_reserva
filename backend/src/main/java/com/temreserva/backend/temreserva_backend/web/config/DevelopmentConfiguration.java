@@ -59,7 +59,7 @@ public class DevelopmentConfiguration {
             userRepository.save(user1);
 
             JSONParser jsonParser = new JSONParser();
-            JSONArray arr = (JSONArray) jsonParser.parse(new FileReader("src/main/resources/restaurants-mock.json"));
+            JSONArray arr = (JSONArray) jsonParser.parse(new FileReader("backend/src/main/resources/restaurants-mock.json"));
 
             for (Object o : arr) {
                 JSONObject res = (JSONObject) o;
@@ -78,7 +78,7 @@ public class DevelopmentConfiguration {
                 long ct = sdf.parse((String) res.get("closingTime")).getTime();
                 Time closingTime = new Time(ct);
 
-                int cleaningPeriodicity = Integer.parseInt(res.get("cleaningPeriodicity").toString());
+                String cleaning = res.get("cleaning").toString();
                 int spacingOfTables = Integer.parseInt(res.get("spacingOfTables").toString());
                 int maxNumberOfPeople = Integer.parseInt(res.get("maxNumberOfPeople").toString());
 
@@ -97,7 +97,7 @@ public class DevelopmentConfiguration {
 
                 Restaurant restaurant = Restaurant.builder().credential(cred).restaurantName(restaurantName)
                         .phoneNumber(phoneNumber).cnpj(cnpj).description(description).openDaysOfWeek(openDaysOfWeek)
-                        .openingTime(openingTime).closingTime(closingTime).cleaningPeriodicity(cleaningPeriodicity)
+                        .openingTime(openingTime).closingTime(closingTime).cleaning(cleaning)
                         .spacingOfTables(spacingOfTables).maxNumberOfPeople(maxNumberOfPeople).build();
                 restaurant = restaurantRepository.save(restaurant);
 
@@ -109,7 +109,7 @@ public class DevelopmentConfiguration {
                 int imageNumber = (int)(Math.random()*((8-1)+1))+1;
 
                 MultipartFile file = new MockMultipartFile("Painting"+ imageNumber + ".png",
-                        new FileInputStream(new File("src/main/resources/images/Painting" + imageNumber + ".png")));
+                        new FileInputStream(new File("backend/src/main/resources/images/Painting" + imageNumber + ".png")));
                 Image image = imageBusiness.buildImage(file, restaurant.getId(), true, true);
                 imageRepository.save(image);
             }
