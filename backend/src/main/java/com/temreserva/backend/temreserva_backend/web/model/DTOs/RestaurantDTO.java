@@ -13,6 +13,8 @@ public class RestaurantDTO {
 
     private String actualPassword;
 
+    private String payment;
+
     private String email;
 
     private String cnpj;
@@ -33,7 +35,7 @@ public class RestaurantDTO {
 
     private Boolean handicappedAdapted;
     
-    private Integer cleaningPeriodicity;
+    private String cleaning;
 
     private Integer maxNumberOfPeople;
 
