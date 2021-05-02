@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { cnpjMask } from 'src/app/masks/cnpj-mask';
@@ -18,30 +18,59 @@ import { Establishment } from 'src/app/models/establishment.model';
 })
 export class EditEstablishmentComponent implements OnInit {
 
+  @ViewChild('slide') slide: ElementRef<HTMLElement>;
+  @ViewChildren('element') element: QueryList<ElementRef<HTMLElement>>;
+
   maskPhone = phoneMask;
   maskCnpj = cnpjMask;
   maskCep = cepMask;
   submitted = false;
-  zones = [
+  pic: string;
+
+  zones: string[] = [
     'Zona Norte',
     'Zona Sul',
     'Zona Leste',
     'Zona Oeste',
   ];
 
+  cleaningProtocol = [
+    {
+      value: "Distanciamento de mesas",
+      checked: false,
+    },
+    {
+      value: "Uso de máscara",
+      checked: false,
+    },
+    {
+      value: "Verificação de temperatura",
+      checked: false,
+    },
+    {
+      value: "Disponibilidade de Álcool em Gel",
+      checked: false,
+    }
+  ];
+
   formGroup: FormGroup = this.formBuilder.group({
     restaurantName: [null, [Validators.required]],
     cnpj: [null, [Validators.required, cnpjValidator]],
+    phone: [null, [Validators.required, phoneValidator]],
     cep: [null, [Validators.required]],
     zone: [null, [Validators.required]],
     street: [null, [Validators.required]],
     estabNumber: [null, [Validators.required]],
     district: [null, [Validators.required]],
-    phone: [null, [Validators.required, phoneValidator]],
+    description: [null, [Validators.required]],
+    payment: [null, [Validators.required]],
+    cleaning: [null],
     email: [null, [Validators.required, Validators.email]],
     currentPass: [''],
     newPass: [''],
   });
+
+  userData;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,10 +79,31 @@ export class EditEstablishmentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.editEstablishmentService.$userSession.subscribe(user => {
+      this.userData = user;
+      this.initialValues(this.userData);
+    })
   }
 
   ngOnDestroy(): void {
     this.modalServiceLocal.$comunication.unsubscribe();
+  }
+
+  initialValues(userData: Establishment) {
+    this.pic = `data:image/png;base64,${this.userData.profileImage.image}`;
+    this.formGroup.get('restaurantName').setValue(userData.restaurantName);
+    this.formGroup.get('cnpj').setValue(userData.cnpj);
+    this.formGroup.get('phone').setValue(userData.phoneNumber);
+    this.formGroup.get('cep').setValue(userData.address.cep);
+    this.formGroup.get('zone').setValue(userData.address.zone);
+    this.formGroup.get('street').setValue(userData.address.address);
+    this.formGroup.get('estabNumber').setValue(userData.address.restaurantNumber);
+    this.formGroup.get('district').setValue(userData.address.district);
+    this.formGroup.get('description').setValue(userData.description);
+    this.formGroup.get('payment').setValue(userData.payment);
+    this.formGroup.get('email').setValue(userData.email);
+    this.treatCheckBox(userData.cleaning ? userData.cleaning : '');
   }
 
   /**
@@ -87,13 +137,24 @@ export class EditEstablishmentComponent implements OnInit {
           restaurantNumber: this.formGroup.get('estabNumber').value,
           zone: this.formGroup.get('zone').value,
           uf: 'SP'
-      },
+        },
         email: this.formGroup.get('email').value,
+        payment: this.formGroup.get('payment').value,
+        description: this.formGroup.get('description').value,
       };
+
+
+      if (this.cleaningProtocol.some(p => p.checked)) {
+        let cleaningProtocolValue = '';
+        this.cleaningProtocol.filter(p => p.checked).forEach(item => cleaningProtocolValue += item.value + ',');
+        data = { ...data, cleaning: cleaningProtocolValue }
+      }
 
       if (this.passwordChange()) data = { ...data, password: this.formGroup.get('newPass').value, actualPassword: this.formGroup.get('currentPass').value };
 
-      this.editEstablishmentService.updateEstablishment(1, data).subscribe(() => { }, err => {
+      this.editEstablishmentService.updateEstablishment(this.userData.id, data).subscribe(() => {
+        this.editEstablishmentService.set$userSession(data);
+      }, err => {
         if (err.error.apicode === '0013') this.formGroup.get('currentPass').setValue('');
       });
     }
@@ -131,6 +192,61 @@ export class EditEstablishmentComponent implements OnInit {
    */
   passwordChange(): boolean {
     return this.formGroup.get('currentPass').value !== '' || this.formGroup.get('newPass').value !== '';
+  }
+
+  treatCheckBox(protocols: string): void {
+    const list = protocols.split(',');
+
+    list.forEach(p => {
+      this.cleaningProtocol.filter(item => item.value === p).map(c => c.checked = true);
+    });
+  }
+
+  getAddressByCep() {
+    const cep = this.formGroup.get('cep').value.replace(/\D/g, '');
+    if (cep.length === 8) {
+      this.editEstablishmentService.getCEP(cep).subscribe(c => {
+        if (c.localidade !== 'São Paulo') {
+          this.formGroup.get('cep').setErrors({ outRange: true });
+        }
+        if (c?.erro) {
+          this.formGroup.get('cep').setErrors({ invalidCep: true });
+        } else {
+          this.formGroup.get('street').setValue(c.logradouro);
+          this.formGroup.get('district').setValue(c.bairro);
+          this.formGroup.get('zone').setValue('');
+        }
+      });
+    }
+  }
+
+  onCheckboxChange(protocol: any) {
+    this.cleaningProtocol.filter(p => protocol === p).map(v => v.checked = !v.checked);
+  }
+
+  public onFileChanged(event: any, isProfileImg: boolean, index?: number) {
+    console.log(isProfileImg);
+    console.log(index);
+    const uploadImageData = new FormData();
+    uploadImageData.append('imageFile', event.target.files[0], event.target.files[0].name);
+    uploadImageData.append('isProfilePic', String(isProfileImg));
+
+    if (isProfileImg) {
+      this.pic = (window.URL ? URL : webkitURL).createObjectURL(event.target.files[0]);
+      uploadImageData.append('restaurantId', this.userData.id.toString());
+      this.editEstablishmentService.setImage(uploadImageData).subscribe();
+    }
+  }
+
+  /**
+ * Método para rolar o carrossel pelas setas
+ * @method navigateCarousel
+ * @param direction direção para qual o carrossel vai
+ */
+  navigateCarousel(direction: string): void {
+    direction === 'next' ?
+      this.slide.nativeElement.scrollBy({ left: this.element.last.nativeElement.scrollWidth + 50 }) :
+      this.slide.nativeElement.scrollBy({ left: -this.element.last.nativeElement.scrollWidth + 50 });
   }
 
   /**
@@ -186,21 +302,4 @@ export class EditEstablishmentComponent implements OnInit {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
-  getAddressByCep() {
-    const cep = this.formGroup.get('cep').value.replace(/\D/g, '');
-    if (cep.length === 8) {
-      this.editEstablishmentService.getCEP(cep).subscribe(c => {
-        if (c.localidade !== 'São Paulo') {
-          this.formGroup.get('cep').setErrors({ outRange: true });
-        }
-        if (c?.erro) {
-          this.formGroup.get('cep').setErrors({ invalidCep: true });
-        } else {
-          this.formGroup.get('street').setValue(c.logradouro);
-          this.formGroup.get('district').setValue(c.bairro);
-          this.formGroup.get('zone').setValue('');
-        }
-      });
-    }
-  }
 }

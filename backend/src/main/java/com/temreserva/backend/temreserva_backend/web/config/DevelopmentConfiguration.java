@@ -59,7 +59,7 @@ public class DevelopmentConfiguration {
             userRepository.save(user1);
 
             JSONParser jsonParser = new JSONParser();
-            JSONArray arr = (JSONArray) jsonParser.parse(new FileReader("backend/src/main/resources/restaurants-mock.json"));
+            JSONArray arr = (JSONArray) jsonParser.parse(new FileReader("src/main/resources/restaurants-mock.json"));
 
             for (Object o : arr) {
                 JSONObject res = (JSONObject) o;
@@ -106,12 +106,19 @@ public class DevelopmentConfiguration {
                         .build();
                 addressRepository.save(addr);
 
-                int imageNumber = (int)(Math.random()*((8-1)+1))+1;
+                int imageNumber = (int) (Math.random() * ((8 - 1) + 1)) + 1;
 
-                MultipartFile file = new MockMultipartFile("Painting"+ imageNumber + ".png",
-                        new FileInputStream(new File("backend/src/main/resources/images/Painting" + imageNumber + ".png")));
+                MultipartFile file = new MockMultipartFile("Painting" + imageNumber + ".png",
+                        new FileInputStream(new File("src/main/resources/images/Painting" + imageNumber + ".png")));
                 Image image = imageBusiness.buildImage(file, restaurant.getId(), true, true);
                 imageRepository.save(image);
+
+                for (int i = 0; i < 7; i++) {
+                    MultipartFile fileTest = new MockMultipartFile("Painting" + imageNumber + ".png",
+                            new FileInputStream(new File("src/main/resources/images/Painting" + imageNumber + ".png")));
+                    Image imageTest = imageBusiness.buildImage(fileTest, restaurant.getId(), false, true);
+                    imageRepository.save(imageTest);
+                }
             }
         };
     }
