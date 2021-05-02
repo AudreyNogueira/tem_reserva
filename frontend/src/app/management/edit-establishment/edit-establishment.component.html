@@ -1,0 +1,166 @@
+<div id="edit-establishment">
+    <div class="container">
+        <div class="header">
+            <div class="name">
+                Ananda Gurgel
+            </div>
+            <div class="email">
+                gurgel.ananda@gmail.com
+            </div>
+        </div>
+        <form class="form" [formGroup]="formGroup" (submit)="saveEdit()">
+            <div class="section-title">Dados do Estabelecimento</div>
+            <div class="row">
+                <div class="col-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('restaurantName').invalid && submitted }">
+                        <label class="label" for="restaurantName">Nome do Estabelecimento</label>
+                        <input class="input"
+                            formControlName="restaurantName"
+                            autocomplete="nope"
+                            (keypress)="onlyInputAlphanumeric($event)"
+                            (paste)="onlyPasteAlphanumeric('restaurantName', $event)"
+                            name="restaurantName"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('cnpj').invalid && submitted }">
+                        <label class="label" for="cnpj">CNPJ</label>
+                        <input class="input"
+                            formControlName="cnpj"
+                            autocomplete="off"
+                            (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('cnpj', $event)"
+                            name="cnpj"
+                            [textMask]="{ mask: maskCnpj, guide: true }"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('phone').invalid && submitted }">
+                        <label class="label" for="phone">Telefone</label>
+                        <input class="input"
+                            formControlName="phone"
+                            autocomplete="nope"
+                            (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('phone', $event)"
+                            name="phone"
+                            [textMask]="{ mask: maskPhone, guide: true }"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-title">Logradouro</div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('cep').invalid && submitted }">
+                        <label class="label" for="cep">CEP</label>
+                        <input class="input"
+                            formControlName="cep"
+                            autocomplete="nope"
+                            (keyup)="getAddressByCep()"
+                            (paste)="onlyPasteNumber('cep', $event)"
+                            [textMask]="{ mask: maskCep, guide: true }"
+                            name="cep"
+                            type="text">    
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('zone').invalid && submitted }">
+                        <label class="label" for="estabNumber">Zona</label>
+                            <select class="input"
+                                formControlName="zone">
+                                <option *ngFor="let zone of zones" [ngValue]="zone">{{ zone }}</option>
+                            </select>
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('street').invalid && submitted }">
+                        <label class="label" for="street">Endereço</label>
+                        <input class="input"
+                            formControlName="street"
+                            autocomplete="nope"
+                            name="street"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('estabNumber').invalid }">
+                        <label class="label" for="estabNumber">Número</label>
+                        <input class="input"
+                            formControlName="estabNumber"
+                            autocomplete="off"
+                            (keypress)="onlyInputNumber($event)"
+                            name="estabNumber"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('district').invalid }">
+                        <label class="label" for="district">Bairro</label>
+                        <input class="input"
+                            formControlName="district"
+                            autocomplete="off"
+                            name="district"
+                            (keypress)="spaceNotAllowed($event)"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-title">Dados da Conta</div>
+            <div class="row mb-4">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('email').invalid && submitted }">
+                        <label class="label" for="email">E-mail</label>
+                        <input class="input"
+                            formControlName="email"
+                            autocomplete="off"
+                            name="email"
+                            type="email">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('currentPass').value === '' && formGroup.get('newPass').value !== '' }">
+                        <label class="label" for="currentPass">Senha Atual</label>
+                        <input class="input"
+                            formControlName="currentPass"
+                            autocomplete="off"
+                            (keypress)="spaceNotAllowed($event)"
+                            name="currentPass"
+                            type="password">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && this.formGroup.get('currentPass').value !== '' && this.formGroup.get('newPass').value === '' }">
+                        <label class="label" for="newPass">Trocar Senha</label>
+                        <input class="input"
+                            formControlName="newPass"
+                            autocomplete="off"
+                            name="newPass"
+                            (keypress)="spaceNotAllowed($event)"
+                            type="password"
+                            placeholder="Digite sua nova senha">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="formGroup.get('cep')?.errors?.outRange">Somente estabelecimentos de São Paulo Capital</div>
+            <button type="button" (click)="deleteUser()" class="delete-button mb-3 mb-md-4">Excluir Conta</button>
+            <button type="submit" class="save-button mb-3 mb-md-4">Salvar Alterações</button>
+        </form>
+    </div>
+</div>

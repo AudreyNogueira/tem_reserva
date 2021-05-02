@@ -1,7 +1,7 @@
 export interface UserModel {
     name?: string;
     phoneNumber?: number;
-    date?: Date;
+    birthDate?: Date;
     cpf?: string;
     email?: string;
     actualPassword?: string;

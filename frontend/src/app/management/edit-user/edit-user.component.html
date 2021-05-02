@@ -53,12 +53,12 @@
                         </div>
                 </div>
                 <div class="col-12 col-md-4 mb-3 mb-md-4">
-                    <div class="field" [ngClass]="{ '-error': formGroup.get('birthday').invalid && submitted }">
-                        <label class="label" for="birthday">Data de Nascimento</label>
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('birthDate').invalid && submitted }">
+                        <label class="label" for="birthDate">Data de Nascimento</label>
                         <input class="input"
-                            formControlName="birthday"
+                            formControlName="birthDate"
                             autocomplete="off"
-                            name="birthday"
+                            name="birthDate"
                             type="date">
                             <div class="underline"></div>
                         </div>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-4 mb-3 mb-md-4">
-                    <div class="field" [ngClass]="{ '-error': submitted && this.formGroup.get('currentPass').value === '' && this.formGroup.get('newPass').value !== '' }">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('currentPass').value === '' && formGroup.get('newPass').value !== '' }">
                         <label class="label" for="currentPass">Senha Atual</label>
                         <input class="input"
                             formControlName="currentPass"
@@ -105,7 +105,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-4 mb-3 mb-md-4">
-                    <div class="field" [ngClass]="{ '-error': submitted && this.formGroup.get('currentPass').value !== '' && this.formGroup.get('newPass').value === '' }">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('currentPass').value !== '' && formGroup.get('newPass').value === '' }">
                         <label class="label" for="newPass">Trocar Senha</label>
                         <input class="input"
                             formControlName="newPass"

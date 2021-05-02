@@ -68,7 +68,7 @@ public class ImageBusiness {
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    private Image buildImage(MultipartFile file, Long imageOwnerId, Boolean isProfilePic, Boolean isRestaurant)
+    public Image buildImage(MultipartFile file, Long imageOwnerId, Boolean isProfilePic, Boolean isRestaurant)
             throws IOException {
         return Image.builder().imageOwnerId(imageOwnerId).isProfilePic(isProfilePic).isRestaurant(isRestaurant)
                 .name(file.getOriginalFilename()).type(file.getContentType()).picByte(compressBytes(file.getBytes()))
