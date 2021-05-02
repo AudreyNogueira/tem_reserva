@@ -7,4 +7,5 @@ export enum RoutesEnum {
     ZONE = '/zona',
     ABOUT = '/sobre',
     EDIT_USER = '/perfil/editar-usuario',
+    EDIT_ESTABLISHMENT = '/perfil/editar-estabelecimento',
 }
