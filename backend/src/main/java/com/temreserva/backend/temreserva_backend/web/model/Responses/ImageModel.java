@@ -1,7 +1,5 @@
 package com.temreserva.backend.temreserva_backend.web.model.Responses;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,18 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserModel {
+public class ImageModel {
     private Long id;
 
-    private String name;
-
-    private String cpf;
-
-    private String email;
-    
-    private LocalDate birthDate;
-
-    private String phoneNumber;
-
-    private ImageModel image;
+    private byte[] image;
 }
