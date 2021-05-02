@@ -104,4 +104,10 @@ public class RestaurantController {
     public void deleteRestaurant( @PathVariable Long id ){
         business.deleteRestaurant(id);
     }
+
+    @DeleteMapping(value = "/image/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteImage( @PathVariable Long id ){
+        business.deleteImage(id);
+    }
 }
