@@ -3,6 +3,7 @@
           "password": "123",
           "email": "restaurante1@hotmail.com",
           "cnpj": "54644325000136",
+          "phoneNumber": "11956847456",
           "restaurantName": "Fogão a lenha",
           "description": "teste restaurante",
           "openDaysOfWeek": "MONDAY;TUESDAY",

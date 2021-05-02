@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { EditEstablishmentService } from './management/services/edit-establishment.service';
 import { ModalService } from './modals/service/modal.service';
 import { Establishment } from './models/establishment.model';
 
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly modalService: BsModalService,
     private readonly modalServiceLocal: ModalService,
+    private readonly editEstablishmentService: EditEstablishmentService,
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +31,13 @@ export class AppComponent implements OnInit {
       this.modalService.show(this.modalTemplate, { class: 'modal-dialog-centered' });
       this.modalName = m.modalName;
       this.loginType = m.loginType;
+    });
+
+    /**
+     * MOCK
+     */
+    this.editEstablishmentService.getEstablishmentById(1).subscribe(r => {
+      this.editEstablishmentService.set$userSession(r);
     });
 
   }

@@ -8,7 +8,9 @@ export interface Establishment {
     openDaysOfWeek?: string;
     openingTime?: string;
     closingTime?: string;
-    cleaningPeriodicity?: number;
+
+    // Enzão troca aqui e não me xinga
+    cleaning?: string;
     spacingOfTables?: number;
     phoneNumber?: string;
     carousel?: string[];
@@ -18,6 +20,9 @@ export interface Establishment {
     restaurantImages?: string[];
     profileImage?: string;
     actualPassword?: string;
+
+    // Enzão add aqui e não me xinga
+    payment?: string;
 }
 
 export interface EstablishmentZone {
