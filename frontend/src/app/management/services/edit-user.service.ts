@@ -31,4 +31,7 @@ export class EditUserService {
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`http://localhost:8080/user/${id}`);
   }
+  createUser(user: UserModel): Observable<any> {
+    return this.http.post('http://localhost:8080/user/create',user);
+  }
 }
