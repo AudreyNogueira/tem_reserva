@@ -10,12 +10,14 @@ export interface Establishment {
     closingTime?: string;
     cleaningPeriodicity?: number;
     spacingOfTables?: number;
-    phone?: string;
+    phoneNumber?: string;
     carousel?: string[];
     actualNumberOfPeople?: number;
     maxNumberOfPeople?: number;
     averageStars?: number;
-    image?: string;
+    restaurantImages?: string[];
+    profileImage?: string;
+    actualPassword?: string;
 }
 
 export interface EstablishmentZone {
