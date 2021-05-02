@@ -11,9 +11,12 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalLoginComponent } from './modals/modal-login/modal-login.component';
 import { RegisterEstablishmentComponent } from './register/register-establishment/register-establishment.component';
-import { EstablishmentDashboardModule } from './establishment-dashboard/establishment-dashboard.module';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
+import { TextMaskModule } from 'angular2-text-mask';
+import { ModalConfirmComponent } from './modals/modal-confirm/modal-confirm.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { HomeComponent } from './home/home.component';
     RegisterEstablishmentComponent,
     FooterComponent,
     HomeComponent,
+    ModalConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,9 @@ import { HomeComponent } from './home/home.component';
     BrowserAnimationsModule,
     ModalModule.forRoot(),
     ReactiveFormsModule,
-    EstablishmentDashboardModule,
+    HttpClientModule,
+    SharedModule,
+    TextMaskModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

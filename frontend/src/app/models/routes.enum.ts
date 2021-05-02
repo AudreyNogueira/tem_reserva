@@ -6,4 +6,6 @@ export enum RoutesEnum {
     ESTABLISHMENTS_DASHBOARD = '/estabelecimentos',
     ZONE = '/zona',
     ABOUT = '/sobre',
+    EDIT_USER = '/perfil/editar-usuario',
+    EDIT_ESTABLISHMENT = '/perfil/editar-estabelecimento',
 }

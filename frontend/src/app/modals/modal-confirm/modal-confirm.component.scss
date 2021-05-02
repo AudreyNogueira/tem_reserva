@@ -1,0 +1,49 @@
+@import "../../../assets/variables";
+
+#modal-confirm {
+    
+    .m-header {
+        padding: 30px 25px 20px;
+        position: relative;
+
+        .header {
+            font-size: 18px;
+            font-family: Mulish;
+            font-weight: bold;
+        }
+        
+        .close-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    }
+
+    .m-body {
+        padding: 30px 25px 20px;
+        display: flex;
+        justify-content: space-between;
+
+        .cancel {
+            border: none;
+            color: $yellow;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Mulish;
+            padding: 0;
+            background: none;
+            display: block;
+        }
+        
+        .delete {
+            border: none;
+            color: $white;
+            background-color: $yellow;
+            font-weight: bold;
+            font-family: Mulish;
+            font-size: 16px;
+            height: 30px;
+            display: block;
+        }
+    }
+}
