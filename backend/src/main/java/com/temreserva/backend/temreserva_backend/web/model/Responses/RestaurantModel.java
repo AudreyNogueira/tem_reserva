@@ -26,6 +26,8 @@ public class RestaurantModel {
 
     private String email;
 
+    private String cnpj;
+
     private Integer maxNumberOfPeople;
 
     private Integer actualNumberOfPeople;

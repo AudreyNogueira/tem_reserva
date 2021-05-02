@@ -143,7 +143,6 @@ export class EditEstablishmentComponent implements OnInit {
       if (this.cleaningProtocol.some(p => p.checked)) {
         let cleaningProtocolValue = '';
         this.cleaningProtocol.filter(p => p.checked).forEach(item => cleaningProtocolValue += item.value + ',');
-        console.log(cleaningProtocolValue);
         data = { ...data, cleaning: cleaningProtocolValue }
       }
 

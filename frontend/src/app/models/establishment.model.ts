@@ -8,8 +8,6 @@ export interface Establishment {
     openDaysOfWeek?: string;
     openingTime?: string;
     closingTime?: string;
-
-    // Enzão troca aqui e não me xinga
     cleaning?: string;
     spacingOfTables?: number;
     phoneNumber?: string;
@@ -20,8 +18,6 @@ export interface Establishment {
     restaurantImages?: string[];
     profileImage?: string;
     actualPassword?: string;
-
-    // Enzão add aqui e não me xinga
     payment?: string;
 }
 
