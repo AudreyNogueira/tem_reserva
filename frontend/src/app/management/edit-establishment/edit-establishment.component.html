@@ -12,7 +12,7 @@
                 </div>
                 <div class="change-image">
                     <label class="label" for="file">Trocar Foto</label>
-                    <input id="file" class="d-none" accept="image/*" type="file" (change)="onFileChanged($event)">
+                    <input id="file" class="d-none" accept="image/*" type="file" (change)="onFileChanged($event, true)">
                 </div>
             </div>
         </div>
@@ -109,6 +109,7 @@
                             formControlName="estabNumber"
                             autocomplete="off"
                             (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('estabNumber', $event)"
                             name="estabNumber"
                             type="text">
                         <div class="underline"></div>
@@ -121,7 +122,6 @@
                             formControlName="district"
                             autocomplete="off"
                             name="district"
-                            (keypress)="spaceNotAllowed($event)"
                             type="text">
                         <div class="underline"></div>
                     </div>
@@ -200,23 +200,24 @@
                 </div>
             </div>
 
+            <!-- Fotos
             <div class="section-title main">Fotos</div>
             <div class="row mb-4">
                 <div class="col-12 mb-3 mb-md-4">
                     <button class="add-img">Adicionar Foto</button>
                 </div>
-                <div class="col-12 mb-3 mb-md-4">
+                <div *ngIf="userData?.restaurantImages?.length > 0" class="col-12 mb-3 mb-md-4">
                     <div class="w-100">
                         <div class="carousel">
                             <div #slide class="slide">
                                 <div *ngIf="userData" class="elements-scroll">
                                     <div *ngFor="let estImg of userData.restaurantImages" #element class="establishment">
-                                        <img [src]="'data:image/png;base64,' + estImg" class="img-establishment">
+                                        <img [src]="'data:image/png;base64,' + estImg.image" class="img-establishment">
                                         <div class="d-flex justify-content-center">
                                             <div>                                            
                                                 <div class="change-image">
                                                     <label class="label" for="file">Trocar Foto</label>
-                                                    <input id="file" class="d-none" accept="image/*" type="file" (change)="onFileChanged($event)">
+                                                    <input id="file" class="d-none" accept="image/*" type="file" (change)="onFileChanged($event, false)">
                                                 </div>
                                                 <button class="deleteImg">Deletar Foto</button>
                                             </div>
@@ -235,6 +236,7 @@
                     </div>
                 </div>
             </div>
+            -->
 
             <div *ngIf="formGroup.get('cep')?.errors?.outRange">Somente estabelecimentos de São Paulo Capital</div>
             <button type="button" (click)="deleteUser()" class="delete-button mb-3 mb-md-4">Excluir Conta</button>

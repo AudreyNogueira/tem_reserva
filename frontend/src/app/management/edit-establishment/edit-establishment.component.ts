@@ -70,7 +70,7 @@ export class EditEstablishmentComponent implements OnInit {
     newPass: [''],
   });
 
-  userData: Establishment = JSON.parse(localStorage.getItem('UserSession'));
+  userData;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -79,8 +79,11 @@ export class EditEstablishmentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initialValues(this.userData);
-    this.treatCheckBox('');
+
+    this.editEstablishmentService.$userSession.subscribe(user => {
+      this.userData = user;
+      this.initialValues(this.userData);
+    })
   }
 
   ngOnDestroy(): void {
@@ -88,7 +91,7 @@ export class EditEstablishmentComponent implements OnInit {
   }
 
   initialValues(userData: Establishment) {
-    this.pic = `data:image/png;base64,${this.userData.profileImage}`;
+    this.pic = `data:image/png;base64,${this.userData.profileImage.image}`;
     this.formGroup.get('restaurantName').setValue(userData.restaurantName);
     this.formGroup.get('cnpj').setValue(userData.cnpj);
     this.formGroup.get('phone').setValue(userData.phoneNumber);
@@ -100,6 +103,7 @@ export class EditEstablishmentComponent implements OnInit {
     this.formGroup.get('description').setValue(userData.description);
     this.formGroup.get('payment').setValue(userData.payment);
     this.formGroup.get('email').setValue(userData.email);
+    this.treatCheckBox(userData.cleaning ? userData.cleaning : '');
   }
 
   /**
@@ -148,7 +152,9 @@ export class EditEstablishmentComponent implements OnInit {
 
       if (this.passwordChange()) data = { ...data, password: this.formGroup.get('newPass').value, actualPassword: this.formGroup.get('currentPass').value };
 
-      this.editEstablishmentService.updateEstablishment(1, data).subscribe(() => { }, err => {
+      this.editEstablishmentService.updateEstablishment(this.userData.id, data).subscribe(() => {
+        this.editEstablishmentService.set$userSession(data);
+      }, err => {
         if (err.error.apicode === '0013') this.formGroup.get('currentPass').setValue('');
       });
     }
@@ -218,12 +224,18 @@ export class EditEstablishmentComponent implements OnInit {
     this.cleaningProtocol.filter(p => protocol === p).map(v => v.checked = !v.checked);
   }
 
-  public onFileChanged(event) {
+  public onFileChanged(event: any, isProfileImg: boolean, index?: number) {
+    console.log(isProfileImg);
+    console.log(index);
     const uploadImageData = new FormData();
     uploadImageData.append('imageFile', event.target.files[0], event.target.files[0].name);
-    uploadImageData.append('restaurantId', 'id');
-    uploadImageData.append('isProfilePic', 'true');
-    this.pic = (window.URL ? URL : webkitURL).createObjectURL(event.target.files[0]);
+    uploadImageData.append('isProfilePic', String(isProfileImg));
+
+    if (isProfileImg) {
+      this.pic = (window.URL ? URL : webkitURL).createObjectURL(event.target.files[0]);
+      uploadImageData.append('restaurantId', this.userData.id.toString());
+      this.editEstablishmentService.setImage(uploadImageData).subscribe();
+    }
   }
 
   /**

@@ -1,4 +1,5 @@
 export interface Establishment {
+    id?: number;
     email?: string;
     password?: string;
     cnpj?: string;
@@ -15,8 +16,8 @@ export interface Establishment {
     actualNumberOfPeople?: number;
     maxNumberOfPeople?: number;
     averageStars?: number;
-    restaurantImages?: string[];
-    profileImage?: string;
+    restaurantImages?: Image[];
+    profileImage?: Image;
     actualPassword?: string;
     payment?: string;
 }
@@ -42,4 +43,9 @@ export interface AddressEstablishment {
     restaurantNumber: number;
     uf: string;
     zone: string;
+}
+
+export interface Image {
+    id: number;
+    image: string;
 }
