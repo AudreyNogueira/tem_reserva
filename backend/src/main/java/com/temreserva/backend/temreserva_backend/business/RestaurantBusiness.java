@@ -14,6 +14,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepos
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.RestaurantDTO;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.AddressModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.HomeRestaurantsModel;
+import com.temreserva.backend.temreserva_backend.web.model.Responses.ImageModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.RestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantsViewModel;
@@ -238,7 +239,7 @@ public class RestaurantBusiness {
         for (Restaurant restaurant : restaurants) {
             try {
                 Address address = addressRepository.findByRestaurant(restaurant);
-                byte[] img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
+                ImageModel img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
                 RestaurantModel model = RestaurantModel.builder().id(restaurant.getId())
                         .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
                         .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
@@ -299,7 +300,7 @@ public class RestaurantBusiness {
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    // GET
+    // DELETE
     // ------------------------------------------------------------------------------------------------------------------------------------------
     public void deleteRestaurant(Long id) {
         restaurantRepository.findById(id).map(r -> {
@@ -311,5 +312,9 @@ public class RestaurantBusiness {
             return Void.TYPE;
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
+    }
+
+    public void deleteImage(Long id) {
+        imageBusiness.deleteImageById(id);
     }
 }

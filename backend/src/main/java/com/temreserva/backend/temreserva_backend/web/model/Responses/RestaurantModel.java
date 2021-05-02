@@ -31,13 +31,13 @@ public class RestaurantModel {
     private Integer actualNumberOfPeople;
 
     private Integer averageStars;
-    
+
     private String description;
 
     private AddressModel address;
 
-    private byte[] profileImage;
+    private ImageModel profileImage;
 
-    private List<byte[]> restaurantImages;
+    private List<ImageModel> restaurantImages;
 
 }
