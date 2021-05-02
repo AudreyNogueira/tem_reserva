@@ -29,7 +29,7 @@ export class EstablishmentComponent implements OnInit {
       '../../../assets/images/examples/pizza.png',
       '../../../assets/images/examples/massa.png',
       '../../../assets/images/examples/pizza-zoom.png',
-    ]
+    ];
   }
 
   /**

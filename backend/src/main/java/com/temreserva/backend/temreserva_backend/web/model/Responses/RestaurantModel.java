@@ -1,5 +1,7 @@
 package com.temreserva.backend.temreserva_backend.web.model.Responses;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +14,15 @@ import lombok.NoArgsConstructor;
 public class RestaurantModel {
     private Long id;
 
+    private String cnpj;
+
+    private String payment;
+
+    private String cleaning;
+
     private String restaurantName;
+
+    private String phoneNumber;
 
     private String email;
 
@@ -22,7 +32,12 @@ public class RestaurantModel {
 
     private Integer averageStars;
 
+    private String description;
+
     private AddressModel address;
 
-    private byte[] image;
+    private ImageModel profileImage;
+
+    private List<ImageModel> restaurantImages;
+
 }

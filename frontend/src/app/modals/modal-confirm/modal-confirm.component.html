@@ -1,0 +1,12 @@
+<div id="modal-confirm">
+    <div class="m-header">
+        <span class="header">Tem certeza que deseja deletar sua conta?</span>
+        <button type="button" class="close close-button" aria-label="Close" (click)="modalService.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="m-body">
+        <button class="cancel" (click)="confirmationResponse(false)">Cancelar</button>
+        <button class="delete" (click)="confirmationResponse(true)">Sim, deletar</button>
+    </div>
+</div>

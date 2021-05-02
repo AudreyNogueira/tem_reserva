@@ -1,0 +1,246 @@
+<div id="edit-establishment">
+    <div class="container">
+        <div class="header">
+            <div class="img-establishment" [ngStyle]="{ 'background': 'url('+pic+')'} ">
+            </div>
+            <div>
+                <div class="name">
+                    {{ userData.restaurantName }}
+                </div>
+                <div class="email">
+                    {{ userData.email }}
+                </div>
+                <div class="change-image">
+                    <label class="label" for="file">Trocar Foto</label>
+                    <input id="file" class="d-none" accept="image/*" type="file" (change)="onFileChanged($event, true)">
+                </div>
+            </div>
+        </div>
+        <form class="form" [formGroup]="formGroup" (submit)="saveEdit()">
+            <div class="section-title main">Dados da Conta</div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('restaurantName').invalid && submitted }">
+                        <label class="label" for="restaurantName">Nome do Estabelecimento</label>
+                        <input class="input"
+                            formControlName="restaurantName"
+                            autocomplete="nope"
+                            (keypress)="onlyInputAlphanumeric($event)"
+                            (paste)="onlyPasteAlphanumeric('restaurantName', $event)"
+                            name="restaurantName"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('cnpj').invalid && submitted }">
+                        <label class="label" for="cnpj">CNPJ</label>
+                        <input class="input"
+                            formControlName="cnpj"
+                            autocomplete="off"
+                            (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('cnpj', $event)"
+                            name="cnpj"
+                            [textMask]="{ mask: maskCnpj, guide: true }"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('phone').invalid && submitted }">
+                        <label class="label" for="phone">Telefone</label>
+                        <input class="input"
+                            formControlName="phone"
+                            autocomplete="nope"
+                            (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('phone', $event)"
+                            name="phone"
+                            [textMask]="{ mask: maskPhone, guide: true }"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-title">Logradouro</div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('cep').invalid && submitted }">
+                        <label class="label" for="cep">CEP</label>
+                        <input class="input"
+                            formControlName="cep"
+                            autocomplete="nope"
+                            (keyup)="getAddressByCep()"
+                            (paste)="onlyPasteNumber('cep', $event)"
+                            [textMask]="{ mask: maskCep, guide: true }"
+                            name="cep"
+                            type="text">    
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('zone').invalid && submitted }">
+                        <label class="label" for="estabNumber">Zona</label>
+                            <select class="input"
+                                formControlName="zone">
+                                <option *ngFor="let zone of zones" [ngValue]="zone">{{ zone }}</option>
+                            </select>
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('street').invalid && submitted }">
+                        <label class="label" for="street">Endereço</label>
+                        <input class="input"
+                            formControlName="street"
+                            autocomplete="nope"
+                            name="street"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('estabNumber').invalid }">
+                        <label class="label" for="estabNumber">Número</label>
+                        <input class="input"
+                            formControlName="estabNumber"
+                            autocomplete="off"
+                            (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('estabNumber', $event)"
+                            name="estabNumber"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('district').invalid }">
+                        <label class="label" for="district">Bairro</label>
+                        <input class="input"
+                            formControlName="district"
+                            autocomplete="off"
+                            name="district"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-title">Conta</div>
+            <div class="row mb-4">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('email').invalid && submitted }">
+                        <label class="label" for="email">E-mail</label>
+                        <input class="input"
+                            formControlName="email"
+                            autocomplete="off"
+                            name="email"
+                            type="email">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('currentPass').value === '' && formGroup.get('newPass').value !== '' }">
+                        <label class="label" for="currentPass">Senha Atual</label>
+                        <input class="input"
+                            formControlName="currentPass"
+                            autocomplete="off"
+                            (keypress)="spaceNotAllowed($event)"
+                            name="currentPass"
+                            type="password">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && this.formGroup.get('currentPass').value !== '' && this.formGroup.get('newPass').value === '' }">
+                        <label class="label" for="newPass">Trocar Senha</label>
+                        <input class="input"
+                            formControlName="newPass"
+                            autocomplete="off"
+                            name="newPass"
+                            (keypress)="spaceNotAllowed($event)"
+                            type="password"
+                            placeholder="Digite sua nova senha">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title main">Meu Estabelecimento</div>
+            <div class="row mb-4">
+                <div class="col-12 mb-3 mb-md-4">
+                    <div class="text-box" [ngClass]="{ '-error': formGroup.get('description').invalid && submitted }">
+                        <label class="label" for="description">Sobre o Estabelecimento</label>
+                        <input class="input"
+                            formControlName="description"
+                            autocomplete="off"
+                            name="description"
+                            type="text">
+                    </div>
+                </div>
+                <div class="col-12 mb-3 mb-md-4">
+                    <div class="text-box" [ngClass]="{ '-error': formGroup.get('payment').invalid && submitted }">
+                        <label class="label" for="payment">Formas de Pagamento</label>
+                        <input class="input"
+                            formControlName="payment"
+                            autocomplete="off"
+                            name="payment"
+                            type="text">
+                    </div>
+                </div>
+                <div class="col-12 mb-3 mb-md-4">
+                    <label class="label">Protocolos de Saúde</label>
+                    <div *ngFor="let protocol of cleaningProtocol">
+                        <label class="label-checkbox">
+                        <input class="checkbox" type="checkbox" [value]="protocol.value" [checked]="protocol.checked" (change)="onCheckboxChange(protocol, $event)" />
+                          {{ protocol.value }}
+                        </label>
+                      </div>
+                </div>
+            </div>
+
+            <!-- Fotos
+            <div class="section-title main">Fotos</div>
+            <div class="row mb-4">
+                <div class="col-12 mb-3 mb-md-4">
+                    <button class="add-img">Adicionar Foto</button>
+                </div>
+                <div *ngIf="userData?.restaurantImages?.length > 0" class="col-12 mb-3 mb-md-4">
+                    <div class="w-100">
+                        <div class="carousel">
+                            <div #slide class="slide">
+                                <div *ngIf="userData" class="elements-scroll">
+                                    <div *ngFor="let estImg of userData.restaurantImages" #element class="establishment">
+                                        <img [src]="'data:image/png;base64,' + estImg.image" class="img-establishment">
+                                        <div class="d-flex justify-content-center">
+                                            <div>                                            
+                                                <div class="change-image">
+                                                    <label class="label" for="file">Trocar Foto</label>
+                                                    <input id="file" class="d-none" accept="image/*" type="file" (change)="onFileChanged($event, false)">
+                                                </div>
+                                                <button class="deleteImg">Deletar Foto</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <a (click)="navigateCarousel('prev')" class="control left d-none d-lg-flex">
+                                <img src="../../../assets/icons/svg/arrow-left.svg">
+                            </a>
+                            <a (click)="navigateCarousel('next')" class="control right d-none d-lg-flex">
+                                <img src="../../../assets/icons/svg/arrow-right.svg">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+
+            <div *ngIf="formGroup.get('cep')?.errors?.outRange">Somente estabelecimentos de São Paulo Capital</div>
+            <button type="button" (click)="deleteUser()" class="delete-button mb-3 mb-md-4">Excluir Conta</button>
+            <button type="submit" class="save-button mb-3 mb-md-4">Salvar Alterações</button>
+        </form>
+    </div>
+</div>

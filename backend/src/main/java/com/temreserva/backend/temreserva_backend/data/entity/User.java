@@ -1,5 +1,6 @@
 package com.temreserva.backend.temreserva_backend.data.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -40,7 +41,7 @@ public class User {
     @NotEmpty(message = "Nome não pode ser nulo")
     private String name;
 
-    @Column(name="CPF", nullable = false, length = 11, updatable = false, unique = true)
+    @Column(name="CPF", nullable = false, length = 11, updatable = true, unique = true)
     @NotEmpty(message = "Cpf não pode ser vazio")
     @CPF(message = "CPF deve estar no modelo correto")
     private String cpf;
@@ -52,7 +53,10 @@ public class User {
     @JoinColumn(name = "ID_CREDENCIAL",nullable = false, updatable = false)
     private Credential credential;
 
-    public String accessToken;
+    @Column(name = "DATA_NASCIMENTO", updatable = true)
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    // @Temporal(TemporalType.DATE)
+    private LocalDate birthDate;
 
     @Column(name = "DATA_CADASTRO", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
@@ -68,13 +72,12 @@ public class User {
         setUpdateDate(LocalDateTime.now());
     }
 
-    
-
     public User(UserDTO dto) {
         name = dto.getName();
         cpf = dto.getCpf();
         phoneNumber = dto.getPhoneNumber();
         registerDate = LocalDateTime.now();
         updateDate = LocalDateTime.now(); 
+        birthDate = dto.getBirthDate();
     }   
 }

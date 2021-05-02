@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterEstablishmentComponent } from './register/register-establishment/register-establishment.component';
+import {RegisterClientComponent} from './register/register-client/register-client.component'
 
 const routes: Routes = [
   {
@@ -14,12 +16,25 @@ const routes: Routes = [
   },
   {
     path: 'estabelecimentos',
-    loadChildren: () => import('../app/establishment-dashboard/establishment-dashboard.module').then(m => m.EstablishmentDashboardModule),
+    loadChildren: () => import('./establishment-dashboard/establishment-dashboard.module').then(m => m.EstablishmentDashboardModule),
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./management/management.module').then(m => m.ManagementModule),
+  },
+  {
+    path: 'sobre',
+    component: HomeComponent
+  },
+  {
+    path: 'cadastrar-cliente',
+    component: RegisterClientComponent
   },
   {
     path: '**',
-    redirectTo: 'estabelecimentos'
-  }
+    redirectTo: 'sobre',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

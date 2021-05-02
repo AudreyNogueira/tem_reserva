@@ -20,7 +20,7 @@ export class EstablishmentHomeComponent implements OnInit {
 
     this.establishmentListService.loadMock$.subscribe(() => {
       this.establishmentListService.loadEstablishmentList().pipe(take(1)).subscribe(list => this.establishmentsResponse = list);
-    })
+    });
 
   }
 

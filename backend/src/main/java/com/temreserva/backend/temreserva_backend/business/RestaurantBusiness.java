@@ -6,12 +6,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import com.temreserva.backend.temreserva_backend.data.entity.*;
 import com.temreserva.backend.temreserva_backend.data.repository.AddressRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.RestaurantDTO;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.AddressModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.HomeRestaurantsModel;
+import com.temreserva.backend.temreserva_backend.web.model.Responses.ImageModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.RestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantsViewModel;
@@ -26,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 
 @Service
+@Transactional
 public class RestaurantBusiness {
     private final RestaurantRepository restaurantRepository;
     private final CredentialBusiness credentialBusiness;
@@ -73,9 +77,9 @@ public class RestaurantBusiness {
                     Enumerators.apiExceptionCodeEnum.CREATE_EXISTING_USER.getEnumValue());
     }
 
-    public HttpStatus restaurantImageUpload(MultipartFile file, Long id) throws IOException {
+    public HttpStatus restaurantImageUpload(MultipartFile file, Long id, Boolean isProfilePic) throws IOException {
         if (restaurantRepository.findById(id).orElse(null) != null)
-            return imageBusiness.restaurantImageUpload(file, id);
+            return imageBusiness.imageUpload(file, id, isProfilePic, true);
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue());
@@ -137,39 +141,75 @@ public class RestaurantBusiness {
             return HttpStatus.CREATED;
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
+                    Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
         }
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // UPDATE
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public void updateRestaurant(Long id, Long idCredential, Restaurant restaurant) {
-        restaurantRepository.findById(id).map(r -> {
-            r.setOpenDaysOfWeek(restaurant.getOpenDaysOfWeek());
-            r.setOpeningTime(restaurant.getOpeningTime());
-            r.setClosingTime(restaurant.getClosingTime());
-            r.setSpacingOfTables(restaurant.getSpacingOfTables());
-            r.setHandicappedAdapted(restaurant.getHandicappedAdapted());
-            r.setCleaningPeriodicity(restaurant.getCleaningPeriodicity());
-            r.setMaxNumberOfPeople(restaurant.getMaxNumberOfPeople());
-            r.setActualNumberOfPeople(restaurant.getMaxNumberOfPeople());
-            r.setAverageStars(restaurant.getAverageStars());
+    @Transactional(rollbackOn = ResponseStatusException.class)
+    public void updateRestaurant(Long id, RestaurantDTO restaurant) {
+        Restaurant restaurantResponse = restaurantRepository.findById(id).map(r -> {
+            r.setCnpj(restaurant.getCnpj() == null ? r.getCnpj() : restaurant.getCnpj());
+            r.setDescription(restaurant.getDescription() == null ? r.getDescription() : restaurant.getDescription());
+            r.setRestaurantName(
+                    restaurant.getRestaurantName() == null ? r.getRestaurantName() : restaurant.getRestaurantName());
+            r.setOpenDaysOfWeek(
+                    restaurant.getOpenDaysOfWeek() == null ? r.getOpenDaysOfWeek() : restaurant.getOpenDaysOfWeek());
+            r.setOpeningTime(restaurant.getOpeningTime() == null ? r.getOpeningTime() : restaurant.getOpeningTime());
+            r.setClosingTime(restaurant.getClosingTime() == null ? r.getClosingTime() : restaurant.getClosingTime());
+            r.setSpacingOfTables(
+                    restaurant.getSpacingOfTables() == null ? r.getSpacingOfTables() : restaurant.getSpacingOfTables());
+            r.setHandicappedAdapted(restaurant.getHandicappedAdapted() == null ? r.getHandicappedAdapted()
+                    : restaurant.getHandicappedAdapted());
+            r.setCleaning(restaurant.getCleaning() == null ? r.getCleaning() : restaurant.getCleaning());
+            r.setMaxNumberOfPeople(restaurant.getMaxNumberOfPeople() == null ? r.getMaxNumberOfPeople()
+                    : restaurant.getMaxNumberOfPeople());
+            r.setActualNumberOfPeople(restaurant.getActualNumberOfPeople() == null ? r.getActualNumberOfPeople()
+                    : restaurant.getActualNumberOfPeople());
+            r.setAverageStars(
+                    restaurant.getAverageStars() == null ? r.getAverageStars() : restaurant.getAverageStars());
             r.setUpdateDate(LocalDateTime.now());
-            if (r.getCredential().getId() == idCredential)
-                return restaurantRepository.save(r);
-            else
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                        Enumerators.apiExceptionCodeEnum.UPDATE_RESTAURANT_UNAUTHORIZED.getEnumValue());
+            r.setPhoneNumber(restaurant.getPhoneNumber() == null ? r.getPhoneNumber() : restaurant.getPhoneNumber());
+            r.setPayment(restaurant.getPayment() == null ? r.getPayment() : restaurant.getPayment());
+            credentialBusiness.updateEmailByID(r.getCredential().getId(), restaurant.getEmail());
+            return restaurantRepository.save(r);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
+
+        if (restaurant.getAddress() != null) {
+            Address currentAddress = addressRepository.findByRestaurant(restaurantResponse);
+            Address address = getAddressByDto(restaurant);
+            address.setRestaurant(currentAddress.getRestaurant());
+            address.setId(currentAddress.getId());
+            addressRepository.save(address);
+        }
+
+        if (restaurant.getActualPassword() != null && restaurant.getPassword() != null) {
+            if (restaurantResponse.getCredential().getPassword().equals(restaurant.getActualPassword()))
+                credentialBusiness.updatePasswordById(restaurantResponse.getCredential().getId(),
+                        restaurant.getPassword());
+            else
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        Enumerators.apiExceptionCodeEnum.WRONG_PASSWORD.getEnumValue());
+        }
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // GET
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public Restaurant getRestaurantById(long id) {
-        return restaurantRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+    public RestaurantModel getRestaurantById(long id) {
+        return restaurantRepository.findById(id).map(r -> {
+            return RestaurantModel.builder().id(id).email(r.getCredential().getEmail()).cnpj(r.getCnpj())
+                    .cleaning(r.getCleaning()).averageStars(r.getAverageStars())
+                    .address(getAddressModelFromAddress(addressRepository.findByRestaurant(r)))
+                    .actualNumberOfPeople(r.getActualNumberOfPeople()).maxNumberOfPeople(r.getMaxNumberOfPeople())
+                    .restaurantName(r.getRestaurantName())
+                    .restaurantImages(imageBusiness.getRestaurantImagesByOwner(id))
+                    .profileImage(imageBusiness.getProfileImageByOwnerId(id, true)).phoneNumber(r.getPhoneNumber())
+                    .description(r.getDescription()).payment(r.getPayment()).build();
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
     }
 
@@ -199,13 +239,15 @@ public class RestaurantBusiness {
         for (Restaurant restaurant : restaurants) {
             try {
                 Address address = addressRepository.findByRestaurant(restaurant);
-                byte[] img = imageBusiness.getImageByRestaurantId(address.getRestaurant().getId());
+                ImageModel img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
                 RestaurantModel model = RestaurantModel.builder().id(restaurant.getId())
-                        .email(restaurant.getCredential().getEmail()).image(img)
-                        .address(getAddressModelFromAddress(address)).restaurantName(restaurant.getRestaurantName())
+                        .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
+                        .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
+                        .restaurantName(restaurant.getRestaurantName())
                         .actualNumberOfPeople(restaurant.getActualNumberOfPeople())
                         .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
-                        .build();
+                        .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
+                        .description(restaurant.getDescription()).build();
 
                 response.add(model);
             } catch (Exception ex) {
@@ -257,4 +299,22 @@ public class RestaurantBusiness {
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue());
     }
 
+    // ------------------------------------------------------------------------------------------------------------------------------------------
+    // DELETE
+    // ------------------------------------------------------------------------------------------------------------------------------------------
+    public void deleteRestaurant(Long id) {
+        restaurantRepository.findById(id).map(r -> {
+            Long idCred = r.getCredential().getId();
+            imageBusiness.deleteImageByOwnerId(id);
+            addressRepository.delete(addressRepository.findByRestaurant(r));
+            restaurantRepository.delete(r);
+            credentialBusiness.deleteCredentialById(idCred);
+            return Void.TYPE;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
+    }
+
+    public void deleteImage(Long id) {
+        imageBusiness.deleteImageById(id);
+    }
 }

@@ -7,37 +7,57 @@
         <!--Logo-->
 
         <!-- Abrir/Fechar Menu -->
-        <button (click)="isCollapsed = !isCollapsed" class="navbar-toggler border-0" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic"
-            aria-label="Toggle navigation">
+        <button (click)="isCollapsed = !isCollapsed" class="navbar-toggler border-0" type="button"
+            data-toggle="collapse" data-target="#navbarSupportedContent" [attr.aria-expanded]="!isCollapsed"
+            aria-controls="collapseBasic" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Abrir/Fechar Menu -->
 
-        <!-- Itens do Menu-->
         <div class="collapse navbar-collapse" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
-            <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
-                <li class="nav-item text-center">
-                    <a class="nav-link menu-item" (click)="closeMenu()" href="#">Sobre</a>
-                </li>
-                <li class="nav-item text-center">
-                    <a class="nav-link menu-item" (click)="closeMenu()" [routerLink]="routes.REGISTER_ESTABLHISHMENT">Cadastrar Meu Estabelecimento</a>
-                </li>
-                <li class="nav-item text-center">
-                    <a class="nav-link menu-item" (click)="closeMenu()" href="#">Contato</a>
-                </li>
-                <li class="nav-item text-center">
-                    <a class="nav-link menu-item" (click)="closeMenu()" href="#">Ajuda</a>
-                </li>
-            </ul>
+            <!-- Itens do Menu Não Logado-->
+            <div *ngIf="!authenticated" class="navbar-collapse">
+                <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+                    <li class="nav-item text-center">
+                        <a class="nav-link menu-item" (click)="closeMenu()" [routerLink]="routes.ABOUT">Sobre</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link menu-item" (click)="closeMenu()"
+                            [routerLink]="routes.REGISTER_ESTABLHISHMENT">Cadastrar Meu Estabelecimento</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link menu-item" (click)="closeMenu()" href="#">Contato</a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link menu-item" (click)="closeMenu()" href="#">Ajuda</a>
+                    </li>
+                </ul>
 
-            <!-- Botões -->
-            <div class="action-buttons d-block d-lg-flex">
-                <button class="login mx-auto" (click)="closeMenu()" [routerLink]="routes.LOGIN">Fazer o Login</button>
-                <button class="register">Cadastre-se</button>
+                <!-- Botões -->
+                <div class="action-buttons d-block d-lg-flex">
+                    <button class="login mx-auto" (click)="closeMenu()" [routerLink]="routes.LOGIN">Fazer o
+                        Login</button>
+                    <button class="register">Cadastre-se</button>
+                </div>
+                <!-- Botões -->
             </div>
-            <!-- Botões -->
+            <!-- Itens do Menu Não Logado -->
+
+            <!-- Itens do Menu Logado -->
+            <div *ngIf="authenticated" class="navbar-nav mx-auto mt-2 mt-lg-0 d-lg-none d-flex">
+                <menu-logged (closeMenu)="closeMenu()"></menu-logged>
+            </div>
+            <!-- Itens do Menu Logado -->
         </div>
-        <!-- Itens do Menu-->
+
+        <!-- Botão Quando Autenticado -->
+        <div *ngIf="authenticated" [routerLink]="routes.EDIT_USER" class="d-none d-lg-flex name-button" type="button">
+            <div class="name">Ananda Gurgel</div>
+            <div class="icon">
+                <img src="" alt="">
+            </div>
+        </div>
+        <!-- Botão Quando Autenticado -->
+
     </div>
 </nav>
