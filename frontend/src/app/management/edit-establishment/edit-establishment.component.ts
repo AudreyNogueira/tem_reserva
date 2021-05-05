@@ -10,6 +10,7 @@ import { onlyInputNumber, onlyInputAlphanumeric, spaceNotAllowed, onlyPasteNumbe
 import { phoneValidator } from 'src/app/validators/phone-validator';
 import { EditEstablishmentService } from '../services/edit-establishment.service';
 import { Establishment } from 'src/app/models/establishment.model';
+import { AccountType } from 'src/app/models/account.model';
 
 @Component({
   selector: 'edit-establishment',
@@ -70,7 +71,7 @@ export class EditEstablishmentComponent implements OnInit {
     newPass: [''],
   });
 
-  userData;
+  userData: Establishment;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,9 +82,9 @@ export class EditEstablishmentComponent implements OnInit {
   ngOnInit(): void {
 
     this.editEstablishmentService.$userSession.subscribe(user => {
-      this.userData = user;
+      this.userData = user.est;
       this.initialValues(this.userData);
-    })
+    });
   }
 
   ngOnDestroy(): void {
@@ -153,7 +154,7 @@ export class EditEstablishmentComponent implements OnInit {
       if (this.passwordChange()) data = { ...data, password: this.formGroup.get('newPass').value, actualPassword: this.formGroup.get('currentPass').value };
 
       this.editEstablishmentService.updateEstablishment(this.userData.id, data).subscribe(() => {
-        this.editEstablishmentService.set$userSession(data);
+        this.editEstablishmentService.set$userSession(data, AccountType.ESTABLISHMENT);
       }, err => {
         if (err.error.apicode === '0013') this.formGroup.get('currentPass').setValue('');
       });
@@ -225,16 +226,18 @@ export class EditEstablishmentComponent implements OnInit {
   }
 
   public onFileChanged(event: any, isProfileImg: boolean, index?: number) {
-    console.log(isProfileImg);
     console.log(index);
     const uploadImageData = new FormData();
     uploadImageData.append('imageFile', event.target.files[0], event.target.files[0].name);
     uploadImageData.append('isProfilePic', String(isProfileImg));
+    console.log(uploadImageData.get('imageFile'));
 
     if (isProfileImg) {
       this.pic = (window.URL ? URL : webkitURL).createObjectURL(event.target.files[0]);
       uploadImageData.append('restaurantId', this.userData.id.toString());
-      this.editEstablishmentService.setImage(uploadImageData).subscribe();
+      this.editEstablishmentService.setImage(uploadImageData).subscribe(() => {
+
+      });
     }
   }
 
