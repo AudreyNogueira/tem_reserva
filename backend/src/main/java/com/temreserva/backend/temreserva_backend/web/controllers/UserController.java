@@ -12,6 +12,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepos
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.UserDTO;
+import com.temreserva.backend.temreserva_backend.web.model.Responses.ImageModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.UserModel;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -57,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping("/upload")
-    public HttpStatus userImageUpload(@RequestParam("imageFile") MultipartFile file,
+    public ImageModel userImageUpload(@RequestParam("imageFile") MultipartFile file,
             @RequestParam("userId") Long id) throws IOException {
         return business.userImageUpload(file, id);
     }

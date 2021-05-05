@@ -9,6 +9,7 @@ import com.temreserva.backend.temreserva_backend.data.entity.Credential;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.UserDTO;
+import com.temreserva.backend.temreserva_backend.web.model.Responses.ImageModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.UserModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
@@ -99,7 +100,7 @@ public class UserBusiness {
         }
     }
 
-    public HttpStatus userImageUpload(MultipartFile file, Long id) throws IOException {
+    public ImageModel userImageUpload(MultipartFile file, Long id) throws IOException {
         if (userRepository.findById(id).orElse(null) != null)
             return imageBusiness.imageUpload(file, id, true, false);
 

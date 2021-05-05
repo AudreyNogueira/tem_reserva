@@ -77,7 +77,7 @@ public class RestaurantBusiness {
                     Enumerators.apiExceptionCodeEnum.CREATE_EXISTING_USER.getEnumValue());
     }
 
-    public HttpStatus restaurantImageUpload(MultipartFile file, Long id, Boolean isProfilePic) throws IOException {
+    public ImageModel restaurantImageUpload(MultipartFile file, Long id, Boolean isProfilePic) throws IOException {
         if (restaurantRepository.findById(id).orElse(null) != null)
             return imageBusiness.imageUpload(file, id, isProfilePic, true);
 
@@ -213,8 +213,8 @@ public class RestaurantBusiness {
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
     }
 
-    public List<Restaurant> getRestaurantByName(String name) {
-        return restaurantRepository.findByName(name);
+    public List<RestaurantModel> getRestaurantByName(String name) {
+        return getListOfRestaurant(restaurantRepository.findByName(name));
     }
 
     private AddressModel getAddressModelFromAddress(Address address) {

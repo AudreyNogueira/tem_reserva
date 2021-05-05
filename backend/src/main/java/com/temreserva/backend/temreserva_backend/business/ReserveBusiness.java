@@ -9,6 +9,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.ReserveReposito
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.ReserveDTO;
+import com.temreserva.backend.temreserva_backend.web.model.Responses.ReserveModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,15 @@ public class ReserveBusiness {
         this.userRepository = userRepository;
     }
 
-    public Reserve createNewReserve(@Valid ReserveDTO dto) {
+    public ReserveModel createNewReserve(@Valid ReserveDTO dto) {
         Reserve reserve = validateNewReserve(dto);
 
-        if(reserve != null) 
-            return reserveRepository.save(reserve);        
+        if (reserve != null) {
+            reserveRepository.save(reserve);
+            return ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
+                    .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId()).idUser(reserve.getUser().getId())
+                    .idRestaurant(reserve.getRestaurant().getId()).build();
+        }
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.BAD_RESERVE.getEnumValue());
@@ -45,19 +50,27 @@ public class ReserveBusiness {
     }
 
     private Reserve validateNewReserve(ReserveDTO dto) {
-        // Validar limite de pessoas do restaurante (Definir como será o limite, se será
-        // por hora)
-        // Validar se o usuário possui reserva no mesmo horário em outro restaurante
         User user = userRepository.findById(dto.getIdUser()).orElse(null);
         Restaurant restaurant = restaurantRepository.findById(dto.getIdRestaurant()).orElse(null);
-        if(user != null && restaurant != null) {
-            return Reserve.builder()
-            .user(user)
-            .restaurant(restaurant)
-            .reserveDate(dto.getReserveDate())
-            .build();
+        Reserve a = reserveRepository.existsByPeriodDateAndUser(dto.getIdUser(), dto.getPeriod(), dto.getReserveDate())
+                .orElse(null);
+        Integer b = reserveRepository.findNumberOfPeopleByRestaurantPeriodAndDate(dto.getIdRestaurant(),
+                dto.getPeriod(), dto.getReserveDate());
+        if (user != null && restaurant != null) {
+            if (a == null) { // valida se usuário possui reserva no periodo
+                if (b + dto.getAmountOfPeople() > restaurant.getMaxNumberOfPeople()) // valida total de pessoas do
+                                                                                     // periodo
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            Enumerators.apiExceptionCodeEnum.FULL_RESTAURANT.getEnumValue());
+
+                return Reserve.builder().period(dto.getPeriod()).amountOfPeople(dto.getAmountOfPeople()).user(user)
+                        .restaurant(restaurant).reserveDate(dto.getReserveDate()).build();
+            } else
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        Enumerators.apiExceptionCodeEnum.USER_HAVE_ACTIVE_RESERVE.getEnumValue());
         }
-        
-        return null;
+
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue());
     }
 }
