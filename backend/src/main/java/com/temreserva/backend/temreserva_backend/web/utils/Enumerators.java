@@ -20,7 +20,8 @@ public class Enumerators {
         WRONG_PASSWORD("0013"),
         IMAGE_NOT_FOUND("0014"),
         USER_HAVE_ACTIVE_RESERVE("0015"),
-        FULL_RESTAURANT("0016")
+        FULL_RESTAURANT("0016"),
+        RESERVE_NOT_FOUND("0017")
         ;
 
         private final String apiCode;

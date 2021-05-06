@@ -148,7 +148,7 @@ public class RestaurantBusiness {
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // UPDATE
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    @Transactional(rollbackOn = ResponseStatusException.class)
+    @Transactional(rollbackOn = Exception.class)
     public void updateRestaurant(Long id, RestaurantDTO restaurant) {
         Restaurant restaurantResponse = restaurantRepository.findById(id).map(r -> {
             r.setCnpj(restaurant.getCnpj() == null ? r.getCnpj() : restaurant.getCnpj());

@@ -1,5 +1,7 @@
 package com.temreserva.backend.temreserva_backend.web.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.temreserva.backend.temreserva_backend.business.ReserveBusiness;
@@ -10,8 +12,10 @@ import com.temreserva.backend.temreserva_backend.web.model.DTOs.ReserveDTO;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ReserveModel;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,7 +27,8 @@ import org.springframework.http.HttpStatus;
 public class ReserveController {
     public final ReserveBusiness business;
 
-    public ReserveController(ReserveRepository reserveRepository, RestaurantRepository restaurantRepository, UserRepository userRepository) {
+    public ReserveController(ReserveRepository reserveRepository, RestaurantRepository restaurantRepository,
+            UserRepository userRepository) {
         business = new ReserveBusiness(reserveRepository, restaurantRepository, userRepository);
     }
 
@@ -35,7 +40,33 @@ public class ReserveController {
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteReserve( @PathVariable Long id ){
+    public void deleteReserve(@PathVariable Long id) {
         business.deleteReserve(id);
+    }
+
+    @GetMapping(value = { "/restaurantId={restaurantId}" })
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReserveModel> getReservesByRestaurantId(@PathVariable Long restaurantId,
+            @RequestBody(required = false) ReserveDTO reserve) {
+        return business.getReservesByRestaurantId(restaurantId, reserve != null ? reserve.getReserveDate() : null);
+    }
+
+    @GetMapping("/userId={userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ReserveModel> getReserveByUserId(@PathVariable Long userId,
+            @RequestBody(required = false) ReserveDTO reserve) {
+        return business.getReservesByUserId(userId, reserve != null ? reserve.getReserveDate() : null);
+    }
+
+    @GetMapping("/id={id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ReserveModel getReserveById(@PathVariable Long id) {
+        return business.getReserveById(id);
+    }
+
+    @PutMapping("/id={id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateReserve(@PathVariable Long id, @RequestBody ReserveDTO reserve) {
+        business.updateReserve(id, reserve);
     }
 }
