@@ -15,6 +15,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.RestaurantDTO;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.HomeRestaurantsModel;
+import com.temreserva.backend.temreserva_backend.web.model.Responses.ImageModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.RestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantsViewModel;
 
@@ -57,7 +58,7 @@ public class RestaurantController {
     }
 
     @PostMapping("/upload")
-    public HttpStatus restaurantImageUpload(@RequestParam("imageFile") MultipartFile file,
+    public ImageModel restaurantImageUpload(@RequestParam("imageFile") MultipartFile file,
             @RequestParam("restaurantId") Long id,
             @RequestParam("isProfilePic") Boolean isProfilePic) throws IOException {
         return business.restaurantImageUpload(file, id, isProfilePic);
@@ -71,14 +72,8 @@ public class RestaurantController {
 
     @GetMapping("/name={name}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> getRestaurantByName(@PathVariable String name) {
+    public List<RestaurantModel> getRestaurantByName(@PathVariable String name) {
         return business.getRestaurantByName(name);
-    }
-
-    @GetMapping("/size={size}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> getRestaurantBySize(@PathVariable Integer size) {
-        return business.getRestaurantBySize(size);
     }
 
     @GetMapping("/home")

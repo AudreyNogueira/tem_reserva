@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
-    @Query(value = "SELECT * FROM TB_RESTAURANTE R WHERE R.NOME LIKE %:name%", nativeQuery = true)
+    @Query(value = "SELECT * FROM TB_RESTAURANTE R WHERE LOWER(R.NOME) LIKE LOWER(CONCAT('%', :name,'%'))", nativeQuery = true)
     public List<Restaurant> findByName(@Param("name") String name);
 
     public Restaurant findByCredential(Credential restaurantCredentials);
