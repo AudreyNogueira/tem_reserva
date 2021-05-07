@@ -3,6 +3,7 @@ package com.temreserva.backend.temreserva_backend.web.config;
 import com.temreserva.backend.temreserva_backend.data.repository.AddressRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.MailTemplateRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.SegmentRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
@@ -19,6 +20,7 @@ import com.temreserva.backend.temreserva_backend.business.ImageBusiness;
 import com.temreserva.backend.temreserva_backend.data.entity.Address;
 import com.temreserva.backend.temreserva_backend.data.entity.Credential;
 import com.temreserva.backend.temreserva_backend.data.entity.Image;
+import com.temreserva.backend.temreserva_backend.data.entity.MailTemplate;
 import com.temreserva.backend.temreserva_backend.data.entity.Restaurant;
 import com.temreserva.backend.temreserva_backend.data.entity.Segment;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
@@ -37,15 +39,19 @@ import org.springframework.web.multipart.MultipartFile;
 @Configuration
 @Profile("development")
 public class DevelopmentConfiguration {
+    private String template = "<!DOCTYPE htmlPUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns:th='http://www.thymeleaf.org' xmlns='http://www.w3.org/1999/xhtml'><head><title>Sua reserva foi confirmada!</title><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><meta name='viewport' content='width=device-width, initial-scale=1.0' /><link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' /><!-- use the font --><style>body {font-family: 'Roboto', sans-serif;font-size: 48px;}</style></head><body><h2>SUA RESERVA ESTÁ CONFIRMADA!!!</h2></body></html>";
 
     // INSERÇÕES PARA BANCO EM MEMÓRIA
     @Bean
     public CommandLineRunner createDataForTesting(@Autowired SegmentRepository segmentRepository,
             @Autowired UserRepository userRepository, @Autowired RestaurantRepository restaurantRepository,
             @Autowired CredentialRepository credentialRepository, @Autowired AddressRepository addressRepository,
-            @Autowired ImageRepository imageRepository, @Autowired ImageBusiness imageBusiness) {
+            @Autowired ImageRepository imageRepository, @Autowired ImageBusiness imageBusiness,
+            @Autowired MailTemplateRepository mailTemplateRepository) {
         return args -> {
             System.out.println("Ambiente de desenvolvimento...");
+            
+            mailTemplateRepository.save(MailTemplate.builder().description("reserve_success").html(template).active(true).build());
 
             List<Segment> lstSegment = new ArrayList<Segment>();
             lstSegment.add(Segment.builder().description("Japonês").build());
