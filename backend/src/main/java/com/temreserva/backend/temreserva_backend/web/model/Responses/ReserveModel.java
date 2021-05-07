@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReserveModel {
     private Long id;
-    
-    private Long idUser;
-
-    private Long idRestaurant;
 
     private String period;
 
     private LocalDateTime reserveDate;
 
     private Integer amountOfPeople;
+
+    private UserModel user;
+
+    private RestaurantModel restaurant;
 }

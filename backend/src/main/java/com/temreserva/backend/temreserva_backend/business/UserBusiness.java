@@ -100,6 +100,10 @@ public class UserBusiness {
         }
     }
 
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public ImageModel userImageUpload(MultipartFile file, Long id) throws IOException {
         if (userRepository.findById(id).orElse(null) != null)
             return imageBusiness.imageUpload(file, id, true, false);

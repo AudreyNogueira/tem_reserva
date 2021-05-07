@@ -217,6 +217,10 @@ public class RestaurantBusiness {
         return getListOfRestaurant(restaurantRepository.findByName(name));
     }
 
+    public Restaurant findById(Long id) {
+        return restaurantRepository.findById(id).orElse(null);
+    }
+
     private AddressModel getAddressModelFromAddress(Address address) {
         AddressModel response = AddressModel.builder().locality(address.getLocality())
                 .restaurantNumber(address.getRestaurantNumber()).uf(address.getUf()).cep(address.getCep())
@@ -316,5 +320,5 @@ public class RestaurantBusiness {
 
     public void deleteImage(Long id) {
         imageBusiness.deleteImageById(id);
-    }
+    }    
 }

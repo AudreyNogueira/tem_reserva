@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import com.temreserva.backend.temreserva_backend.data.entity.Reserve;
 import com.temreserva.backend.temreserva_backend.data.entity.Restaurant;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
+import com.temreserva.backend.temreserva_backend.data.repository.MailTemplateRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
-import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
-import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.web.model.DTOs.ReserveDTO;
 import com.temreserva.backend.temreserva_backend.web.model.Responses.ReserveModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
@@ -24,47 +24,52 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class ReserveBusiness {
     private final ReserveRepository reserveRepository;
-    private final RestaurantRepository restaurantRepository;
-    private final UserRepository userRepository;
+    private final UserBusiness userBusiness;
+    private final RestaurantBusiness restaurantBusiness;
+    @Autowired
+    private final MailBusiness mailBusiness;
 
     @Autowired
-    public ReserveBusiness(ReserveRepository reserveRepository, RestaurantRepository restaurantRepository,
-            UserRepository userRepository) {
+    public ReserveBusiness(ReserveRepository reserveRepository, RestaurantBusiness restaurantBusiness,
+            UserBusiness userBusiness, MailTemplateRepository mailTemplateRepository) {
         this.reserveRepository = reserveRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.userRepository = userRepository;
+        this.restaurantBusiness = restaurantBusiness;
+        this.userBusiness = userBusiness;
+        this.mailBusiness = new MailBusiness(mailTemplateRepository);
     }
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // CREATE
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    
-    public ReserveModel createNewReserve(@Valid ReserveDTO dto) {
+
+    public ReserveModel createNewReserve(@Valid ReserveDTO dto) throws MessagingException {
         Reserve reserve = validateNewReserve(dto);
 
         if (reserve != null) {
             reserveRepository.save(reserve);
+            mailBusiness.sendMail(reserve.getUser().getCredential().getEmail(), reserve.getUser().getName().substring(0, reserve.getUser().getName().indexOf(" ")) + ", sua reserva foi feita com sucesso!", "reserve_success");
             return ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
-                    .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId()).idUser(reserve.getUser().getId())
-                    .idRestaurant(reserve.getRestaurant().getId()).build();
+                    .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
+                    .user(userBusiness.getUserById(reserve.getUser().getId()))
+                    .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build();
         }
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.BAD_RESERVE.getEnumValue());
     }
-    
+
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // DELETE
     // ------------------------------------------------------------------------------------------------------------------------------------------
     public void deleteReserve(Long id) {
         reserveRepository.deleteById(id);
     }
-    
+
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // BUSINESS
     // ------------------------------------------------------------------------------------------------------------------------------------------
     private Reserve validateNewReserve(ReserveDTO dto) {
-        User user = userRepository.findById(dto.getIdUser()).orElse(null);
-        Restaurant restaurant = restaurantRepository.findById(dto.getIdRestaurant()).orElse(null);
+        User user = userBusiness.findById(dto.getIdUser());
+        Restaurant restaurant = restaurantBusiness.findById(dto.getIdRestaurant());
         Reserve a = reserveRepository.existsByPeriodDateAndUser(dto.getIdUser(), dto.getPeriod(), dto.getReserveDate())
                 .orElse(null);
         Integer b = reserveRepository.findNumberOfPeopleByRestaurantPeriodAndDate(dto.getIdRestaurant(),
@@ -97,7 +102,8 @@ public class ReserveBusiness {
             try {
                 response.add(ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
                         .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
-                        .idUser(reserve.getUser().getId()).idRestaurant(reserve.getRestaurant().getId()).build());
+                        .user(userBusiness.getUserById(reserve.getUser().getId()))
+                        .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build());
             } catch (Exception ex) {
                 continue;
             }
@@ -107,14 +113,14 @@ public class ReserveBusiness {
     }
 
     public List<ReserveModel> getReservesByRestaurantId(Long restaurantId, LocalDateTime date) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
+        Restaurant restaurant = restaurantBusiness.findById(restaurantId);
         List<Reserve> reserves = date != null ? reserveRepository.findByRestaurantCurrentDay(restaurantId, date)
                 : reserveRepository.findByRestaurant(restaurant);
         return getReserveModelListByReserveList(reserves);
     }
 
     public List<ReserveModel> getReservesByUserId(Long userId, LocalDateTime date) {
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userBusiness.findById(userId);
         List<Reserve> reserves = date != null ? reserveRepository.findByUserAndDate(userId, date)
                 : reserveRepository.findByUser(user);
         return getReserveModelListByReserveList(reserves);
@@ -123,8 +129,9 @@ public class ReserveBusiness {
     public ReserveModel getReserveById(Long id) {
         return reserveRepository.findById(id).map(reserve -> {
             return ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
-                    .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId()).idUser(reserve.getUser().getId())
-                    .idRestaurant(reserve.getRestaurant().getId()).build();
+                    .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
+                    .user(userBusiness.getUserById(reserve.getUser().getId()))
+                    .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build();
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.RESERVE_NOT_FOUND.getEnumValue()));
     }
