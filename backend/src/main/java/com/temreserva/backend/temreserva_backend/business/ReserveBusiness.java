@@ -12,8 +12,8 @@ import com.temreserva.backend.temreserva_backend.data.entity.Restaurant;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.data.repository.MailTemplateRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.ReserveDTO;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.ReserveModel;
+import com.temreserva.backend.temreserva_backend.web.model.dto.ReserveDTO;
+import com.temreserva.backend.temreserva_backend.web.model.response.ReserveModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
 import org.springframework.beans.factory.annotation.Autowired;

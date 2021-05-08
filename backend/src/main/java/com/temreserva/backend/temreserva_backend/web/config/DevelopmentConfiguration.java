@@ -11,8 +11,8 @@ import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
+// import java.sql.Time;
+// import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,13 +76,13 @@ public class DevelopmentConfiguration {
                 String password = (String) res.get("password");
                 String cnpj = (String) res.get("cnpj");
                 String description = (String) res.get("description");
-                String openDaysOfWeek = (String) res.get("openDaysOfWeek");
+                // String openDaysOfWeek = (String) res.get("openDaysOfWeek");
 
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                long ot = sdf.parse((String) res.get("openingTime")).getTime();
-                Time openingTime = new Time(ot);
-                long ct = sdf.parse((String) res.get("closingTime")).getTime();
-                Time closingTime = new Time(ct);
+                // SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                // long ot = sdf.parse((String) res.get("openingTime")).getTime();
+                // Time openingTime = new Time(ot);
+                // long ct = sdf.parse((String) res.get("closingTime")).getTime();
+                // Time closingTime = new Time(ct);
 
                 String cleaning = res.get("cleaning").toString();
                 int spacingOfTables = Integer.parseInt(res.get("spacingOfTables").toString());
@@ -102,8 +102,8 @@ public class DevelopmentConfiguration {
                 cred = credentialRepository.save(cred);
 
                 Restaurant restaurant = Restaurant.builder().credential(cred).restaurantName(restaurantName)
-                        .phoneNumber(phoneNumber).cnpj(cnpj).description(description).openDaysOfWeek(openDaysOfWeek)
-                        .openingTime(openingTime).closingTime(closingTime).cleaning(cleaning)
+                        .phoneNumber(phoneNumber).cnpj(cnpj).description(description)
+                        .cleaning(cleaning)
                         .spacingOfTables(spacingOfTables).maxNumberOfPeople(maxNumberOfPeople).build();
                 restaurant = restaurantRepository.save(restaurant);
 

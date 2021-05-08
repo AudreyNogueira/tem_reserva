@@ -1,6 +1,6 @@
 package com.temreserva.backend.temreserva_backend.data.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,41 +13,35 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "TB_RESERVA")
+@Table(name = "TB_RESTAURANTE_DATA_HORARIO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Reserve {
+public class RestaurantDateTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_RESERVA")
+    @Column(name = "ID_DATA_HORARIO_RESTAURANTE")
     private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "ID_USUARIO",nullable = false, updatable = true)
-    private User user;
-
+    
     @OneToOne
     @JoinColumn(name = "ID_RESTAURANTE",nullable = false, updatable = true)
     private Restaurant restaurant;
- 
-    @Column(name = "PERIODO", nullable = false, updatable = true)
-    private String period;    
 
-    @Column(name = "OBSERVACAO", nullable = true, updatable = true)
-    private String observation;
+    @Column(name = "HORA_INICIO", nullable = true, updatable = true)
+    @JsonFormat(pattern = "hh:mm:ss")
+    private Time openingTime;
 
-    @Column(name = "DATA_RESERVA", nullable = false, updatable = true)
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
-    private LocalDateTime reserveDate;
+    @Column(name = "HORA_FIM", nullable = true, updatable = true)
+    @JsonFormat(pattern = "hh:mm:ss")
+    private Time closingTime;
 
-    @Column(name = "QTD_PESSOAS", nullable = false, updatable = true)
-    private Integer amountOfPeople;
+    @Column(name = "DIA", nullable = true, updatable = true)
+    private String day;
 }

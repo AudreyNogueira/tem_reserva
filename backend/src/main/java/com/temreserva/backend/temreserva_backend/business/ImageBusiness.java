@@ -10,7 +10,7 @@ import java.util.zip.Inflater;
 
 import com.temreserva.backend.temreserva_backend.data.entity.Image;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.ImageModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
 import org.springframework.http.HttpStatus;
