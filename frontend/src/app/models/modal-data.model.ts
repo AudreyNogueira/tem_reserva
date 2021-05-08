@@ -1,4 +1,4 @@
-import { Establishment } from "./establishment.model";
+import { Establishment } from './establishment.model';
 
 export interface ModalData {
     modalName?: any;

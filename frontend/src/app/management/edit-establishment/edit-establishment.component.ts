@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { cnpjMask } from 'src/app/masks/cnpj-mask';
@@ -22,7 +22,7 @@ import { DayHour, DayOfWeekModel } from '../../models/day-hour.model';
   templateUrl: './edit-establishment.component.html',
   styleUrls: ['./edit-establishment.component.scss']
 })
-export class EditEstablishmentComponent implements OnInit {
+export class EditEstablishmentComponent implements OnInit, OnDestroy {
 
   @ViewChild('slide') slide: ElementRef<HTMLElement>;
   @ViewChildren('element') element: QueryList<ElementRef<HTMLElement>>;
@@ -36,8 +36,6 @@ export class EditEstablishmentComponent implements OnInit {
   countIdHour = 0;
   pic: string;
   hourArray: DayHour[] = [];
-
-  // dataLocal = JSON.parse(localStorage.getItem('UserSession'));
 
   /**
    * Serve apenas commo parâmetro para a ordenação
@@ -74,19 +72,19 @@ export class EditEstablishmentComponent implements OnInit {
 
   cleaningProtocol = [
     {
-      value: "Distanciamento de mesas",
+      value: 'Distanciamento de mesas',
       checked: false,
     },
     {
-      value: "Uso de máscara",
+      value: 'Uso de máscara',
       checked: false,
     },
     {
-      value: "Verificação de temperatura",
+      value: 'Verificação de temperatura',
       checked: false,
     },
     {
-      value: "Disponibilidade de Álcool em Gel",
+      value: 'Disponibilidade de Álcool em Gel',
       checked: false,
     }
   ];
@@ -113,7 +111,7 @@ export class EditEstablishmentComponent implements OnInit {
     day: [null, [Validators.required]],
     open: [null, [Validators.required, hourValidator]],
     close: [null, [Validators.required, hourValidator]],
-  })
+  });
 
   userData: Establishment;
 
@@ -135,7 +133,7 @@ export class EditEstablishmentComponent implements OnInit {
   }
 
   sortDayOfWeek(daysList: DayOfWeekEnum[]): DayOfWeekEnum[] {
-    return daysList.sort((a, b) => { return this.weekEnum[a] - this.weekEnum[b]; })
+    return daysList.sort((a, b) => this.weekEnum[a] - this.weekEnum[b]);
   }
 
   ngOnDestroy(): void {
@@ -172,7 +170,7 @@ export class EditEstablishmentComponent implements OnInit {
 
     this.modalServiceLocal.$comunication.pipe(first()).subscribe(resp => {
       if (resp) this.editEstablishmentService.deleteEstablishment(1).subscribe();
-    })
+    });
   }
 
   /**
@@ -207,16 +205,16 @@ export class EditEstablishmentComponent implements OnInit {
       };
 
       /** Verifica se possui critérios de limpeza, caso sim, adiciona
-       * eles no objeto a ser enviado 
+       * eles no objeto a ser enviado
        */
       if (this.cleaningProtocol.some(p => p.checked)) {
         let cleaningProtocolValue = '';
         this.cleaningProtocol.filter(p => p.checked).forEach(item => cleaningProtocolValue += item.value + ',');
-        data = { ...data, cleaning: cleaningProtocolValue }
+        data = { ...data, cleaning: cleaningProtocolValue };
       }
 
       /** Verifica se possui informações nos campos de senhas,
-       * caso sim, adiciona else no objeto a ser enviado 
+       * caso sim, adiciona else no objeto a ser enviado
        */
       if (this.passwordChange()) data = { ...data, password: this.formGroup.get('newPass').value, actualPassword: this.formGroup.get('currentPass').value };
 
@@ -251,7 +249,11 @@ export class EditEstablishmentComponent implements OnInit {
       hasError = !(this.formGroup.get('currentPass').value !== '' && this.formGroup.get('newPass').value !== '');
     }
 
-    if (group === this.formHour && this.formHour.valid && moment(group.get('close').value, 'HH:mm').isSameOrBefore(moment(group.get('open').value, 'HH:mm'))) {
+    if (
+      group === this.formHour &&
+      this.formHour.valid &&
+      moment(group.get('close').value, 'HH:mm').isSameOrBefore(moment(group.get('open').value, 'HH:mm'))
+    ) {
       group.get('close').setErrors({ invalidHour: true });
       hasError = true;
     }
@@ -268,7 +270,7 @@ export class EditEstablishmentComponent implements OnInit {
   }
 
   /**
-   * Método para tratar os critérios de limpeza ja cadastrados 
+   * Método para tratar os critérios de limpeza ja cadastrados
    * do restaurante na tela de edição
    * @param list critérios de limpeza
    */
@@ -285,13 +287,13 @@ export class EditEstablishmentComponent implements OnInit {
    * na tela de edição
    * @param list lista de horários
    */
-  treatOpenDays(list: DayOfWeekModel[]) {
+  treatOpenDays(list: DayOfWeekModel[]): void {
     list.forEach(d => {
       this.formHour.get('day').setValue(d.day);
       this.formHour.get('open').setValue(moment({ h: Number(d.open.split(':')[0]), m: Number(d.open.split(':')[1]) }).format('HH:mm'));
       this.formHour.get('close').setValue(moment({ h: Number(d.close.split(':')[0]), m: Number(d.close.split(':')[1]) }).format('HH:mm'));
       this.addHour();
-    })
+    });
   }
 
   /**
@@ -319,16 +321,16 @@ export class EditEstablishmentComponent implements OnInit {
    * Alterna o valor de selecionad do checkbox
    * @param protocol checkbox que será modificado
    */
-  onCheckboxChange(protocol: any) {
+  onCheckboxChange(protocol: any): void {
     this.cleaningProtocol.filter(p => protocol === p).map(v => v.checked = !v.checked);
   }
 
   /**
    * Atualiza ou adiciona novas imagens para o restaurante
    * @param event imagem
-   * @param isProfileImg parâmetro para validar se é imagem de perfil 
+   * @param isProfileImg parâmetro para validar se é imagem de perfil
    */
-  onFileChanged(event: any, isProfileImg: boolean) {
+  onFileChanged(event: any, isProfileImg: boolean): void {
     const uploadImageData = new FormData();
     uploadImageData.append('imageFile', event.target.files[0], event.target.files[0].name);
     uploadImageData.append('isProfilePic', String(isProfileImg));
@@ -351,10 +353,10 @@ export class EditEstablishmentComponent implements OnInit {
   }
 
   /**
- * Método para rolar o carrossel pelas setas
- * @method navigateCarousel
- * @param direction direção para qual o carrossel vai
- */
+   * Método para rolar o carrossel pelas setas
+   * @method navigateCarousel
+   * @param direction direção para qual o carrossel vai
+   */
   navigateCarousel(direction: string): void {
     direction === 'next' ?
       this.slide.nativeElement.scrollBy({ left: this.element.last.nativeElement.scrollWidth + 50 }) :
@@ -375,9 +377,10 @@ export class EditEstablishmentComponent implements OnInit {
           open: this.treatMidnight(this.formHour.get('open').value),
           close: this.treatMidnight(this.formHour.get('close').value)
         }
-      }
+      };
+
       this.hourArray.push(itemHour);
-      this.hourArray = this.hourArray.sort((a, b) => { return this.weekEnum[a.dayOfWeek.day] - this.weekEnum[b.dayOfWeek.day]; })
+      this.hourArray = this.hourArray.sort((a, b) => this.weekEnum[a.dayOfWeek.day] - this.weekEnum[b.dayOfWeek.day]);
       this.formGroup.get('hourWork').setValue(this.hourArray);
 
       /** Remove da lista de dias da semana o dia já utilizado */
@@ -409,7 +412,12 @@ export class EditEstablishmentComponent implements OnInit {
   mapOpenDaysOfWeek(list: DayHour[]): DayOfWeekModel[] {
     return list.map(hr => {
       hr.dayOfWeek.open = moment({ h: Number(hr.dayOfWeek.open.split(':')[0]), m: Number(hr.dayOfWeek.open.split(':')[1]), s: 0 }).format('HH:mm:ss');
-      hr.dayOfWeek.close = moment({ h: Number(hr.dayOfWeek.close.split(':')[0]), m: Number(hr.dayOfWeek.close.split(':')[1]), s: 0 }).format('HH:mm:ss');
+      hr.dayOfWeek.close = moment(
+        {
+          h: Number(hr.dayOfWeek.close.split(':')[0]),
+          m: Number(hr.dayOfWeek.close.split(':')[1]),
+          s: 0
+        }).format('HH:mm:ss');
       return hr.dayOfWeek;
     });
   }
@@ -418,7 +426,7 @@ export class EditEstablishmentComponent implements OnInit {
    * Remove horário de funcionamento, e popula novamente a lista dos dias da semana
    * @param date Horário de funcionamento que será removido
    */
-  removeHour(date: DayHour) {
+  removeHour(date: DayHour): void {
     this.dayOfWeek.push(date.dayOfWeek.day as DayOfWeekEnum);
     this.dayOfWeek = this.sortDayOfWeek(this.dayOfWeek);
     this.hourArray = this.hourArray.filter(h => h.id !== date.id);

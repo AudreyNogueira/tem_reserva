@@ -77,14 +77,13 @@ export class ModalReserveComponent implements OnInit {
     );
 
     if (moment(this.choosedDay).isSame(Date.now(), 'day')) {
-      return avaible.filter(h => moment(h, 'HH:mm').isAfter(now))
+      return avaible.filter(h => moment(h, 'HH:mm').isAfter(now));
     }
     return avaible;
 
   }
 
   selectHour(date: string, index: number, period: string): void {
-    console.log(this.choosedDay)
     this.formGroup.get('hour').setValue(moment({
       y: this.choosedDay.getFullYear(),
       M: this.choosedDay.getMonth(),

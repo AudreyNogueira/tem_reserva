@@ -117,7 +117,7 @@ export class RegisterEstablishmentComponent implements OnInit {
     return hasError;
   }
 
-  getAddressByCep() {
+  getAddressByCep(): void {
     const cep = this.formGroup.get('cep').value.replace(/\D/g, '');
     if (cep.length === 8) {
       this.editEstablishmentService.getCEP(cep).subscribe(c => {

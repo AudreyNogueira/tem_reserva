@@ -35,7 +35,7 @@ export class TopRatedComponent implements OnInit {
       this.slide.nativeElement.scrollBy({ left: -this.element.last.nativeElement.scrollWidth + 50 });
   }
 
-  navigateToEstablishment(est: Establishment) {
+  navigateToEstablishment(est: Establishment): void {
     this.router.navigateByUrl(`${RoutesEnum.ESTABLISHMENTS_DASHBOARD}/selecionado/${est.id}/${est.restaurantName}`);
   }
 

@@ -1,4 +1,4 @@
-import { DayOfWeekModel } from "./day-hour.model";
+import { DayOfWeekModel } from './day-hour.model';
 
 export interface Establishment {
     id?: number;

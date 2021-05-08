@@ -24,7 +24,7 @@ export class EstablishmentListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  navigateToEstablishment(est: Establishment) {
+  navigateToEstablishment(est: Establishment): void {
     this.router.navigateByUrl(`${RoutesEnum.ESTABLISHMENTS_DASHBOARD}/selecionado/${est.id}/${est.restaurantName}`);
   }
 

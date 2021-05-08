@@ -34,28 +34,28 @@ export class RegisterClientComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  // 
-  // configurarFormulario() {
 
-  // }
-  validar(input: FormControl) {
+  validar(input: FormControl): any {
     return (input.value ? null : { obrigatorio: true });
   }
+
   /**
-  * Permite digitar somente números no campo
-  * @param event evento do teclado
-  */
+   * Permite digitar somente números no campo
+   * @param event evento do teclado
+   */
   onlyInputNumber(event: any): void {
     onlyInputNumber(event);
   }
+
   /**
-  * Faz a tratativa e permanece somente números quando realizado a ação COLAR
-  * @param event evento COLAR
-  */
+   * Faz a tratativa e permanece somente números quando realizado a ação COLAR
+   * @param event evento COLAR
+   */
   onlyPasteNumber(field: string, event: any): void {
     this.formCliente.get(field).setValue(onlyPasteNumber(event));
   }
-  onSubmit() {
+
+  onSubmit(): void {
     const user: UserModel = {
       name: `${this.formCliente.get('nome').value.trim()} ${this.formCliente.get('sobrenome').value.trim()}`,
       birthDate: this.formCliente.get('dataNascimento').value,
