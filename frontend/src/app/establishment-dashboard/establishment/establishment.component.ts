@@ -34,14 +34,10 @@ export class EstablishmentComponent implements OnInit {
   ngOnInit(): void {
 
     const idEstablishment = this.route.snapshot.paramMap.get('id');
-    this.establishmentListService.getEstablishmentById(Number(idEstablishment)).subscribe(e => this.establishment = e);
-
-    this.images = [
-      '../../../assets/images/examples/lenha.png',
-      '../../../assets/images/examples/pizza.png',
-      '../../../assets/images/examples/massa.png',
-      '../../../assets/images/examples/pizza-zoom.png',
-    ];
+    this.establishmentListService.getEstablishmentById(Number(idEstablishment)).subscribe(e => {
+      this.establishment = e;
+      this.images = e.restaurantImages.map(img => img.image);
+    });
   }
 
   /**
