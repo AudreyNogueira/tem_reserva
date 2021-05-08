@@ -39,7 +39,10 @@ public class Reserve {
     private Restaurant restaurant;
  
     @Column(name = "PERIODO", nullable = false, updatable = true)
-    private String period;
+    private String period;    
+
+    @Column(name = "OBSERVACAO", nullable = false, updatable = true)
+    private String observation;
 
     @Column(name = "DATA_RESERVA", nullable = false, updatable = true)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
