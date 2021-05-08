@@ -16,7 +16,7 @@ export class EditEstablishmentService {
     private readonly http: HttpClient,
   ) { }
 
-  set$userSession(data: any, type: string) {
+  set$userSession(data: any, type: string): void {
     type === AccountType.USER ? this.$userSession.next({ user: data }) : this.$userSession.next({ est: data });
     localStorage.setItem('UserSession', JSON.stringify({ ...data }));
   }

@@ -53,7 +53,7 @@ export class EstablishmentComponent implements OnInit {
     else this.images.push(this.images.shift());
   }
 
-  makeReservation(date: Date) {
+  makeReservation(date: Date): void {
     if (!this.firstDate) {
       this.modalServiceLocal.$openModal.next({ modalName: 'reserveModal', choosedDay: date, establishment: this.establishment });
     }
