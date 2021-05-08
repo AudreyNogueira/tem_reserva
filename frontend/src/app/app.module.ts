@@ -17,6 +17,9 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ModalConfirmComponent } from './modals/modal-confirm/modal-confirm.component';
+import { RegisterClientComponent } from './register/register-client/register-client.component';
+import { ModalReserveComponent } from './modals/modal-reserve/modal-reserve.component';
+import { ModalFeedbackComponent } from './modals/modal-feedback/modal-feedback.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { ModalConfirmComponent } from './modals/modal-confirm/modal-confirm.comp
     FooterComponent,
     HomeComponent,
     ModalConfirmComponent,
+    RegisterClientComponent,
+    ModalReserveComponent,
+    ModalFeedbackComponent,
   ],
   imports: [
     BrowserModule,

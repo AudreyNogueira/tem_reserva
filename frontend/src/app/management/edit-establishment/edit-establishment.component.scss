@@ -4,7 +4,18 @@
     padding: 0 0 70px 0;
 
     .header {
+        display: flex;
         padding: 60px 0;
+        align-items: center;
+
+        .img-establishment {
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+            background-size: cover !important;
+            margin-right: 10px;
+        }
+
         .name {
             font-size: 20px;
             font-weight: bold;
@@ -15,7 +26,57 @@
             font-size: 14px;
             font-family: Mulish;
             color: $gray_text;
+            margin-bottom: 15px;
         }
+
+    }
+
+    .change-image {
+        border: none;
+        color: #ffffff;
+        background-color: #8692A6;
+        font-weight: bold;
+        font-family: Mulish;
+        font-size: 14px;
+        width: 130px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+        
+        .label {
+            cursor: pointer;
+        }
+    }
+
+    .deleteImg {
+        margin-top: 20px;
+        border: none;
+        color: #ffffff;
+        background-color: $yellow;
+        font-weight: bold;
+        font-family: Mulish;
+        font-size: 14px;
+        width: 130px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .add-img {
+        margin-top: 20px;
+        border: none;
+        color: #ffffff;
+        background-color: $yellow;
+        font-weight: bold;
+        font-family: Mulish;
+        font-size: 16px;
+        width: 130px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
     }
     
     .form {
@@ -26,6 +87,10 @@
             font-family: Mulish;
             font-weight: bold;
             margin-bottom: 15px;
+
+            &.main {
+                font-size: 30px;
+            }
         }
 
         .field {
@@ -69,6 +134,168 @@
                     background-color: $error_feedback;
                 }
             }
+        }
+
+        .text-box {
+            
+            .label {
+                display: block;
+                font-size: 16px;
+                font-family: Mulish;
+                color: $gray_text;
+            }
+            
+            .input {
+                background-color: $gray_text;
+                color: $white;
+                font-size: 16px;
+                border-radius: 8px;
+                padding: 14px;
+                width: 100%;
+                border: none;
+                margin-bottom: 8px;
+
+                &:focus {
+                    outline: none;
+                }
+                
+            }
+
+            &.-error {
+                .label {
+                    color: $error_feedback;
+                }
+                .input {
+                    border: 3px solid $error_feedback;
+                }
+            }
+        }
+
+        .align-button {
+            display: flex;
+            padding-top: 32px;
+            padding-bottom: 10px;
+            align-items: center;
+
+            .add-hour {
+                border: none;
+                color: $white;
+                background-color: $yellow;
+                font-weight: bold;
+                font-family: Mulish;
+                font-size: 14px;
+                min-height: 30px;
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .align-button {
+                padding-top: 0;
+            }
+        }
+
+        .hourDay {
+            display: flex;
+            margin-bottom: 5px;
+
+            .remove-hour {
+                margin-left: 20px;
+                background: $error_feedback;
+                height: 24px;
+                border: none;
+                line-height: 20px;
+
+                .icon {
+                    color: $white;
+                    font-size: 24px;
+                }
+            }
+        }
+        
+        .label-checkbox {
+            padding-left: 10px;
+            align-items: center;
+            display: flex;
+            cursor: pointer;
+
+            input[type="checkbox"] {
+                margin-right: 5px;
+                appearance: none;
+                color: $yellow;
+                width: 20px;
+                height: 20px;
+                background-color: $gray_text;
+                border-radius: 5px;
+                cursor: pointer;
+                
+                &:checked {
+                    background-color: $yellow;
+                    
+                }
+            }
+        }
+
+        .carousel {
+            width: 100%;
+            .slide {
+                overflow-x: hidden;
+                
+                .elements-scroll {
+                    padding: 0 100px; 
+                    display: inline-flex;
+    
+                    .establishment {
+                        font-family: Mulish;
+                        margin: 0 25px;
+    
+                        .img-establishment {
+                            width: 260px;
+                            height: 260px;
+                            margin-bottom: 16px;
+                        }
+                    }
+                }
+    
+                @media (max-width: 991px) {
+                    .elements-scroll {
+                        padding: 0;
+                    }
+                }
+            }
+    
+            @media (max-width: 991px) {
+                .slide {
+                    overflow-x: scroll;
+                }
+            }
+    
+            .control {
+                cursor: pointer;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                align-items: center;
+                justify-content: center;
+                width: 100px;
+                height: 170px;
+                color: $white;
+                background-color: $yellow;
+                text-align: center;
+                margin-top: 24px;
+                
+                &.left {
+                    left: 0;
+                }
+                
+                &.right {
+                    right: 0;
+                }
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none
         }
 
         .delete-button {

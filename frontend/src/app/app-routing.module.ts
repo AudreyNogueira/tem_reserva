@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterEstablishmentComponent } from './register/register-establishment/register-establishment.component';
+import {RegisterClientComponent} from './register/register-client/register-client.component';
 
 const routes: Routes = [
   {
@@ -26,10 +27,14 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'cadastrar-cliente',
+    component: RegisterClientComponent
+  },
+  {
     path: '**',
     redirectTo: 'sobre',
     pathMatch: 'full'
-  }
+  },
 ];
 
 @NgModule({

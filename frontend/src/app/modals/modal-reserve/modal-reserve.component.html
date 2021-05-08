@@ -1,0 +1,43 @@
+<div id="modal-reserve">
+    <div class="m-header">
+        <button type="button" class="close close-button" aria-label="Close" (click)="modalService.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="m-body">
+        <form [formGroup]="formGroup" (submit)="makeReservation()">
+            <span class="title" [ngClass]="{ '-error': submitted && formGroup.get('hour').invalid }">Escolha o Horário</span>
+            <div *ngFor="let p of periodAvaible()">
+                <div *ngIf="hoursAvaible(timeAvailable[p]).length > 0">
+                    <div class="w-100">
+                        <div class="period">{{ p }}</div>
+                    </div>
+                    <div class="hour">
+                        <div *ngFor="let time of hoursAvaible(timeAvailable[p]); let i = index" class="box" [ngClass]="{ 'selected': i === timeSelected && p === periodSelected }"
+                        (click)="selectHour(time, i, p)">{{ time }}
+                    </div>
+                </div>
+            </div>
+            </div>
+            <span class="title" [ngClass]="{ '-error': submitted && formGroup.get('quantity').invalid }">Quantidade de Pessoas</span>
+            <div class="hour">
+                <div *ngFor="let item of [].constructor(10); let i = index" class="box" [ngClass]="{ 'selected': i === qtdSelected }"
+                    (click)="selectQuantity(i+0, i)">{{ i+1 }}</div>
+                <span class="text-aux">*Para reservas maiores, entrar em contato com o estabelecimento.</span>
+            </div>
+
+            <span class="title">Observação</span>
+            <div class="obs">
+
+                <div class="subtitle">Caso precise de cadeirão para criança, mesa acessível, lugar mais reservado,
+                    nos informe. Para que possamos te atender da melhor forma.
+                </div>
+                <textarea formControlName="obs" maxlength="500" name="" id="" class="text" rows="3"></textarea>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="reserve">Reservar</button>
+                </div>
+            </div>
+        </form>
+        <div class="notification">Você receberá um e-mail de conclusão da reserva.</div>
+    </div>
+</div>
