@@ -20,6 +20,8 @@ public class ReserveModel {
 
     private Integer amountOfPeople;
 
+    private String observation;
+
     private UserModel user;
 
     private RestaurantModel restaurant;

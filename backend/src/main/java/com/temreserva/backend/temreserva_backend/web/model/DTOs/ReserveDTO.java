@@ -17,4 +17,6 @@ public class ReserveDTO {
     private LocalDateTime reserveDate;
 
     private Integer amountOfPeople;
+
+    private String observation;
 }

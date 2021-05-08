@@ -49,7 +49,7 @@ public class ReserveBusiness {
             mailBusiness.sendMail(reserve.getUser().getCredential().getEmail(), reserve.getUser().getName().substring(0, reserve.getUser().getName().indexOf(" ")) + ", sua reserva foi feita com sucesso!", "reserve_success");
             return ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
                     .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
-                    .user(userBusiness.getUserById(reserve.getUser().getId()))
+                    .user(userBusiness.getUserById(reserve.getUser().getId())).observation(reserve.getObservation())
                     .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build();
         }
 
@@ -81,7 +81,7 @@ public class ReserveBusiness {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                             Enumerators.apiExceptionCodeEnum.FULL_RESTAURANT.getEnumValue());
 
-                return Reserve.builder().period(dto.getPeriod()).amountOfPeople(dto.getAmountOfPeople()).user(user)
+                return Reserve.builder().observation(dto.getObservation()).period(dto.getPeriod()).amountOfPeople(dto.getAmountOfPeople()).user(user)
                         .restaurant(restaurant).reserveDate(dto.getReserveDate()).build();
             } else
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -102,7 +102,7 @@ public class ReserveBusiness {
             try {
                 response.add(ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
                         .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
-                        .user(userBusiness.getUserById(reserve.getUser().getId()))
+                        .user(userBusiness.getUserById(reserve.getUser().getId())).observation(reserve.getObservation())
                         .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build());
             } catch (Exception ex) {
                 continue;
@@ -129,7 +129,7 @@ public class ReserveBusiness {
     public ReserveModel getReserveById(Long id) {
         return reserveRepository.findById(id).map(reserve -> {
             return ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
-                    .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
+                    .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId()).observation(reserve.getObservation())
                     .user(userBusiness.getUserById(reserve.getUser().getId()))
                     .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build();
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
