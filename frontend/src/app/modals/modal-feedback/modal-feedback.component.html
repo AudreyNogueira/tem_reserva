@@ -1,0 +1,10 @@
+<div id="modal-feedback" [ngClass]="{ 'success': type === 'success', 'error': type === 'error' }">
+    <div class="m-header">
+        <button type="button" class="close close-button" aria-label="Close" (click)="modalService.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="m-body">
+        <div class="message">{{ message }}</div>
+    </div>
+</div>

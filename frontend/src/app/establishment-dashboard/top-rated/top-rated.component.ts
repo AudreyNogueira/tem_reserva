@@ -1,5 +1,7 @@
 import { Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
 import { Establishment } from 'src/app/models/establishment.model';
+import { RoutesEnum } from 'src/app/models/routes.enum';
 
 @Component({
   selector: 'top-rated',
@@ -14,7 +16,9 @@ export class TopRatedComponent implements OnInit {
   @Input() param?: string;
   zone: string;
 
-  constructor() { }
+  constructor(
+    private readonly router: Router,
+  ) { }
 
   ngOnInit(): void {
     if (this.param) this.zone = this.param + ' | ';
@@ -29,6 +33,10 @@ export class TopRatedComponent implements OnInit {
     direction === 'next' ?
       this.slide.nativeElement.scrollBy({ left: this.element.last.nativeElement.scrollWidth + 50 }) :
       this.slide.nativeElement.scrollBy({ left: -this.element.last.nativeElement.scrollWidth + 50 });
+  }
+
+  navigateToEstablishment(est: Establishment) {
+    this.router.navigateByUrl(`${RoutesEnum.ESTABLISHMENTS_DASHBOARD}/selecionado/${est.id}/${est.restaurantName}`);
   }
 
 }

@@ -1,0 +1,96 @@
+@import "../../../assets/variables";
+
+#modal-reserve {
+    
+    .m-header {
+        position: relative;
+        
+        .close-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    }
+
+    .m-body {
+        padding: 30px 20px 20px;
+
+        .title {
+            display: inline-block;
+            font-size: 28px;
+            color: $black_text;
+            font-family: Mulish;
+
+            &.-error {
+                color: $error_feedback;
+            }
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: $black_text;
+            font-family: Mulish;
+        }
+
+        .hour {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+
+            .text-aux {
+                font-size: 12px;
+                color: $black_text;
+                font-family: Mulish;
+            }
+            
+            .box {
+                font-family: Mulish;
+                text-align: center;
+                border-radius: 8px;
+                flex-basis: 50px;
+                height: 30px;
+                line-height: 30px;
+                margin: 5px 12px;
+                border: 1px solid $black_text;
+                cursor: pointer;
+
+                &.selected {
+                    border: 2px solid $yellow;
+                }
+            }
+        }
+        
+
+        .obs {
+
+            .text {
+                margin: 10px 0;
+                width: 100%;
+                font-size: 14px;
+            }
+
+            .reserve {
+                width: 300px;
+                height: 45px;
+                font-size: 18px;
+                color: $white;
+                background-color: $yellow;
+                border-radius: 4px;
+                border: none;
+                margin-bottom: 10px;
+            }
+
+            @media (max-width: 767px) {
+                .reserve {
+                    width: 100%;
+                }
+            }
+        }
+
+        .notification {
+            font-size: 14px;
+            color: $black_text;
+            font-family: Mulish;
+        }
+    }
+}
