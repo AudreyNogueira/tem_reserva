@@ -41,7 +41,7 @@ public class Reserve {
     @Column(name = "PERIODO", nullable = false, updatable = true)
     private String period;    
 
-    @Column(name = "OBSERVACAO", nullable = false, updatable = true)
+    @Column(name = "OBSERVACAO", nullable = true, updatable = true)
     private String observation;
 
     @Column(name = "DATA_RESERVA", nullable = false, updatable = true)
