@@ -37,7 +37,7 @@
                 <div class="action-buttons d-block d-lg-flex">
                     <button class="login mx-auto" (click)="closeMenu()" [routerLink]="routes.LOGIN">Fazer o
                         Login</button>
-                    <button class="register">Cadastre-se</button>
+                    <button [routerLink]="routes.REGISTER_CLIENT" (click)="closeMenu()" class="register">Cadastre-se</button>
                 </div>
                 <!-- Botões -->
             </div>

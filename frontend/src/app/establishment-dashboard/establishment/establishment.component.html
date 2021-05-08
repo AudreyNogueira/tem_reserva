@@ -1,4 +1,4 @@
-<div id="establishment">
+<div *ngIf="establishment"  id="establishment">
     <div class="container">
         <div class="block">
             <div class="row">
@@ -20,7 +20,7 @@
                 <div class="d-none d-md-flex align-items-center col-md-6 col-lg-7">
                     <div class="carousel-lg">
                         <div class="img-principal">
-                            <img class="w-100 h-100" [src]="images[indexImages]" alt="">
+                            <img class="w-100 h-100" [src]="'data:image/png;base64,' + images[indexImages]" alt="">
                             <a (click)="rotate(true)" class="button left">
                                 <img src="../../../assets/icons/svg/arrow-left.svg">
                             </a>
@@ -29,13 +29,13 @@
                             </a>
                         </div>
                         <div class="img-1">
-                            <img class="w-100 h-100" [src]="images[indexImages+1]" alt="">
+                            <img class="w-100 h-100" [src]="'data:image/png;base64,' + images[indexImages+1]" alt="">
                         </div>
                         <div class="img-2">
-                            <img class="w-100 h-100" [src]="images[indexImages+2]" alt="">
+                            <img class="w-100 h-100" [src]="'data:image/png;base64,' + images[indexImages+2]" alt="">
                         </div>
                         <div class="img-3">
-                            <img class="w-100 h-100" [src]="images[indexImages+3]" alt="">
+                            <img class="w-100 h-100" [src]="'data:image/png;base64,' + images[indexImages+3]" alt="">
                         </div>
                     </div>
                 </div>
@@ -66,12 +66,14 @@
                 <div class="topic">
                     <h3 class="title">Falar com Estabelecimento</h3>
                     <div class="text">
-                        Telefone: {{ establishment.phoneNumber }}
+                        Telefone: ({{ establishment.phoneNumber.slice(0,2) }}) {{ establishment.phoneNumber.slice(2) }}
                     </div>
                 </div>
                 <div class="topic">
                     <h3 class="title">Protocolo de Saúde</h3>
-                    <div class="text"></div>
+                    <ul>
+                        <li class="text" *ngFor="let protocol of establishment.cleaning.split(',')">{{ protocol }}</li>
+                    </ul>
                 </div>
                 <div class="topic">
                     <h3 class="title">Avaliações</h3>
@@ -79,5 +81,10 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div *ngIf="!establishment" class="gif">
+    <div class="spinner-border text-dark" role="status">
     </div>
 </div>
