@@ -10,7 +10,7 @@ import { AccountType } from '../../models/account.model';
 })
 export class EditEstablishmentService {
 
-  $userSession = new BehaviorSubject<{ est?: Establishment, user?: UserModel }>({});
+  $userSession = new BehaviorSubject<{ est?: Establishment, user?: UserModel }>(null);
 
   constructor(
     private readonly http: HttpClient,
@@ -43,5 +43,9 @@ export class EditEstablishmentService {
 
   setImage(image: any): Observable<any> {
     return this.http.post('http://localhost:8080/restaurant/upload', image);
+  }
+
+  deleteImage(idImage: number): Observable<any> {
+    return this.http.delete(`http://localhost:8080/restaurant/image/${idImage}`);
   }
 }

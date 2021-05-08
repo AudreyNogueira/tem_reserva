@@ -85,6 +85,7 @@ public class DevelopmentConfiguration {
                 Time closingTime = new Time(ct);
 
                 String cleaning = res.get("cleaning").toString();
+                String payment = res.get("payment").toString();
                 int spacingOfTables = Integer.parseInt(res.get("spacingOfTables").toString());
                 int maxNumberOfPeople = Integer.parseInt(res.get("maxNumberOfPeople").toString());
 
@@ -104,7 +105,7 @@ public class DevelopmentConfiguration {
                 Restaurant restaurant = Restaurant.builder().credential(cred).restaurantName(restaurantName)
                         .phoneNumber(phoneNumber).cnpj(cnpj).description(description).openDaysOfWeek(openDaysOfWeek)
                         .openingTime(openingTime).closingTime(closingTime).cleaning(cleaning)
-                        .spacingOfTables(spacingOfTables).maxNumberOfPeople(maxNumberOfPeople).build();
+                        .spacingOfTables(spacingOfTables).maxNumberOfPeople(maxNumberOfPeople).payment(payment).build();
                 restaurant = restaurantRepository.save(restaurant);
 
                 Address addr = Address.builder().restaurant(restaurant).address(ad).cep(cep).district(district)

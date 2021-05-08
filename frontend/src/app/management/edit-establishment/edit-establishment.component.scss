@@ -76,6 +76,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
     }
     
     .form {
@@ -166,6 +167,48 @@
                 }
                 .input {
                     border: 3px solid $error_feedback;
+                }
+            }
+        }
+
+        .align-button {
+            display: flex;
+            padding-top: 32px;
+            padding-bottom: 10px;
+            align-items: center;
+
+            .add-hour {
+                border: none;
+                color: $white;
+                background-color: $yellow;
+                font-weight: bold;
+                font-family: Mulish;
+                font-size: 14px;
+                min-height: 30px;
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .align-button {
+                padding-top: 0;
+            }
+        }
+
+        .hourDay {
+            display: flex;
+            margin-bottom: 5px;
+
+            .remove-hour {
+                margin-left: 20px;
+                background: $error_feedback;
+                height: 24px;
+                border: none;
+                line-height: 20px;
+
+                .icon {
+                    color: $white;
+                    font-size: 24px;
                 }
             }
         }

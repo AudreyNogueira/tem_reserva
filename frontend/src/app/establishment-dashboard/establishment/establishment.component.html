@@ -4,15 +4,15 @@
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="header">
-                        <div class="title">Pizzaria do Alex</div>
-                        <div class="address">Rua do Acre, 243</div>
-                        <div class="capacity">Lotação disponivel 20/100</div>
+                        <div class="title">{{ establishment.restaurantName }}</div>
+                        <div class="address">{{ establishment.address.address }}, {{establishment.address.restaurantNumber }}</div>
+                        <div class="capacity">Lotação disponivel 20/{{ establishment.maxNumberOfPeople }}</div>
                     </div>
                     <div class="calendar">
                         <h3 class="title">Escolher Data</h3>
                         <div>
                             <bs-datepicker-inline [minDate]="minDate" (useUtc)="true" [bsValue]="bsInlineValue"
-                                (bsValueChange)="log()"></bs-datepicker-inline>
+                                (bsValueChange)="makeReservation($event)"></bs-datepicker-inline>
                         </div>
                     </div>
                 </div>
@@ -54,19 +54,19 @@
                 <div class="topic">
                     <h3 class="title">Sobre o Estabelecimento</h3>
                     <div class="text">
-                        Ingredientes de primeira qualidade, receitas secretas, hospitalidade em cada detalhe.
+                        {{ establishment.description }}
                     </div>
                 </div>
                 <div class="topic">
                     <h3 class="title">Formas de Pagamento</h3>
                     <div class="text">
-                        American Express, Cartão Mastercard, Cartão Visa, Vale Refeição
+                        {{ establishment.payment }}
                     </div>
                 </div>
                 <div class="topic">
                     <h3 class="title">Falar com Estabelecimento</h3>
                     <div class="text">
-                        Telefone: 3333-2222
+                        Telefone: {{ establishment.phoneNumber }}
                     </div>
                 </div>
                 <div class="topic">
