@@ -1,4 +1,4 @@
-package com.temreserva.backend.temreserva_backend.web.model.DTOs;
+package com.temreserva.backend.temreserva_backend.web.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

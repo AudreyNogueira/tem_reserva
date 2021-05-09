@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.RestaurantDTO;
+import com.temreserva.backend.temreserva_backend.web.model.dto.RestaurantDTO;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 

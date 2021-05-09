@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.temreserva.backend.temreserva_backend.data.entity.Reserve;
 import com.temreserva.backend.temreserva_backend.data.entity.Restaurant;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
+import com.temreserva.backend.temreserva_backend.web.model.interfaces.ICurrentPeopleModel;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +19,7 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     public Optional<Reserve> existsByPeriodDateAndUser(@Param("idUser") Long idUser, @Param("period") String period, @Param("date") LocalDateTime date);
 
     @Query(value = "SELECT isnull(SUM(QTD_PESSOAS), 0) FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND PERIODO = :period AND CAST(DATA_RESERVA AS DATE) = CAST(:date AS DATE)", nativeQuery = true)
-    public Integer findNumberOfPeopleByRestaurantPeriodAndDate(@Param("idRestaurant") Long idUser, @Param("period") String period, @Param("date") LocalDateTime date);
+    public Integer findNumberOfPeopleByRestaurantPeriodAndDate(@Param("idRestaurant") Long idRestaurant, @Param("period") String period, @Param("date") LocalDateTime date);
 
     public List<Reserve> findByRestaurant(Restaurant restaurant);
 
@@ -29,4 +30,7 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 
     @Query(value = "SELECT * FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CAST(DATA_RESERVA AS DATE) = CAST(:date AS DATE)", nativeQuery = true)
     public List<Reserve> findByRestaurantCurrentDay(Long idRestaurant, @Param("date") LocalDateTime date);
+
+    @Query(value = "SELECT isnull(SUM(R.QTD_PESSOAS), 0) AS currentPeople, PERIODO AS period FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CAST(R.DATA_RESERVA AS DATE) = CURDATE() GROUP BY R.PERIODO", nativeQuery = true)
+    public List<ICurrentPeopleModel> findCurrentPeopleModelByRestaurant(@Param("idRestaurant") Long idRestaurant);
 }

@@ -15,10 +15,11 @@ import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepos
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.MailTemplateRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.RestaurantDateTimeRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.ReserveDTO;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.ReserveModel;
+import com.temreserva.backend.temreserva_backend.web.model.dto.ReserveDTO;
+import com.temreserva.backend.temreserva_backend.web.model.response.ReserveModel;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,11 +39,13 @@ public class ReserveController {
 
     public ReserveController(ReserveRepository reserveRepository, RestaurantRepository restaurantRepository,
             UserRepository userRepository, CredentialRepository credentialRepository, ImageRepository imageRepository,
-            AddressRepository addressRepository, MailTemplateRepository mailTemplateRepository) {
+            AddressRepository addressRepository, MailTemplateRepository mailTemplateRepository,
+            RestaurantDateTimeRepository restaurantDateTime) {
         ImageBusiness imageBusiness = new ImageBusiness(imageRepository);
         CredentialBusiness credentialBusiness = new CredentialBusiness(credentialRepository);
         business = new ReserveBusiness(reserveRepository,
-                new RestaurantBusiness(restaurantRepository, credentialBusiness, imageBusiness, addressRepository),
+                new RestaurantBusiness(restaurantRepository, credentialBusiness, imageBusiness, addressRepository,
+                        reserveRepository, restaurantDateTime),
                 new UserBusiness(userRepository, imageBusiness, credentialBusiness), mailTemplateRepository);
     }
 

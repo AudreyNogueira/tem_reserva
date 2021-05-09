@@ -1,4 +1,4 @@
-package com.temreserva.backend.temreserva_backend.web.model.Responses;
+package com.temreserva.backend.temreserva_backend.web.model.response;
 
 import java.util.List;
 

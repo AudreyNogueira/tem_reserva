@@ -1,7 +1,8 @@
-package com.temreserva.backend.temreserva_backend.web.model.DTOs;
+package com.temreserva.backend.temreserva_backend.web.model.dto;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,4 +49,5 @@ public class RestaurantDTO {
     private LocalDateTime updateDate;
 
     private AddressDTO address;   
-}
+
+    private List<RestaurantDateTimeDTO> restaurantDateTime;}
