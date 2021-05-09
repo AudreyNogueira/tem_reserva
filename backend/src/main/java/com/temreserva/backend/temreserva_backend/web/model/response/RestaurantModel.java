@@ -40,5 +40,5 @@ public class RestaurantModel {
 
     private List<ImageModel> restaurantImages;
 
-    private List<RestaurantDateTimeModel> restauranteDateTime;
+    private List<RestaurantDateTimeModel> restaurantDateTime;
 }

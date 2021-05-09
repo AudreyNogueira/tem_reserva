@@ -11,8 +11,6 @@ import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
-// import java.sql.Time;
-// import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +83,7 @@ public class DevelopmentConfiguration {
                 // Time closingTime = new Time(ct);
 
                 String cleaning = res.get("cleaning").toString();
+                String payment = res.get("payment").toString();
                 int spacingOfTables = Integer.parseInt(res.get("spacingOfTables").toString());
                 int maxNumberOfPeople = Integer.parseInt(res.get("maxNumberOfPeople").toString());
 
@@ -103,7 +102,7 @@ public class DevelopmentConfiguration {
 
                 Restaurant restaurant = Restaurant.builder().credential(cred).restaurantName(restaurantName)
                         .phoneNumber(phoneNumber).cnpj(cnpj).description(description)
-                        .cleaning(cleaning)
+                        .cleaning(cleaning).payment(payment)
                         .spacingOfTables(spacingOfTables).maxNumberOfPeople(maxNumberOfPeople).build();
                 restaurant = restaurantRepository.save(restaurant);
 
