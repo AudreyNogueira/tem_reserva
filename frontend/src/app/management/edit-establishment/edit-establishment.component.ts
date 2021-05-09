@@ -127,13 +127,14 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     this.editEstablishmentService.$userSession.subscribe(user => {
       if (user) {
         this.userData = user.est;
+        this.hourArray = [];
         this.initialValues(this.userData);
       }
     });
   }
 
   sortDayOfWeek(daysList: DayOfWeekEnum[]): DayOfWeekEnum[] {
-    return daysList.sort((a, b) => this.weekEnum[a] - this.weekEnum[b]);
+    return daysList.sort((a, b) => { return this.weekEnum[a] - this.weekEnum[b] });
   }
 
   ngOnDestroy(): void {
@@ -146,7 +147,7 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
    * @param userData objeto do estabelecimento
    */
   initialValues(userData: Establishment): void {
-    this.pic = `data:image/png;base64,${this.userData.profileImage.image}`;
+    this.pic = `data:image/png;base64,${this.userData.profileImage?.image}`;
     this.formGroup.get('restaurantName').setValue(userData.restaurantName);
     this.formGroup.get('cnpj').setValue(userData.cnpj);
     this.formGroup.get('phone').setValue(userData.phoneNumber);
@@ -155,7 +156,7 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     this.formGroup.get('street').setValue(userData.address.address);
     this.formGroup.get('estabNumber').setValue(userData.address.restaurantNumber);
     this.formGroup.get('district').setValue(userData.address.district);
-    this.treatOpenDays(userData.openDaysOfWeek ? userData.openDaysOfWeek : []);
+    this.treatOpenDays(userData.restaurantDateTime ? userData.restaurantDateTime : []);
     this.formGroup.get('description').setValue(userData.description);
     this.formGroup.get('payment').setValue(userData.payment);
     this.formGroup.get('email').setValue(userData.email);
@@ -201,7 +202,7 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
         email: this.formGroup.get('email').value,
         payment: this.formGroup.get('payment').value,
         description: this.formGroup.get('description').value,
-        openDaysOfWeek: this.mapOpenDaysOfWeek(this.formGroup.get('hourWork').value)
+        restaurantDateTime: this.mapOpenDaysOfWeek(this.formGroup.get('hourWork').value)
       };
 
       /** Verifica se possui critérios de limpeza, caso sim, adiciona
@@ -220,7 +221,10 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
 
       /** Chama o serviço que atualizará os dados do restaurante */
       this.editEstablishmentService.updateEstablishment(this.userData.id, data).subscribe(() => {
-        this.editEstablishmentService.set$userSession(data, AccountType.ESTABLISHMENT);
+        console.log({...this.userData});
+        console.log({...data});
+        console.log({...this.userData, ...data});
+        this.editEstablishmentService.set$userSession({...this.userData, ...data}, AccountType.ESTABLISHMENT);
       }, err => {
         if (err.error.apicode === '0013') this.formGroup.get('currentPass').setValue('');
       });
@@ -290,8 +294,8 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
   treatOpenDays(list: DayOfWeekModel[]): void {
     list.forEach(d => {
       this.formHour.get('day').setValue(d.day);
-      this.formHour.get('open').setValue(moment({ h: Number(d.open.split(':')[0]), m: Number(d.open.split(':')[1]) }).format('HH:mm'));
-      this.formHour.get('close').setValue(moment({ h: Number(d.close.split(':')[0]), m: Number(d.close.split(':')[1]) }).format('HH:mm'));
+      this.formHour.get('open').setValue(moment({ h: Number(d.openingTime.split(':')[0]), m: Number(d.openingTime.split(':')[1]) }).format('HH:mm'));
+      this.formHour.get('close').setValue(moment({ h: Number(d.closingTime.split(':')[0]), m: Number(d.closingTime.split(':')[1]) }).format('HH:mm'));
       this.addHour();
     });
   }
@@ -342,13 +346,16 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     this.editEstablishmentService.setImage(uploadImageData).subscribe(resp => {
       /** Atualiza o LocalStorage */
       if (isProfileImg) this.editEstablishmentService.set$userSession({ ...this.userData, profileImage: resp }, AccountType.ESTABLISHMENT);
-      else this.editEstablishmentService.set$userSession(
-        {
-          ...this.userData,
-          profileImage: this.userData.restaurantImages.push(resp)
+      else {
+        if (this.userData.restaurantImages?.length > 0) this.userData.restaurantImages.push(resp);
+        this.editEstablishmentService.set$userSession(
+          {
+            ...this.userData,
+            restaurantImages: this.userData.restaurantImages?.length > 0 ? this.userData.restaurantImages : [resp]
         },
-        AccountType.ESTABLISHMENT
-      );
+          AccountType.ESTABLISHMENT
+        );
+      }
     });
   }
 
@@ -374,13 +381,13 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
         id: this.countIdHour++,
         dayOfWeek: {
           day: this.formHour.get('day').value,
-          open: this.treatMidnight(this.formHour.get('open').value),
-          close: this.treatMidnight(this.formHour.get('close').value)
+          openingTime: this.treatMidnight(this.formHour.get('open').value),
+          closingTime: this.treatMidnight(this.formHour.get('close').value)
         }
       };
 
       this.hourArray.push(itemHour);
-      this.hourArray = this.hourArray.sort((a, b) => this.weekEnum[a.dayOfWeek.day] - this.weekEnum[b.dayOfWeek.day]);
+      this.hourArray = this.hourArray.sort((a, b) => { return this.weekEnum[a.dayOfWeek.day] - this.weekEnum[b.dayOfWeek.day] });
       this.formGroup.get('hourWork').setValue(this.hourArray);
 
       /** Remove da lista de dias da semana o dia já utilizado */
@@ -411,11 +418,11 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
    */
   mapOpenDaysOfWeek(list: DayHour[]): DayOfWeekModel[] {
     return list.map(hr => {
-      hr.dayOfWeek.open = moment({ h: Number(hr.dayOfWeek.open.split(':')[0]), m: Number(hr.dayOfWeek.open.split(':')[1]), s: 0 }).format('HH:mm:ss');
-      hr.dayOfWeek.close = moment(
+      hr.dayOfWeek.openingTime = moment({ h: Number(hr.dayOfWeek.openingTime.split(':')[0]), m: Number(hr.dayOfWeek.openingTime.split(':')[1]), s: 0 }).format('HH:mm:ss');
+      hr.dayOfWeek.closingTime = moment(
         {
-          h: Number(hr.dayOfWeek.close.split(':')[0]),
-          m: Number(hr.dayOfWeek.close.split(':')[1]),
+          h: Number(hr.dayOfWeek.closingTime.split(':')[0]),
+          m: Number(hr.dayOfWeek.closingTime.split(':')[1]),
           s: 0
         }).format('HH:mm:ss');
       return hr.dayOfWeek;
@@ -430,6 +437,7 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     this.dayOfWeek.push(date.dayOfWeek.day as DayOfWeekEnum);
     this.dayOfWeek = this.sortDayOfWeek(this.dayOfWeek);
     this.hourArray = this.hourArray.filter(h => h.id !== date.id);
+    this.formGroup.get('hourWork').setValue(this.hourArray);
   }
 
   /**
