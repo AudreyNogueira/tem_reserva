@@ -26,7 +26,7 @@
 
             <button type="submit" class="login-button">LOGIN</button>
             <div class="text-aux">
-                Não tem login? <a class="register" (click)="modalService.hide()" [routerLink]="loginType === 'user' ? '' : routes.REGISTER_ESTABLHISHMENT">Cadastre-se</a>
+                Não tem login? <a class="register" (click)="modalService.hide()" [routerLink]="loginType === 'user' ? routes.REGISTER_CLIENT : routes.REGISTER_ESTABLHISHMENT">Cadastre-se</a>
             </div>
             <div class="link-forget">
                 <a class="forget-pass" href="">Esqueceu a senha?</a>

@@ -26,11 +26,4 @@ export class EstablishmentListService {
     return this.http.get<Establishment>(`http://localhost:8080/restaurant/id=${id}`);
   }
 
-  postEstab(est: any): Observable<any> {
-    return this.http.post('http://localhost:8080/restaurant/create', est);
-  }
-
-  setImage(image: any): Observable<any> {
-    return this.http.post('http://localhost:8080/restaurant/upload', image);
-  }
 }

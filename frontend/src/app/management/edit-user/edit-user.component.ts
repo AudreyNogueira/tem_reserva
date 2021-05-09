@@ -53,7 +53,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     this.modalServiceLocal.$comunication.pipe(first()).subscribe(resp => {
       if (resp) this.editUserService.deleteUser(1).subscribe();
-    })
+    });
   }
 
   /**
