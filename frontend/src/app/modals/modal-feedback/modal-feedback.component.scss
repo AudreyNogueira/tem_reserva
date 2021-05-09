@@ -20,6 +20,14 @@
             font-family: Mulish;
             color: $white;
         }
+
+        .button-ok {
+            border: none;
+            color: $white;
+            background-color: $yellow;
+            height: 30px;
+            width: 120px;
+        }
     }
 
     &.success {
