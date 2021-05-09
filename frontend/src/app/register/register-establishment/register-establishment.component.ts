@@ -29,6 +29,13 @@ export class RegisterEstablishmentComponent implements OnInit {
   maskCnpj = cnpjMask;
   maskCep = cepMask;
 
+  zones: string[] = [
+    'Zona Norte',
+    'Zona Sul',
+    'Zona Leste',
+    'Zona Oeste',
+  ];
+
   formGroup: FormGroup = this.formBuilder.group({
     cnpj: [null, [Validators.required, cnpjValidator]],
     establhisment: [null, [Validators.required]],
@@ -83,7 +90,13 @@ export class RegisterEstablishmentComponent implements OnInit {
           uf: 'SP'
         },
       };
-      this.editEstablishmentService.createEstablishment(estab).subscribe(() => console.log(this));
+      this.editEstablishmentService.createEstablishment(estab).subscribe(() => {
+        this.formGroup.reset();
+        this.isFirstForm = true;
+        this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'success', message: 'Cadastro do estabelecimento concluído com sucesso.' });
+      }, () => {
+        this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'error', message: 'Erro ao cadastrar do estabelecimento, tente novamente.' });
+      });
     }
   }
 
@@ -117,6 +130,9 @@ export class RegisterEstablishmentComponent implements OnInit {
     return hasError;
   }
 
+  /**
+   * Faz uma busca pelo CEP e popula os outros campos com a resposta
+   */
   getAddressByCep(): void {
     const cep = this.formGroup.get('cep').value.replace(/\D/g, '');
     if (cep.length === 8) {
