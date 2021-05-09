@@ -11,21 +11,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-        .antMatchers("/user/*").permitAll()        
-        .antMatchers("/restaurant/create").permitAll()
-        .antMatchers("/restaurant/id={id}").permitAll()
-        .antMatchers("/restaurant/zone={zone}").permitAll()
-        .antMatchers("/restaurant/name={name}").permitAll()
-        .antMatchers("/restaurant/size={size}").permitAll()
-        .antMatchers("/restaurant/login").permitAll()
-        .antMatchers("/restaurant/home").permitAll()
-        .antMatchers("/restaurant/upload").permitAll()
-        .antMatchers("/restaurant/id={id}&idCredential={idCredential}").authenticated()
-        // .antMatchers("/restaurant/upload").authenticated()
-        .antMatchers("/reserve/*").authenticated()
-        .antMatchers("/h2-console/**").permitAll()
-        .anyRequest().denyAll()
-        .and().headers().frameOptions().sameOrigin();
+        http.authorizeRequests().antMatchers("/user/*").permitAll().antMatchers("/restaurant/*").permitAll().antMatchers("/restaurant/image/*").permitAll()
+                .antMatchers("/reserve/*").permitAll().antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/login/**").permitAll().anyRequest().denyAll().and().headers().frameOptions()
+                .sameOrigin();
     }
 }

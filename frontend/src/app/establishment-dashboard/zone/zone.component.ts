@@ -23,7 +23,7 @@ export class ZoneComponent implements OnInit {
     window.scroll(0, 0);
 
     const param = this.route.snapshot.paramMap.get('name');
-    this.zone = 'Zona ' + param.charAt(0).toUpperCase() + param.slice(1);    
+    this.zone = 'Zona ' + param.charAt(0).toUpperCase() + param.slice(1);
 
     this.establishmentListService.loadZoneEstablishment(this.zone).pipe(take(1)).subscribe(z => this.zoneResponse = z);
   }

@@ -11,6 +11,9 @@ export class MenuComponent implements OnInit {
   isCollapsed = true;
   routes = RoutesEnum;
 
+  /** Paleativo */
+  authenticated = JSON.parse(window.localStorage.getItem('authenticated'));
+
   constructor() { }
 
   /**

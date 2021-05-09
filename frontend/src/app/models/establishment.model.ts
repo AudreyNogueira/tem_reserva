@@ -1,21 +1,25 @@
+import { DayOfWeekModel } from './day-hour.model';
+
 export interface Establishment {
-    email?: string,
-    password?: string,
-    cnpj?: string,
+    id?: number;
+    email?: string;
+    password?: string;
+    cnpj?: string;
     restaurantName?: string;
     address?: AddressEstablishment;
-    description?: string,
-    openDaysOfWeek?: string,
-    openingTime?: string,
-    closingTime?: string,
-    cleaningPeriodicity?: number,
-    spacingOfTables?: number,
-    phone?: string;
+    description?: string;
+    openDaysOfWeek?: DayOfWeekModel[];
+    cleaning?: string;
+    spacingOfTables?: number;
+    phoneNumber?: string;
     carousel?: string[];
     actualNumberOfPeople?: number;
     maxNumberOfPeople?: number;
     averageStars?: number;
-    image?: string;
+    restaurantImages?: Image[];
+    profileImage?: Image;
+    actualPassword?: string;
+    payment?: string;
 }
 
 export interface EstablishmentZone {
@@ -39,4 +43,9 @@ export interface AddressEstablishment {
     restaurantNumber: number;
     uf: string;
     zone: string;
+}
+
+export interface Image {
+    id: number;
+    image: string;
 }
