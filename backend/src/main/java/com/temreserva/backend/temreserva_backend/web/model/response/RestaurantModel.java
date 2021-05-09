@@ -1,4 +1,4 @@
-package com.temreserva.backend.temreserva_backend.web.model.Responses;
+package com.temreserva.backend.temreserva_backend.web.model.response;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class RestaurantModel {
 
     private Integer maxNumberOfPeople;
 
-    private Integer actualNumberOfPeople;
+    private List<CurrentPeopleModel> currentPeople;
 
     private Integer averageStars;
 
@@ -40,4 +40,5 @@ public class RestaurantModel {
 
     private List<ImageModel> restaurantImages;
 
+    private List<RestaurantDateTimeModel> restaurantDateTime;
 }

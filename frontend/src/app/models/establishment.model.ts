@@ -1,3 +1,5 @@
+import { DayOfWeekModel } from './day-hour.model';
+
 export interface Establishment {
     id?: number;
     email?: string;
@@ -6,9 +8,7 @@ export interface Establishment {
     restaurantName?: string;
     address?: AddressEstablishment;
     description?: string;
-    openDaysOfWeek?: string;
-    openingTime?: string;
-    closingTime?: string;
+    restaurantDateTime?: DayOfWeekModel[];
     cleaning?: string;
     spacingOfTables?: number;
     phoneNumber?: string;

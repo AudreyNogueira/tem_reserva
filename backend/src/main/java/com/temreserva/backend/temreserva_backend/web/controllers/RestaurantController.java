@@ -12,11 +12,14 @@ import com.temreserva.backend.temreserva_backend.data.entity.Restaurant;
 import com.temreserva.backend.temreserva_backend.data.repository.AddressRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.RestaurantDateTimeRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.RestaurantDTO;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.HomeRestaurantsModel;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.RestaurantModel;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantsViewModel;
+import com.temreserva.backend.temreserva_backend.web.model.dto.RestaurantDTO;
+import com.temreserva.backend.temreserva_backend.web.model.response.HomeRestaurantsModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.RestaurantModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.ZoneRestaurantsViewModel;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,9 +42,10 @@ public class RestaurantController {
     private final RestaurantBusiness business;
 
     public RestaurantController(RestaurantRepository restaurantRepository, CredentialRepository credentialRepository,
-            ImageRepository imageRepository, AddressRepository adressRepository) {
+            ImageRepository imageRepository, AddressRepository adressRepository, ReserveRepository reserveRepository,
+            RestaurantDateTimeRepository restaurantDateTime) {
         business = new RestaurantBusiness(restaurantRepository, new CredentialBusiness(credentialRepository),
-                new ImageBusiness(imageRepository), adressRepository);
+                new ImageBusiness(imageRepository), adressRepository, reserveRepository, restaurantDateTime);
     }
 
     @PostMapping("/create")
@@ -57,9 +61,9 @@ public class RestaurantController {
     }
 
     @PostMapping("/upload")
-    public HttpStatus restaurantImageUpload(@RequestParam("imageFile") MultipartFile file,
-            @RequestParam("restaurantId") Long id,
-            @RequestParam("isProfilePic") Boolean isProfilePic) throws IOException {
+    public ImageModel restaurantImageUpload(@RequestParam("imageFile") MultipartFile file,
+            @RequestParam("restaurantId") Long id, @RequestParam("isProfilePic") Boolean isProfilePic)
+            throws IOException {
         return business.restaurantImageUpload(file, id, isProfilePic);
     }
 
@@ -71,14 +75,8 @@ public class RestaurantController {
 
     @GetMapping("/name={name}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> getRestaurantByName(@PathVariable String name) {
+    public List<RestaurantModel> getRestaurantByName(@PathVariable String name) {
         return business.getRestaurantByName(name);
-    }
-
-    @GetMapping("/size={size}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Restaurant> getRestaurantBySize(@PathVariable Integer size) {
-        return business.getRestaurantBySize(size);
     }
 
     @GetMapping("/home")
@@ -101,13 +99,13 @@ public class RestaurantController {
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRestaurant( @PathVariable Long id ){
+    public void deleteRestaurant(@PathVariable Long id) {
         business.deleteRestaurant(id);
     }
 
     @DeleteMapping(value = "/image/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteImage( @PathVariable Long id ){
+    public void deleteImage(@PathVariable Long id) {
         business.deleteImage(id);
     }
 }

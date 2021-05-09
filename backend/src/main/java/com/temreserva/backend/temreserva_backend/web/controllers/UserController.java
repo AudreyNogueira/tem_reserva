@@ -11,8 +11,9 @@ import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.UserDTO;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.UserModel;
+import com.temreserva.backend.temreserva_backend.web.model.dto.UserDTO;
+import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.UserModel;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping("/upload")
-    public HttpStatus userImageUpload(@RequestParam("imageFile") MultipartFile file,
+    public ImageModel userImageUpload(@RequestParam("imageFile") MultipartFile file,
             @RequestParam("userId") Long id) throws IOException {
         return business.userImageUpload(file, id);
     }

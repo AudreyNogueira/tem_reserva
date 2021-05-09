@@ -8,8 +8,9 @@ import javax.transaction.Transactional;
 import com.temreserva.backend.temreserva_backend.data.entity.Credential;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.UserDTO;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.UserModel;
+import com.temreserva.backend.temreserva_backend.web.model.dto.UserDTO;
+import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.UserModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
 import org.springframework.http.HttpStatus;
@@ -99,7 +100,11 @@ public class UserBusiness {
         }
     }
 
-    public HttpStatus userImageUpload(MultipartFile file, Long id) throws IOException {
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public ImageModel userImageUpload(MultipartFile file, Long id) throws IOException {
         if (userRepository.findById(id).orElse(null) != null)
             return imageBusiness.imageUpload(file, id, true, false);
 

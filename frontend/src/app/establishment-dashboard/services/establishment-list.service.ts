@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { EstablishmentZone, Zone } from '../../models/establishment.model';
+import { Establishment, EstablishmentZone, Zone } from '../../models/establishment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,10 @@ export class EstablishmentListService {
 
   loadZoneEstablishment(zone: string): Observable<Zone> {
     return this.http.get<Zone>(`http://localhost:8080/restaurant/zone=${zone}`);
+  }
+
+  getEstablishmentById(id: number): Observable<Establishment> {
+    return this.http.get<Establishment>(`http://localhost:8080/restaurant/id=${id}`);
   }
 
 }
