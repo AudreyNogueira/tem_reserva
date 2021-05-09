@@ -224,6 +224,7 @@ public class RestaurantBusiness {
         return restaurantRepository.findById(id).map(restaurant -> {
             Address address = addressRepository.findByRestaurant(restaurant);
             ImageModel img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
+            List<ImageModel> lstImages = imageBusiness.getRestaurantImagesByOwner(address.getRestaurant().getId());
             List<ICurrentPeopleModel> currentPeople = reserveRepository
                     .findCurrentPeopleModelByRestaurant(restaurant.getId());
             List<RestaurantDateTimeModel> dateTime = getListRestaurantDateTimeModel(
@@ -231,10 +232,10 @@ public class RestaurantBusiness {
             return RestaurantModel.builder().id(restaurant.getId()).email(restaurant.getCredential().getEmail())
                     .profileImage(img).cnpj(restaurant.getCnpj()).cleaning(restaurant.getCleaning())
                     .address(getAddressModelFromAddress(address)).restaurantName(restaurant.getRestaurantName())
-                    .currentPeople(getListCurrentPeopleModel(currentPeople))
+                    .currentPeople(getListCurrentPeopleModel(currentPeople)).restaurantImages(lstImages)
                     .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
                     .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
-                    .description(restaurant.getDescription()).restauranteDateTime(dateTime).build();
+                    .description(restaurant.getDescription()).restaurantDateTime(dateTime).build();
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
     }
@@ -296,6 +297,7 @@ public class RestaurantBusiness {
             try {
                 Address address = addressRepository.findByRestaurant(restaurant);
                 ImageModel img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
+                List<ImageModel> lstImages = imageBusiness.getRestaurantImagesByOwner(address.getRestaurant().getId());
                 List<ICurrentPeopleModel> currentPeople = reserveRepository
                         .findCurrentPeopleModelByRestaurant(restaurant.getId());
                 List<RestaurantDateTimeModel> dateTime = getListRestaurantDateTimeModel(
@@ -304,10 +306,10 @@ public class RestaurantBusiness {
                         .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
                         .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
                         .restaurantName(restaurant.getRestaurantName())
-                        .currentPeople(getListCurrentPeopleModel(currentPeople))
+                        .currentPeople(getListCurrentPeopleModel(currentPeople)).restaurantImages(lstImages)
                         .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
                         .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
-                        .description(restaurant.getDescription()).restauranteDateTime(dateTime).build();
+                        .description(restaurant.getDescription()).restaurantDateTime(dateTime).build();
 
                 response.add(model);
             } catch (Exception ex) {
