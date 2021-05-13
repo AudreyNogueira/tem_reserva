@@ -16,6 +16,7 @@ import { hourMask } from '../../masks/hour-mask';
 import { hourValidator } from '../../validators/hour-validator';
 import * as moment from 'moment';
 import { DayHour, DayOfWeekModel } from '../../models/day-hour.model';
+import { SessionService } from '../../shared/services/session.service';
 
 @Component({
   selector: 'edit-establishment',
@@ -119,12 +120,13 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private modalServiceLocal: ModalService,
     private readonly editEstablishmentService: EditEstablishmentService,
+    private readonly sessionService: SessionService,
   ) { }
 
   ngOnInit(): void {
     this.dayOfWeek = this.sortDayOfWeek(this.dayOfWeek);
 
-    this.editEstablishmentService.$userSession.subscribe(user => {
+    this.sessionService.$userSession.subscribe(user => {
       if (user) {
         this.userData = user.est;
         this.hourArray = [];
@@ -221,10 +223,7 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
 
       /** Chama o serviço que atualizará os dados do restaurante */
       this.editEstablishmentService.updateEstablishment(this.userData.id, data).subscribe(() => {
-        console.log({...this.userData});
-        console.log({...data});
-        console.log({...this.userData, ...data});
-        this.editEstablishmentService.set$userSession({...this.userData, ...data}, AccountType.ESTABLISHMENT);
+        this.sessionService.set$userSession({ ...this.userData, ...data }, AccountType.ESTABLISHMENT);
       }, err => {
         if (err.error.apicode === '0013') this.formGroup.get('currentPass').setValue('');
       });
@@ -345,14 +344,14 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     }
     this.editEstablishmentService.setImage(uploadImageData).subscribe(resp => {
       /** Atualiza o LocalStorage */
-      if (isProfileImg) this.editEstablishmentService.set$userSession({ ...this.userData, profileImage: resp }, AccountType.ESTABLISHMENT);
+      if (isProfileImg) this.sessionService.set$userSession({ ...this.userData, profileImage: resp }, AccountType.ESTABLISHMENT);
       else {
         if (this.userData.restaurantImages?.length > 0) this.userData.restaurantImages.push(resp);
-        this.editEstablishmentService.set$userSession(
+        this.sessionService.set$userSession(
           {
             ...this.userData,
             restaurantImages: this.userData.restaurantImages?.length > 0 ? this.userData.restaurantImages : [resp]
-        },
+          },
           AccountType.ESTABLISHMENT
         );
       }
@@ -447,7 +446,7 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
   deleteImage(id: number): void {
     this.editEstablishmentService.deleteImage(id).subscribe(() => {
       /** Salva no LocalStorage */
-      this.editEstablishmentService.set$userSession(
+      this.sessionService.set$userSession(
         {
           ...this.userData,
           restaurantImages: this.userData.restaurantImages.filter(r => r.id !== id)
