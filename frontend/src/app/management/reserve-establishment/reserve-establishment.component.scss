@@ -1,0 +1,121 @@
+@import '../../../assets/variables';
+
+#reserve-establishment {
+    padding: 45px 0;
+
+    .block {
+        width: 100%;
+        border: 1px solid $gray_text;
+        padding: 35px 27px;
+        border-radius: 8px;
+        margin-bottom: 50px;
+
+        .title {
+            font-family: Mulish;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .second-title {
+            font-family: Mulish;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .capacity {
+            font-family: Mulish;
+            display: flex;
+            font-size: 50px;
+            align-items: center;
+            color: $green_blue;
+            .current {
+                font-weight: bold;
+                font-size: 60px;
+            }
+        }
+        @media (min-width: 1140px) {
+            .capacity {
+                justify-content: center;
+            }
+        }
+
+        .day {
+            color: $gray_text;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .reserves {
+            margin-bottom: 50px;
+
+            
+            .table-reserve {
+                
+                .header {
+                    width: 100%;
+                    margin-bottom: 20px;
+                    gap: 10px;
+                    
+                    .column-header {
+                        flex: 1;
+                        color: $gray_text;
+                        font-size: 16px;
+                        
+                        &.small {
+                            flex: 0.5;
+                        }
+                    }
+                }
+                
+                .content {
+                    width: 100%;
+                    gap: 10px;
+                    .column-content {
+                        padding: 10px 0;
+                        flex: 1;
+                        color: $gray_text;
+                        font-size: 16px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        
+                        &.small {
+                            flex: 0.5;
+                        }
+                    }
+
+                    &:hover {
+                        border: solid 1px $yellow;
+                        border-radius: 8px;
+                        .column-content {
+                            font-weight: bold;
+                            color: $black_text;
+                        }
+                        
+                    }
+                }
+                
+                .content-sm {
+                    width: 100%;
+                    padding: 15px 0;
+                    .column-content {
+                        padding: 5px 0;
+                        color: $gray_text;
+                        font-size: 16px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
+    }
+    @media (max-width: 1140px) {
+        .block {
+
+            &.block-capacity {
+                width: max-content;
+            }
+        }
+    }
+}

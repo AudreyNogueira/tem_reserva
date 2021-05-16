@@ -1,25 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Establishment } from 'src/app/models/establishment.model';
-import { UserModel } from 'src/app/models/user.model';
-import { AccountType } from '../../models/account.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EditEstablishmentService {
 
-  $userSession = new BehaviorSubject<{ est?: Establishment, user?: UserModel }>(null);
-
   constructor(
     private readonly http: HttpClient,
   ) { }
-
-  set$userSession(data: any, type: string): void {
-    type === AccountType.USER ? this.$userSession.next({ user: data }) : this.$userSession.next({ est: data });
-    localStorage.setItem('UserSession', JSON.stringify({ ...data }));
-  }
 
   getCEP(cep: string): Observable<any> {
     return this.http.get<any>(`https://viacep.com.br/ws/${cep}/json/`);

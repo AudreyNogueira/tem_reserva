@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { RoutesEnum } from '../models/routes.enum';
+import { SessionService } from '../shared/services/session.service';
 
 @Component({
   selector: 'menu',
@@ -10,11 +11,15 @@ export class MenuComponent implements OnInit {
 
   isCollapsed = true;
   routes = RoutesEnum;
+  typeMenu: string;
+  user: any;
 
   /** Paleativo */
   authenticated = JSON.parse(window.localStorage.getItem('authenticated'));
 
-  constructor() { }
+  constructor(
+    private sessionService: SessionService,
+  ) { }
 
   /**
    * Fecha o menu caso esteja aberto e ocorrá um redimensionamento da tela
@@ -25,6 +30,15 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sessionService.$userSession.subscribe(u => {
+      if (u && u?.est) {
+        this.user = u.est;
+        this.typeMenu = 'est';
+      } else if (u && u?.user) {
+        this.user = u.user;
+        this.typeMenu = 'user';
+      }
+    });
   }
 
   /**
@@ -33,5 +47,9 @@ export class MenuComponent implements OnInit {
    */
   closeMenu(): void {
     if (!this.isCollapsed) this.isCollapsed = !this.isCollapsed;
+  }
+
+  getEditRoute(): string {
+    return this.typeMenu === 'user' ? this.routes.EDIT_USER : this.routes.EDIT_ESTABLISHMENT;
   }
 }
