@@ -47,7 +47,7 @@ export class ModalReserveComponent implements OnInit {
 
   ngOnInit(): void {
     if (moment(this.choosedDay).isSame(Date.now(), 'day') && moment(this.choosedDay, 'HH:mm').isAfter(moment(this.closeTime, 'HH:mm'))) {
-      this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', message: 'Este dia não está mais disnponível' });
+      this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', message: 'Este dia não está mais disponível' });
     }
   }
 

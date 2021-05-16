@@ -4,6 +4,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.AddressReposito
 import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.MailTemplateRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.RestaurantDateTimeRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.SegmentRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
@@ -11,8 +12,8 @@ import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
-// import java.sql.Time;
-// import java.text.SimpleDateFormat;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import com.temreserva.backend.temreserva_backend.data.entity.Credential;
 import com.temreserva.backend.temreserva_backend.data.entity.Image;
 import com.temreserva.backend.temreserva_backend.data.entity.MailTemplate;
 import com.temreserva.backend.temreserva_backend.data.entity.Restaurant;
+import com.temreserva.backend.temreserva_backend.data.entity.RestaurantDateTime;
 import com.temreserva.backend.temreserva_backend.data.entity.Segment;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
 
@@ -47,11 +49,12 @@ public class DevelopmentConfiguration {
             @Autowired UserRepository userRepository, @Autowired RestaurantRepository restaurantRepository,
             @Autowired CredentialRepository credentialRepository, @Autowired AddressRepository addressRepository,
             @Autowired ImageRepository imageRepository, @Autowired ImageBusiness imageBusiness,
-            @Autowired MailTemplateRepository mailTemplateRepository) {
+            @Autowired MailTemplateRepository mailTemplateRepository, @Autowired RestaurantDateTimeRepository restaurantDateTimeRepository) {
         return args -> {
             System.out.println("Ambiente de desenvolvimento...");
-            
-            mailTemplateRepository.save(MailTemplate.builder().description("reserve_success").html(template).active(true).build());
+
+            mailTemplateRepository
+                    .save(MailTemplate.builder().description("reserve_success").html(template).active(true).build());
 
             List<Segment> lstSegment = new ArrayList<Segment>();
             lstSegment.add(Segment.builder().description("Japonês").build());
@@ -103,9 +106,8 @@ public class DevelopmentConfiguration {
                 cred = credentialRepository.save(cred);
 
                 Restaurant restaurant = Restaurant.builder().credential(cred).restaurantName(restaurantName)
-                .phoneNumber(phoneNumber).cnpj(cnpj).description(description)
-                .cleaning(cleaning)
-                .spacingOfTables(spacingOfTables).maxNumberOfPeople(maxNumberOfPeople).build();
+                        .phoneNumber(phoneNumber).cnpj(cnpj).description(description).cleaning(cleaning)
+                        .payment(payment).spacingOfTables(spacingOfTables).maxNumberOfPeople(maxNumberOfPeople).build();
 
                 restaurant = restaurantRepository.save(restaurant);
 
@@ -126,6 +128,22 @@ public class DevelopmentConfiguration {
                             new FileInputStream(new File("src/main/resources/images/Painting" + imageNumber + ".png")));
                     Image imageTest = imageBusiness.buildImage(fileTest, restaurant.getId(), false, true);
                     imageRepository.save(imageTest);
+                }
+
+                JSONArray restaurantDateTime = (JSONArray) res.get("restaurantDateTime");
+                for (Object rDateTime : restaurantDateTime) {
+                        JSONObject restTime = (JSONObject) rDateTime;
+
+                        String day = (String) restTime.get("day");
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        long ot = sdf.parse((String) restTime.get("openingTime")).getTime();
+                        Time openingTime = new Time(ot);
+                        long ct = sdf.parse((String) restTime.get("closingTime")).getTime();
+                        Time closingTime = new Time(ct);
+
+                        RestaurantDateTime resDateTime = RestaurantDateTime.builder().restaurant(restaurant).day(day)
+                        .openingTime(openingTime).closingTime(closingTime).build();
+                        restaurantDateTimeRepository.save(resDateTime);
                 }
             }
         };

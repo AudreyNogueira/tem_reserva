@@ -8,7 +8,7 @@ export interface Establishment {
     restaurantName?: string;
     address?: AddressEstablishment;
     description?: string;
-    openDaysOfWeek?: DayOfWeekModel[];
+    restaurantDateTime?: DayOfWeekModel[];
     cleaning?: string;
     spacingOfTables?: number;
     phoneNumber?: string;

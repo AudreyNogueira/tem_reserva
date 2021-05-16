@@ -5,6 +5,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { ModalService } from 'src/app/modals/service/modal.service';
 import { Establishment } from 'src/app/models/establishment.model';
+import { DayOfWeekEnum } from 'src/app/models/week.enum';
 import { EstablishmentListService } from '../services/establishment-list.service';
 defineLocale('pt-br', ptBrLocale);
 
@@ -21,6 +22,27 @@ export class EstablishmentComponent implements OnInit {
   images: string[];
   indexImages = 0;
   establishment: Establishment;
+  dayDisabled;
+
+  weekEnum = {
+    [DayOfWeekEnum.SUNDAY]: 0,
+    [DayOfWeekEnum.MONDAY]: 1,
+    [DayOfWeekEnum.TUESDAY]: 2,
+    [DayOfWeekEnum.WEDNESDAY]: 3,
+    [DayOfWeekEnum.THURSDAY]: 4,
+    [DayOfWeekEnum.FRIDAY]: 5,
+    [DayOfWeekEnum.SATURDAY]: 6,
+  };
+
+  dayOfWeek = [
+    DayOfWeekEnum.SUNDAY,
+    DayOfWeekEnum.TUESDAY,
+    DayOfWeekEnum.MONDAY,
+    DayOfWeekEnum.FRIDAY,
+    DayOfWeekEnum.WEDNESDAY,
+    DayOfWeekEnum.THURSDAY,
+    DayOfWeekEnum.SATURDAY,
+  ];
 
   constructor(
     private localeService: BsLocaleService,
@@ -37,6 +59,7 @@ export class EstablishmentComponent implements OnInit {
     this.establishmentListService.getEstablishmentById(Number(idEstablishment)).subscribe(e => {
       this.establishment = e;
       this.images = e.restaurantImages.map(img => img.image);
+      this.dayDisabled = this.dayOfWeek.filter(disable => !this.establishment.restaurantDateTime.some(d => d.day === disable)).map(w => this.weekEnum[w]);
     });
   }
 
@@ -51,7 +74,11 @@ export class EstablishmentComponent implements OnInit {
 
   makeReservation(date: Date): void {
     if (!this.firstDate) {
-      this.modalServiceLocal.$openModal.next({ modalName: 'reserveModal', choosedDay: date, establishment: this.establishment });
+      if (this.dayDisabled.some(d => d === date.getDay())) {
+        this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', message: 'Dia indisponível para realizar reserva' });
+      } else {
+        this.modalServiceLocal.$openModal.next({ modalName: 'reserveModal', choosedDay: date, establishment: this.establishment });
+      }
     }
     this.firstDate = false;
   }

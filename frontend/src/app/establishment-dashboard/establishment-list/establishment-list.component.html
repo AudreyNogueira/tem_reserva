@@ -9,7 +9,7 @@
 
         <div class="row">
             <div *ngFor="let est of zone.restaurantList" #element class="col-12 col-md-3 establishment" (click)="navigateToEstablishment(est)">
-                <img [src]="'data:image/png;base64,' + est.profileImage.image" class="img-establishment">
+                <img [src]="'data:image/png;base64,' + est?.profileImage?.image" class="img-establishment">
                 <div class="name">{{ est.restaurantName }}</div>
                 <div class="address">{{ est.address.address }}, {{ est.address.restaurantNumber }}</div>
                 <div class="capacity">Lotação disponivel {{ est.actualNumberOfPeople}}/{{ est.maxNumberOfPeople }}</div>

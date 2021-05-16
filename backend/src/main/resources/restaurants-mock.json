@@ -1,19 +1,38 @@
 [
     {
-          "password": "123",
-          "email": "restaurante1@hotmail.com",
-          "cnpj": "54644325000136",
-          "phoneNumber": "11956847456",
-          "restaurantName": "Fogão a lenha",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 100,
-          "address": {
+        "password": "123",
+        "email": "restaurante1@hotmail.com",
+        "cnpj": "54644325000136",
+        "phoneNumber": "11956847456",
+        "restaurantName": "Fogão a lenha",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 100,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "03208030",
@@ -25,20 +44,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante2@hotmail.com",
-          "cnpj": "38064409000144",
-          "restaurantName": "Quibebe Cozinha Brasileira",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 200,
-          "address": {
+        "password": "123",
+        "email": "restaurante2@hotmail.com",
+        "cnpj": "38064409000144",
+        "restaurantName": "Quibebe Cozinha Brasileira",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 200,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "76960288",
@@ -50,20 +88,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante3@hotmail.com",
-          "cnpj": "60012422000109",
-          "restaurantName": "Panela de ferro",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 50,
-          "address": {
+        "password": "123",
+        "email": "restaurante3@hotmail.com",
+        "cnpj": "60012422000109",
+        "restaurantName": "Panela de ferro",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 50,
+        "address": {
             "uf": "SP",
             "complement": "Conjunto D",
             "cep": "72321514",
@@ -75,20 +132,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante4@hotmail.com",
-          "cnpj": "45679986000106",
-          "restaurantName": "Bom de garfo",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 90,
-          "address": {
+        "password": "123",
+        "email": "restaurante4@hotmail.com",
+        "cnpj": "45679986000106",
+        "restaurantName": "Bom de garfo",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 90,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "18103127",
@@ -100,20 +176,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante5@hotmail.com",
-          "cnpj": "74427961000113",
-          "restaurantName": "Cozinha do Zé",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 20,
-          "address": {
+        "password": "123",
+        "email": "restaurante5@hotmail.com",
+        "cnpj": "74427961000113",
+        "restaurantName": "Cozinha do Zé",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 20,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "78138221",
@@ -125,20 +220,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante6@hotmail.com",
-          "cnpj": "97837844000123",
-          "restaurantName": "La gourmet",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 500,
-          "address": {
+        "password": "123",
+        "email": "restaurante6@hotmail.com",
+        "cnpj": "97837844000123",
+        "restaurantName": "La gourmet",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 500,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "42800500",
@@ -150,20 +264,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante7@hotmail.com",
-          "cnpj": "01021277000163",
-          "restaurantName": "Amadeirado",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 20,
-          "address": {
+        "password": "123",
+        "email": "restaurante7@hotmail.com",
+        "cnpj": "01021277000163",
+        "restaurantName": "Amadeirado",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 20,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "68900071",
@@ -175,20 +308,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante8@hotmail.com",
-          "cnpj": "18260770000139",
-          "restaurantName": "Cantina rústica",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 660,
-          "address": {
+        "password": "123",
+        "email": "restaurante8@hotmail.com",
+        "cnpj": "18260770000139",
+        "restaurantName": "Cantina rústica",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 660,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "60763550",
@@ -200,20 +352,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante9@hotmail.com",
-          "cnpj": "81455584000191",
-          "restaurantName": "Sabor campestre",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 94,
-          "address": {
+        "password": "123",
+        "email": "restaurante9@hotmail.com",
+        "cnpj": "81455584000191",
+        "restaurantName": "Sabor campestre",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 94,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "78121142",
@@ -225,20 +396,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante10@hotmail.com",
-          "cnpj": "23233862000160",
-          "restaurantName": "Delícias do Rancho",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 330,
-          "address": {
+        "password": "123",
+        "email": "restaurante10@hotmail.com",
+        "cnpj": "23233862000160",
+        "restaurantName": "Delícias do Rancho",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 330,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "79081728",
@@ -250,20 +440,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante11@hotmail.com",
-          "cnpj": "55300154000190",
-          "restaurantName": "Kyoto Sushi;",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 260,
-          "address": {
+        "password": "123",
+        "email": "restaurante11@hotmail.com",
+        "cnpj": "55300154000190",
+        "restaurantName": "Kyoto Sushi;",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 260,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "78005909",
@@ -275,20 +484,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante12@hotmail.com",
-          "cnpj": "03791612000138",
-          "restaurantName": "Oishii ",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 20,
-          "address": {
+        "password": "123",
+        "email": "restaurante12@hotmail.com",
+        "cnpj": "03791612000138",
+        "restaurantName": "Oishii ",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 20,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "57052421",
@@ -300,20 +528,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante13@hotmail.com",
-          "cnpj": "68643460000171",
-          "restaurantName": "Sabor natural",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 40,
-          "address": {
+        "password": "123",
+        "email": "restaurante13@hotmail.com",
+        "cnpj": "68643460000171",
+        "restaurantName": "Sabor natural",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 40,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "49090293",
@@ -325,20 +572,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante14@hotmail.com",
-          "cnpj": "95874942000105",
-          "restaurantName": "Green house",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 20,
-          "address": {
+        "password": "123",
+        "email": "restaurante14@hotmail.com",
+        "cnpj": "95874942000105",
+        "restaurantName": "Green house",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 20,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "82400310",
@@ -350,20 +616,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante15@hotmail.com",
-          "cnpj": "26167556000160",
-          "restaurantName": "Nachos & Tacos",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 80,
-          "address": {
+        "password": "123",
+        "email": "restaurante15@hotmail.com",
+        "cnpj": "26167556000160",
+        "restaurantName": "Nachos & Tacos",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 80,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "66842030",
@@ -375,20 +660,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante16@hotmail.com",
-          "cnpj": "44819949000193",
-          "restaurantName": "Margarita",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 132,
-          "address": {
+        "password": "123",
+        "email": "restaurante16@hotmail.com",
+        "cnpj": "44819949000193",
+        "restaurantName": "Margarita",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 132,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "55022166",
@@ -400,20 +704,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante17@hotmail.com",
-          "cnpj": "65781701000150",
-          "restaurantName": "Palak Panner",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 70,
-          "address": {
+        "password": "123",
+        "email": "restaurante17@hotmail.com",
+        "cnpj": "65781701000150",
+        "restaurantName": "Palak Panner",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 70,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "61934075",
@@ -425,20 +748,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante18@hotmail.com",
-          "cnpj": "36411258000128",
-          "restaurantName": "Varanasi",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 62,
-          "address": {
+        "password": "123",
+        "email": "restaurante18@hotmail.com",
+        "cnpj": "36411258000128",
+        "restaurantName": "Varanasi",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 62,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "52080251",
@@ -450,20 +792,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante19@hotmail.com",
-          "cnpj": "70557131000150",
-          "restaurantName": "Forte de Amber",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 10,
-          "address": {
+        "password": "123",
+        "email": "restaurante19@hotmail.com",
+        "cnpj": "70557131000150",
+        "restaurantName": "Forte de Amber",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 10,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "24350025",
@@ -475,20 +836,39 @@
         }
     },
     {
-          "password": "123",
-          "email": "restaurante20@hotmail.com",
-          "cnpj": "85215953000120",
-          "restaurantName": "Recanto do Nordeste",
-          "description": "teste restaurante",
-          "openDaysOfWeek": "MONDAY;TUESDAY",
-          "openingTime": "09:00:00",
-          "closingTime": "18:00:00",
-          "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
-          "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
-          "phoneNumber": "11951684596",
-          "spacingOfTables": 2,
-          "maxNumberOfPeople": 20,
-          "address": {
+        "password": "123",
+        "email": "restaurante20@hotmail.com",
+        "cnpj": "85215953000120",
+        "restaurantName": "Recanto do Nordeste",
+        "description": "teste restaurante",
+        "restaurantDateTime": [
+            {
+                "day": "Segunda-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quarta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Quinta-feira",
+                "openingTime": "09:00:00",
+                "closingTime": "22:00:00"
+            },
+            {
+                "day": "Sexta-feira",
+                "openingTime": "10:00:00",
+                "closingTime": "23:30:00"
+            }
+        ],
+        "cleaning": "Distanciamento de mesas,Uso de máscara,Disponibilidade de Álcool em Gel",
+        "payment": "American Express, Cartão Mastercard, Cartão Visa, Vale Refeição",
+        "phoneNumber": "11951684596",
+        "spacingOfTables": 2,
+        "maxNumberOfPeople": 20,
+        "address": {
             "uf": "SP",
             "complement": "",
             "cep": "35054818",
