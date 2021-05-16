@@ -20,6 +20,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepos
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.web.model.dto.ReserveDTO;
 import com.temreserva.backend.temreserva_backend.web.model.response.ReserveModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.ReserveRestaurantModel;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,7 +64,7 @@ public class ReserveController {
 
     @GetMapping(value = { "/restaurantId={restaurantId}" })
     @ResponseStatus(HttpStatus.OK)
-    public List<ReserveModel> getReservesByRestaurantId(@PathVariable Long restaurantId,
+    public List<ReserveRestaurantModel> getReservesByRestaurantId(@PathVariable Long restaurantId,
             @RequestBody(required = false) ReserveDTO reserve) {
         return business.getReservesByRestaurantId(restaurantId, reserve != null ? reserve.getReserveDate() : null);
     }
