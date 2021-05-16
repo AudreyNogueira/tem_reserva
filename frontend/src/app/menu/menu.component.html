@@ -51,11 +51,9 @@
         </div>
 
         <!-- Botão Quando Autenticado -->
-        <div *ngIf="authenticated" [routerLink]="routes.EDIT_USER" class="d-none d-lg-flex name-button" type="button">
-            <div class="name">Ananda Gurgel</div>
-            <div class="icon">
-                <img src="" alt="">
-            </div>
+        <div *ngIf="authenticated && user" [routerLink]="getEditRoute()" class="d-none d-lg-flex name-button" type="button">
+            <div class="name">{{ typeMenu === 'est' ? user.restaurantName : user.name }}</div>
+            <img class="icon" [src]="typeMenu === 'est' ? 'data:image/png;base64,' + user.profileImage.image : '../../assets/icons/icone_principal.png'">
         </div>
         <!-- Botão Quando Autenticado -->
 

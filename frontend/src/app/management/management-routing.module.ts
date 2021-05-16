@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EditEstablishmentComponent } from './edit-establishment/edit-establishment.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ManagementComponent } from './management.component';
+import { ReserveEstablishmentComponent } from './reserve-establishment/reserve-establishment.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'editar-estabelecimento',
         component: EditEstablishmentComponent,
+      },
+      {
+        path: 'reserva-estabelecimento',
+        component: ReserveEstablishmentComponent,
       },
     ]
   },
