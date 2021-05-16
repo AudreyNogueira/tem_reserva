@@ -14,11 +14,11 @@
         </li>
         <li class="menu-item">
             <a class="item" (click)="close()">
-                <img class="image" src="../../../assets/icons/svg/booking.svg" alt="">Minhas Reservas
+                <img class="image" src="../../../assets/icons/svg/booking.svg" alt="">{{ typeMenu === 'user' ? 'Minhas Reservas' : 'Reservas' }}
             </a>
         </li>
         <li class="menu-item">
-            <a class="item" (click)="close()" [routerLink]="routesEnum.EDIT_USER">
+            <a class="item" (click)="close()" [routerLink]="getEditRoute()">
                 <img class="image" src="../../../assets/icons/svg/perfil_gray.svg" alt="">Perfil
             </a>
         </li>

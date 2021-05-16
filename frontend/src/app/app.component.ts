@@ -4,6 +4,7 @@ import { EditEstablishmentService } from './management/services/edit-establishme
 import { ModalService } from './modals/service/modal.service';
 import { AccountType } from './models/account.model';
 import { Establishment } from './models/establishment.model';
+import { SessionService } from './shared/services/session.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
     private readonly modalService: BsModalService,
     private readonly modalServiceLocal: ModalService,
     private readonly editEstablishmentService: EditEstablishmentService,
+    private readonly sessionService: SessionService,
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +38,7 @@ export class AppComponent implements OnInit {
      * MOCK
      */
     this.editEstablishmentService.getEstablishmentById(1).subscribe(r => {
-      this.editEstablishmentService.set$userSession(r, AccountType.ESTABLISHMENT);
+      this.sessionService.set$userSession(r, AccountType.ESTABLISHMENT);
     });
 
   }
