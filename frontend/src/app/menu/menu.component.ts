@@ -12,6 +12,7 @@ export class MenuComponent implements OnInit {
   isCollapsed = true;
   routes = RoutesEnum;
   typeMenu: string;
+  user: any;
 
   /** Paleativo */
   authenticated = JSON.parse(window.localStorage.getItem('authenticated'));
@@ -30,9 +31,11 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.sessionService.$userSession.subscribe(u => {
-      if (u?.est) {
+      if (u && u?.est) {
+        this.user = u.est;
         this.typeMenu = 'est';
-      } else {
+      } else if (u && u?.user) {
+        this.user = u.user;
         this.typeMenu = 'user';
       }
     });

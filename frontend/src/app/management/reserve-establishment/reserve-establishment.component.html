@@ -1,0 +1,62 @@
+<div id="reserve-establishment">
+    <div class="container-fluid">
+        <div *ngIf="reserves?.length > 0">
+            <div *ngFor="let r of reserves">
+                <div class="row">
+                    <div class="col-12 col-xl-9 order-2 order-xl-1">
+                        <div class="block">
+                            <h1 class="title">Reservas</h1>
+                            <div *ngIf="reserves">
+                                <div class="reserves">
+                                    <div class="day">{{ mapDate(r.day) }}</div>
+                                    <div class="table-reserve">
+                                        <div class="header d-none d-md-inline-flex">
+                                            <div class="column-header small">Reserva</div>
+                                            <div class="column-header">Confirmado</div>
+                                            <div class="column-header">Nome da Reserva</div>
+                                            <div class="column-header">CPF</div>
+                                            <div class="column-header">Qt. de Pessoas</div>
+                                            <div class="column-header small">Horário</div>
+                                        </div>
+                                        <div class="content d-none d-md-inline-flex" *ngFor="let res of r.reserves">
+                                            <div class="column-content small">{{res.id}}</div>
+                                            <div class="column-content">confirmado</div>
+                                            <div class="column-content">{{res.user.name}}</div>
+                                            <div class="column-content">{{ maskCpf(res.user.cpf) }}</div>
+                                            <div class="column-content">{{res.amountOfPeople}}</div>
+                                            <div class="column-content small">{{ maskHour(res.reserveDate) }}</div>
+                                        </div>
+                                        <div class="content-sm d-block d-md-none" *ngFor="let res of r.reserves">
+                                            <div class="column-content">Reserva: {{res.id}}</div>
+                                            <div class="column-content">Confirmado: confirmado</div>
+                                            <div class="column-content">Nome da Reserva: {{res.user.name}}</div>
+                                            <div class="column-content">CPF: {{ maskCpf(res.user.cpf) }}</div>
+                                            <div class="column-content">Qt. de Pessoas: {{res.amountOfPeople}}</div>
+                                            <div class="column-content">Horário: {{ maskHour(res.reserveDate) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-12 col-xl-3 order-1 order-xl-2">
+                        <div class="block block-capacity">
+                            <h6 class="second-title">Capacidade de Clientes</h6>
+                            <div class="day">{{ mapDate(r.day) }}</div>
+                            <div class="capacity">
+                                <div class="current">{{ r.currentPeople }}</div>/<div class="max">{{ r.maxNumberOfPeople }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="reserves?.length < 1">
+            <div class="block">
+                Você ainda não possui nenhuma reserva.
+            </div>
+        </div>
+    </div>
+</div>

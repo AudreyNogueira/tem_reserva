@@ -55,12 +55,12 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
   dayOfWeek = [
     null,
     DayOfWeekEnum.SUNDAY,
-    DayOfWeekEnum.TUESDAY,
     DayOfWeekEnum.MONDAY,
-    DayOfWeekEnum.FRIDAY,
+    DayOfWeekEnum.TUESDAY,
     DayOfWeekEnum.WEDNESDAY,
     DayOfWeekEnum.THURSDAY,
     DayOfWeekEnum.SATURDAY,
+    DayOfWeekEnum.FRIDAY,
     DayOfWeekEnum.HOLIDAY,
   ];
 

@@ -1,7 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Establishment } from 'src/app/models/establishment.model';
 import { RoutesEnum } from 'src/app/models/routes.enum';
-import { UserModel } from 'src/app/models/user.model';
 import { SessionService } from '../services/session.service';
 
 @Component({
@@ -13,7 +11,7 @@ export class MenuLoggedComponent implements OnInit {
 
   @Output() closeMenu = new EventEmitter();
   routesEnum = RoutesEnum;
-  user: UserModel | Establishment;
+  user: any;
   typeMenu: string;
 
   constructor(
@@ -41,6 +39,10 @@ export class MenuLoggedComponent implements OnInit {
 
   getEditRoute(): string {
     return this.typeMenu === 'user' ? this.routesEnum.EDIT_USER : this.routesEnum.EDIT_ESTABLISHMENT;
+  }
+
+  getReserveRoute(): string {
+    return this.typeMenu === 'user' ? this.routesEnum.EDIT_USER : this.routesEnum.RESERVE_ESTABLISHMENT;
   }
 
 }
