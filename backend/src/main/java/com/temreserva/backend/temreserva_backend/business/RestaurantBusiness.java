@@ -1,5 +1,6 @@
 package com.temreserva.backend.temreserva_backend.business;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -226,7 +227,7 @@ public class RestaurantBusiness {
             ImageModel img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
             List<ImageModel> lstImages = imageBusiness.getRestaurantImagesByOwner(address.getRestaurant().getId());
             List<ICurrentPeopleModel> currentPeople = reserveRepository
-                    .findCurrentPeopleModelByRestaurant(restaurant.getId());
+                    .findCurrentPeopleModelByRestaurant(restaurant.getId(), LocalDate.now());
             List<RestaurantDateTimeModel> dateTime = getListRestaurantDateTimeModel(
                     restaurantDateTimeRepository.findByRestaurant(restaurant));
             return RestaurantModel.builder().id(restaurant.getId()).email(restaurant.getCredential().getEmail())
@@ -299,7 +300,7 @@ public class RestaurantBusiness {
                 ImageModel img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
                 List<ImageModel> lstImages = imageBusiness.getRestaurantImagesByOwner(address.getRestaurant().getId());
                 List<ICurrentPeopleModel> currentPeople = reserveRepository
-                        .findCurrentPeopleModelByRestaurant(restaurant.getId());
+                        .findCurrentPeopleModelByRestaurant(restaurant.getId(), LocalDate.now());
                 List<RestaurantDateTimeModel> dateTime = getListRestaurantDateTimeModel(
                         restaurantDateTimeRepository.findByRestaurant(restaurant));
                 RestaurantModel model = RestaurantModel.builder().id(restaurant.getId())

@@ -1,5 +1,6 @@
 package com.temreserva.backend.temreserva_backend.data.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,6 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     @Query(value = "SELECT * FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CAST(DATA_RESERVA AS DATE) = CAST(:date AS DATE)", nativeQuery = true)
     public List<Reserve> findByRestaurantCurrentDay(Long idRestaurant, @Param("date") LocalDateTime date);
 
-    @Query(value = "SELECT isnull(SUM(R.QTD_PESSOAS), 0) AS currentPeople, PERIODO AS period FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CAST(R.DATA_RESERVA AS DATE) = CURDATE() GROUP BY R.PERIODO", nativeQuery = true)
-    public List<ICurrentPeopleModel> findCurrentPeopleModelByRestaurant(@Param("idRestaurant") Long idRestaurant);
+    @Query(value = "SELECT isnull(SUM(R.QTD_PESSOAS), 0) AS currentPeople, PERIODO AS period FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CAST(R.DATA_RESERVA AS DATE) = :date GROUP BY R.PERIODO", nativeQuery = true)
+    public List<ICurrentPeopleModel> findCurrentPeopleModelByRestaurant(@Param("idRestaurant") Long idRestaurant, @Param("date") LocalDate date);
 }
