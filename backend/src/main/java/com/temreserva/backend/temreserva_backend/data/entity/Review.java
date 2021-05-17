@@ -41,7 +41,7 @@ public class Review {
     private Restaurant restaurant;
 
     @Column(name = "NOTA_AVALIACAO", nullable = false, updatable = false)
-    private Integer numberOfStars;
+    private Integer stars;
 
     @Column(name = "TITULO", nullable = false, length = 100, updatable = false)
     @NotEmpty(message = "Titulo não pode ser vazio")

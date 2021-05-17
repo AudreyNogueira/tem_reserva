@@ -33,7 +33,7 @@ public class LoginBusiness {
             String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
             String type = parameters.substring(parameters.indexOf("&type=") + 6, parameters.length()).trim();
             String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
-            
+
             if (accessToken != null) {
                 Boolean isUser = type.equals("user");
                 Credential credentials = credentialBusiness.getCredentialByEmail(username);
@@ -64,7 +64,7 @@ public class LoginBusiness {
         Restaurant restaurantEntity = restaurantBusiness.findByCredential(credentials);
 
         if (restaurantEntity != null)
-            restaurantBusiness.getRestaurantById(restaurantEntity.getId());
+            return restaurantBusiness.getRestaurantById(restaurantEntity.getId());
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue());
