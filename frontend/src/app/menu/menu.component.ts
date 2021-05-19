@@ -14,8 +14,7 @@ export class MenuComponent implements OnInit {
   typeMenu: string;
   user: any;
 
-  /** Paleativo */
-  authenticated = JSON.parse(window.localStorage.getItem('authenticated'));
+  authenticated = false;
 
   constructor(
     private sessionService: SessionService,
@@ -31,6 +30,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.sessionService.$userSession.subscribe(u => {
+      this.authenticated = this.sessionService.isAuthenticated();
       if (u && u?.est) {
         this.user = u.est;
         this.typeMenu = 'est';

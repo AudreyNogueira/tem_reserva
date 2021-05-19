@@ -9,13 +9,30 @@ import { UserModel } from 'src/app/models/user.model';
 })
 export class SessionService {
 
-  $userSession = new BehaviorSubject<{ est?: Establishment, user?: UserModel }>(null);
+  $userSession = new BehaviorSubject<{ est?: Establishment, user?: UserModel }>(
+    JSON.parse(window.localStorage.getItem('loginType')) === AccountType.USER ?
+      { user: this.getUserSession() } : { est: this.getUserSession() });
 
   constructor() { }
 
+  getUserSession() {
+    return JSON.parse(window.localStorage.getItem('UserSession'));
+  }
 
   set$userSession(data: any, type: string): void {
     type === AccountType.USER ? this.$userSession.next({ user: data }) : this.$userSession.next({ est: data });
     localStorage.setItem('UserSession', JSON.stringify({ ...data }));
+  }
+
+  setAuth(value: boolean) {
+    window.localStorage.setItem('authenticated', JSON.stringify(value));
+  }
+
+  setTypeLogin(type: string) {
+    window.localStorage.setItem('loginType', JSON.stringify(type));
+  }
+
+  isAuthenticated(): boolean {
+    return JSON.parse(window.localStorage.getItem('authenticated'));
   }
 }
