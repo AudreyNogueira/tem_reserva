@@ -2,7 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { AccountType } from 'src/app/models/account.model';
 import { RoutesEnum } from 'src/app/models/routes.enum';
+import { SessionService } from 'src/app/shared/services/session.service';
 import { LoginService } from '../../login/service/login.service';
 import { AuthModel } from '../../models/auth.model';
 
@@ -15,6 +17,7 @@ export class ModalLoginComponent implements OnInit {
 
   @Input() loginType: string;
   routes = RoutesEnum;
+  submitting = false;
 
   formGroup: FormGroup = this.formBuilder.group({
     user: [null, [Validators.required, Validators.email]],
@@ -26,6 +29,7 @@ export class ModalLoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private readonly loginService: LoginService,
     private readonly router: Router,
+    private sessionService: SessionService,
   ) { }
 
   ngOnInit(): void {
@@ -43,10 +47,21 @@ export class ModalLoginComponent implements OnInit {
         loginType: this.loginType,
       };
 
-      this.loginService.login(auth).subscribe(() => {
+      this.submitting = true;
+      this.loginService.login(auth).subscribe(authLogin => {
+        this.sessionService.setAuth(true);
         this.modalService.hide();
-        this.router.navigate([RoutesEnum.ESTABLISHMENTS_DASHBOARD]);
-      });
+        if (this.loginType === AccountType.USER) {
+          this.sessionService.setTypeLogin(AccountType.USER);
+          this.router.navigate([RoutesEnum.ESTABLISHMENTS_DASHBOARD]);
+          this.sessionService.set$userSession(authLogin, AccountType.USER);
+        }
+        else {
+          this.sessionService.setTypeLogin(AccountType.ESTABLISHMENT);
+          this.router.navigate([RoutesEnum.RESERVE_ESTABLISHMENT]);
+          this.sessionService.set$userSession(authLogin, AccountType.ESTABLISHMENT);
+        }
+      }, () => this.submitting = false);
     }
   }
 

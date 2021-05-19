@@ -7,4 +7,6 @@ export interface ModalData {
     establishment?: Establishment;
     type?: string;
     message?: string;
+    openingTime?: string;
+    closingTime?: string;
 }
