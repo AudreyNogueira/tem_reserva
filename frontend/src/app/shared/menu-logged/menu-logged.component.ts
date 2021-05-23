@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { RoutesEnum } from 'src/app/models/routes.enum';
 import { SessionService } from '../services/session.service';
 
@@ -16,6 +17,7 @@ export class MenuLoggedComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +45,12 @@ export class MenuLoggedComponent implements OnInit {
 
   getReserveRoute(): string {
     return this.typeMenu === 'user' ? this.routesEnum.EDIT_USER : this.routesEnum.RESERVE_ESTABLISHMENT;
+  }
+
+  logout(): void {
+    this.close();
+    this.sessionService.logout();
+    this.router.navigate([RoutesEnum.ABOUT]);
   }
 
 }
