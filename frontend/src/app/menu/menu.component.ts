@@ -1,4 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AccountType } from '../models/account.model';
 import { RoutesEnum } from '../models/routes.enum';
 import { SessionService } from '../shared/services/session.service';
 
@@ -14,11 +16,9 @@ export class MenuComponent implements OnInit {
   typeMenu: string;
   user: any;
 
-  /** Paleativo */
-  authenticated = JSON.parse(window.localStorage.getItem('authenticated'));
-
   constructor(
-    private sessionService: SessionService,
+    public sessionService: SessionService,
+    private readonly router: Router,
   ) { }
 
   /**
@@ -51,5 +51,13 @@ export class MenuComponent implements OnInit {
 
   getEditRoute(): string {
     return this.typeMenu === 'user' ? this.routes.EDIT_USER : this.routes.EDIT_ESTABLISHMENT;
+  }
+
+  logoNavigation() {
+    if (this.sessionService.isAuthenticated()) {
+      this.sessionService.getLoginType() === AccountType.USER ? this.router.navigate([RoutesEnum.ESTABLISHMENTS_DASHBOARD]) : this.router.navigate([RoutesEnum.RESERVE_ESTABLISHMENT]);
+    } else {
+      this.router.navigate([RoutesEnum.ABOUT]);
+    }
   }
 }

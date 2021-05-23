@@ -19,6 +19,7 @@
             font-size: 20px;
             font-family: Mulish;
             color: $white;
+            text-align: center;
         }
 
         .button-ok {
@@ -31,7 +32,12 @@
     }
 
     &.success {
-        background-color: $success_feedback;
+        background-color: $white;
+        .m-body {
+            .message {
+                color: $black_text;
+            }
+        }
     }
     
     &.error {

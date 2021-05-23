@@ -22,6 +22,40 @@
             background: none;
             border: none;
         }
+
+        .filters {
+            width: 100%;
+            align-items: center;
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+
+            .search {
+                border-radius: 8px;
+                padding-left: 5px;
+                padding-right: 20px;
+                font-family: Mulish;
+                border: solid 2px $black_text;
+                min-width: 300px;
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .icone-procurar {
+                position: absolute;
+                width: 13px;
+                right: 5px;
+                top: 15px;
+            }
+
+            @media(max-width: 767px) {
+                .search {
+                    margin-top: 10px;
+                    width: 100%;
+                }
+            }
+        }
     }
 
     .establishment {
@@ -55,6 +89,13 @@
             color: $light_gray;
         }
 
+    }
+
+    .not-found {
+        text-align: center;
+        padding: 120px 0;
+        font-size: 24px;
+        font-family: Mulish;
     }
 
 }

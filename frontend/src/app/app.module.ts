@@ -20,6 +20,7 @@ import { ModalConfirmComponent } from './modals/modal-confirm/modal-confirm.comp
 import { RegisterClientComponent } from './register/register-client/register-client.component';
 import { ModalReserveComponent } from './modals/modal-reserve/modal-reserve.component';
 import { ModalFeedbackComponent } from './modals/modal-feedback/modal-feedback.component';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,9 @@ import { ModalFeedbackComponent } from './modals/modal-feedback/modal-feedback.c
     SharedModule,
     TextMaskModule,
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
