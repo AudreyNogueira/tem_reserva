@@ -8,6 +8,7 @@ import { EstablishmentDashboardRoutingModule } from './establishment-dashboard-r
 import { ZoneComponent } from './zone/zone.component';
 import { EstablishmentComponent } from './establishment/establishment.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     EstablishmentDashboardRoutingModule,
     BsDatepickerModule.forRoot(),
   ],
