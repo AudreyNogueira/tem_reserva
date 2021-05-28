@@ -12,6 +12,8 @@ public class ReviewDTO {
 
     private Long idRestaurant;
 
+    private Long idReserve;
+
     private Integer stars;
 
     private String title;

@@ -291,10 +291,11 @@ public class RestaurantBusiness {
                         .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
                         .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
                         .restaurantName(restaurant.getRestaurantName())
-                        .currentPeople(getListCurrentPeopleModel(currentPeople)).restaurantImages(lstImages)
-                        .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
-                        .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
-                        .description(restaurant.getDescription()).restaurantDateTime(dateTime).build();
+                        .currentPeople(getListCurrentPeopleModel(currentPeople))
+                        .restaurantImages(lstImages).maxNumberOfPeople(restaurant.getMaxNumberOfPeople())
+                        .averageStars(restaurant.getAverageStars()).payment(restaurant.getPayment())
+                        .phoneNumber(restaurant.getPhoneNumber()).description(restaurant.getDescription())
+                        .restaurantDateTime(dateTime).build();
 
                 response.add(model);
             } catch (Exception ex) {
