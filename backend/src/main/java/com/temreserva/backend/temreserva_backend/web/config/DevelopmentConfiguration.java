@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,11 +65,12 @@ public class DevelopmentConfiguration {
 
             Credential cred1 = Credential.builder().email("teste@email.com").password("123").build();
             cred1 = credentialRepository.save(cred1);
-            User user1 = User.builder().credential(cred1).cpf("53415927865").name("teste teste").build();
+            User user1 = User.builder().credential(cred1).cpf("53415927865").name("Ester Goulveia").phoneNumber("11984100125")
+            .birthDate(LocalDate.of(2000, 5, 30)).build();
             userRepository.save(user1);
 
             JSONParser jsonParser = new JSONParser();
-            JSONArray arr = (JSONArray) jsonParser.parse(new FileReader("src/main/resources/restaurants-mock.json"));
+            JSONArray arr = (JSONArray) jsonParser.parse(new FileReader("backend/src/main/resources/restaurants-mock.json"));
 
             for (Object o : arr) {
                 JSONObject res = (JSONObject) o;
@@ -119,13 +121,13 @@ public class DevelopmentConfiguration {
                 int imageNumber = (int) (Math.random() * ((8 - 1) + 1)) + 1;
 
                 MultipartFile file = new MockMultipartFile("Painting" + imageNumber + ".png",
-                        new FileInputStream(new File("src/main/resources/images/Painting" + imageNumber + ".png")));
+                        new FileInputStream(new File("backend/src/main/resources/images/Painting" + imageNumber + ".png")));
                 Image image = imageBusiness.buildImage(file, restaurant.getId(), true, true);
                 imageRepository.save(image);
 
-                for (int i = 0; i < 7; i++) {
+                for (int i = 0; i < 4; i++) {
                     MultipartFile fileTest = new MockMultipartFile("Painting" + imageNumber + ".png",
-                            new FileInputStream(new File("src/main/resources/images/Painting" + imageNumber + ".png")));
+                            new FileInputStream(new File("backend/src/main/resources/images/Painting" + imageNumber + ".png")));
                     Image imageTest = imageBusiness.buildImage(fileTest, restaurant.getId(), false, true);
                     imageRepository.save(imageTest);
                 }

@@ -15,6 +15,7 @@ export class LoginService {
   ) { }
 
   login(auth: AuthModel): Observable<UserModel | Establishment> {
-    return this.http.post<UserModel | Establishment>('http://localhost:8080', auth);
+    if (auth.loginType === 'user') return this.http.post<UserModel | Establishment>('https://run.mocky.io/v3/7021bce0-a1d2-4b78-b3a9-67698a60f0c6', auth);
+    return this.http.post<UserModel | Establishment>('https://run.mocky.io/v3/39b222f4-297a-4ca1-8978-588b7d5cb28e', auth);
   }
 }

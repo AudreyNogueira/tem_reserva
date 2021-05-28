@@ -7,6 +7,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import { EditEstablishmentComponent } from './edit-establishment/edit-establishment.component';
+import { ReserveEstablishmentComponent } from './reserve-establishment/reserve-establishment.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { EditEstablishmentComponent } from './edit-establishment/edit-establishm
     ManagementComponent,
     EditUserComponent,
     EditEstablishmentComponent,
+    ReserveEstablishmentComponent,
   ],
   imports: [
     CommonModule,

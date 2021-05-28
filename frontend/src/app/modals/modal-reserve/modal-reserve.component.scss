@@ -15,6 +15,11 @@
     .m-body {
         padding: 30px 20px 20px;
 
+        .gif {
+            padding: 70px 0;
+            text-align: center;
+        }
+
         .title {
             display: inline-block;
             font-size: 28px;
@@ -24,6 +29,24 @@
             &.-error {
                 color: $error_feedback;
             }
+        }
+
+        .title-feedback {
+            display: inline-block;
+            font-size: 20px;
+            color: $black_text;
+            font-family: Mulish;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .feedback {
+            font-size: 16px;
+            color: $black_text;
+            margin-bottom: 20px;
+            font-family: Mulish;
+            text-align: center;
         }
         
         .subtitle {
@@ -87,10 +110,21 @@
             }
         }
 
-        .notification {
-            font-size: 14px;
-            color: $black_text;
-            font-family: Mulish;
+        .button-ok {
+            width: 300px;
+            height: 45px;
+            font-size: 18px;
+            color: $white;
+            background-color: $yellow;
+            border-radius: 4px;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .reserve {
+                width: 100%;
+            }
         }
     }
 }
