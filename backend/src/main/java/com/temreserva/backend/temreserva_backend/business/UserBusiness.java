@@ -24,36 +24,17 @@ public class UserBusiness {
     private final UserRepository userRepository;
     private final CredentialBusiness credentialBusiness;
     private final ImageBusiness imageBusiness;
-    private final OAuthBusiness oauthBusiness;
 
     public UserBusiness(UserRepository userRepository, ImageBusiness imageBusiness,
             CredentialBusiness credentialBusiness) {
         this.userRepository = userRepository;
         this.credentialBusiness = credentialBusiness;
         this.imageBusiness = imageBusiness;
-        oauthBusiness = new OAuthBusiness();
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // BUSINESS
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public User userLogin(String parameters, String authorization, String contentType) {
-        String username = parameters.substring(parameters.indexOf("=") + 1, parameters.indexOf("&")).replace("%40",
-                "@");
-        String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
-        String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
-
-        if (accessToken != null) {
-            Credential userCredentials = credentialBusiness.getCredentialByEmail(username);
-            User user = userRepository.findByCredential(userCredentials);
-            // user.setAccessToken(accessToken);
-            user.getCredential().setPassword(null);
-            return user;
-        }
-
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                Enumerators.apiExceptionCodeEnum.USERNAME_OR_PASSWORD_INVALID.getEnumValue());
-    }
 
     public HttpStatus createNewUser(UserDTO dto) {
         User user = validateNewUserDto(dto);
@@ -102,6 +83,10 @@ public class UserBusiness {
 
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    public User findByCredential(Credential credential) {
+        return userRepository.findByCredential(credential).orElse(null);
     }
 
     public ImageModel userImageUpload(MultipartFile file, Long id) throws IOException {
