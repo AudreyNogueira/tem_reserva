@@ -17,6 +17,8 @@ export class ModalReserveComponent implements OnInit {
 
   @Input() choosedDay: Date;
   @Input() establishment: Establishment;
+  @Input() openTime: string;
+  @Input() closeTime: string;
 
   timeAvailable = {
     [Periodo.MADRUGADA]: hourMadrugada,
@@ -26,10 +28,10 @@ export class ModalReserveComponent implements OnInit {
   };
   timeSelected: number;
   qtdSelected: number;
-  openTime = '09:00';
-  closeTime = '21:30';
   submitted = false;
   periodSelected: string;
+  isFeedback = false;
+  loading = false;
 
   formGroup: FormGroup = this.formBuilder.group({
     hour: [null, [Validators.required]],
@@ -125,9 +127,11 @@ export class ModalReserveComponent implements OnInit {
         amountOfPeople: this.formGroup.get('quantity').value,
         period: this.formGroup.get('period').value
       };
+      this.loading = true;
       this.reservationService.makeReservation(reserve)
         .subscribe(() => {
-          this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'success', message: 'Reserva realizada com sucesso, verifique seu email' });
+          this.loading = false;
+          this.isFeedback = true;
         }, () => {
           this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'error', message: 'Erro ao criar sua reserva, tente novamente' });
         });

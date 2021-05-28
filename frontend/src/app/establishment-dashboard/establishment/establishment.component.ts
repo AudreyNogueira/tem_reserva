@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { ModalService } from 'src/app/modals/service/modal.service';
+import { DayOfWeekModel } from 'src/app/models/day-hour.model';
 import { Establishment } from 'src/app/models/establishment.model';
 import { DayOfWeekEnum } from 'src/app/models/week.enum';
 import { EstablishmentListService } from '../services/establishment-list.service';
@@ -23,6 +25,7 @@ export class EstablishmentComponent implements OnInit {
   indexImages = 0;
   establishment: Establishment;
   dayDisabled;
+  datesWork: DayOfWeekModel[] = [];
 
   weekEnum = {
     [DayOfWeekEnum.SUNDAY]: 0,
@@ -36,11 +39,11 @@ export class EstablishmentComponent implements OnInit {
 
   dayOfWeek = [
     DayOfWeekEnum.SUNDAY,
-    DayOfWeekEnum.TUESDAY,
     DayOfWeekEnum.MONDAY,
-    DayOfWeekEnum.FRIDAY,
+    DayOfWeekEnum.TUESDAY,
     DayOfWeekEnum.WEDNESDAY,
     DayOfWeekEnum.THURSDAY,
+    DayOfWeekEnum.FRIDAY,
     DayOfWeekEnum.SATURDAY,
   ];
 
@@ -54,12 +57,15 @@ export class EstablishmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scroll(0, 0);
 
     const idEstablishment = this.route.snapshot.paramMap.get('id');
     this.establishmentListService.getEstablishmentById(Number(idEstablishment)).subscribe(e => {
       this.establishment = e;
       this.images = e.restaurantImages.map(img => img.image);
       this.dayDisabled = this.dayOfWeek.filter(disable => !this.establishment.restaurantDateTime.some(d => d.day === disable)).map(w => this.weekEnum[w]);
+      this.treatOpenDays(this.establishment.restaurantDateTime);
+      console.log(this.datesWork);
     });
   }
 
@@ -77,10 +83,37 @@ export class EstablishmentComponent implements OnInit {
       if (this.dayDisabled.some(d => d === date.getDay())) {
         this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', message: 'Dia indisponível para realizar reserva' });
       } else {
-        this.modalServiceLocal.$openModal.next({ modalName: 'reserveModal', choosedDay: date, establishment: this.establishment });
+        this.modalServiceLocal.$openModal.next(
+          {
+            modalName: 'reserveModal',
+            choosedDay: date,
+            establishment: this.establishment,
+            openingTime: this.getHours(date, true),
+            closingTime: this.getHours(date, false),
+          });
       }
     }
     this.firstDate = false;
   }
 
+  getHours(date: Date, isOpen?: boolean) {
+    const day = this.dayOfWeek[date.getDay()];
+    if (isOpen) {
+      return this.establishment.restaurantDateTime.find(d => d.day === day).openingTime;
+    }
+    return this.establishment.restaurantDateTime.find(d => d.day === day).closingTime;
+
+  }
+
+  treatOpenDays(list: DayOfWeekModel[]): void {
+    list.forEach(d => {
+      this.datesWork.push(
+        {
+          day: d.day,
+          openingTime: moment({ h: Number(d.openingTime.split(':')[0]), m: Number(d.openingTime.split(':')[1]) }).format('HH:mm'),
+          closingTime: moment({ h: Number(d.closingTime.split(':')[0]), m: Number(d.closingTime.split(':')[1]) }).format('HH:mm')
+        }
+      );
+    });
+  }
 }

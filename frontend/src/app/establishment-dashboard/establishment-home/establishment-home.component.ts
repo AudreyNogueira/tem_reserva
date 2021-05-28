@@ -17,6 +17,7 @@ export class EstablishmentHomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    window.scroll(0, 0);
 
     this.establishmentListService.loadMock$.subscribe(() => {
       this.establishmentListService.loadEstablishmentList().pipe(take(1)).subscribe(list => this.establishmentsResponse = list);

@@ -17,6 +17,8 @@ import { hourValidator } from '../../validators/hour-validator';
 import * as moment from 'moment';
 import { DayHour, DayOfWeekModel } from '../../models/day-hour.model';
 import { SessionService } from '../../shared/services/session.service';
+import { Router } from '@angular/router';
+import { RoutesEnum } from 'src/app/models/routes.enum';
 
 @Component({
   selector: 'edit-establishment',
@@ -55,12 +57,12 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
   dayOfWeek = [
     null,
     DayOfWeekEnum.SUNDAY,
-    DayOfWeekEnum.TUESDAY,
     DayOfWeekEnum.MONDAY,
-    DayOfWeekEnum.FRIDAY,
+    DayOfWeekEnum.TUESDAY,
     DayOfWeekEnum.WEDNESDAY,
     DayOfWeekEnum.THURSDAY,
     DayOfWeekEnum.SATURDAY,
+    DayOfWeekEnum.FRIDAY,
     DayOfWeekEnum.HOLIDAY,
   ];
 
@@ -121,6 +123,7 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     private modalServiceLocal: ModalService,
     private readonly editEstablishmentService: EditEstablishmentService,
     private readonly sessionService: SessionService,
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -172,7 +175,14 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     this.modalServiceLocal.$openModal.next({ modalName: 'confirmModal' });
 
     this.modalServiceLocal.$comunication.pipe(first()).subscribe(resp => {
-      if (resp) this.editEstablishmentService.deleteEstablishment(1).subscribe();
+      if (resp) this.editEstablishmentService.deleteEstablishment(1).subscribe(() => {
+        this.sessionService.logout();
+        this.router.navigate([RoutesEnum.ABOUT]);
+      }, () => {
+        setTimeout(() => {
+          this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'error', message: 'Erro ao deletar o estabelecimento, tente novamente.' });
+        }, 500);
+      });
     });
   }
 
