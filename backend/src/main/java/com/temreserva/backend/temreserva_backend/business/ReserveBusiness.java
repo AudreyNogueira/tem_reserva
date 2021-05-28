@@ -131,7 +131,7 @@ public class ReserveBusiness {
             for (LocalDate date : dates.stream().distinct().collect(Collectors.toList())) {
                 try {
                     List<ReserveModel> reservesByDate = getReserveListByDate(date, reserves);
-                    
+
                     response.add(ReserveRestaurantModel.builder().maxNumberOfPeople(restaurant.getMaxNumberOfPeople())
                             .currentPeople(restaurantBusiness.getListCurrentPeopleModel(
                                     reserveRepository.findCurrentPeopleModelByRestaurant(restaurant.getId(), date)))
@@ -145,11 +145,11 @@ public class ReserveBusiness {
         return response;
     }
 
-    private List<ReserveModel> getReserveListByDate(LocalDate date, List<ReserveModel> reserves){
+    private List<ReserveModel> getReserveListByDate(LocalDate date, List<ReserveModel> reserves) {
         List<ReserveModel> response = new ArrayList<ReserveModel>();
 
         for (ReserveModel r : reserves) {
-            if (r.getReserveDate().toLocalDate().equals(date)){
+            if (r.getReserveDate().toLocalDate().equals(date)) {
                 r.setRestaurant(null);
                 response.add(r);
             }
@@ -180,6 +180,10 @@ public class ReserveBusiness {
                     .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build();
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.RESERVE_NOT_FOUND.getEnumValue()));
+    }
+
+    public Reserve findById(Long id) {
+        return reserveRepository.findById(id).orElse(null);
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
