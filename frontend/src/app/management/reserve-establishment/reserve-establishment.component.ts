@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { AccountType } from 'src/app/models/account.model';
 import { ReservePerDay } from 'src/app/models/reserve.model';
+import { RoutesEnum } from 'src/app/models/routes.enum';
 import { DayOfWeekEnum } from 'src/app/models/week.enum';
+import { SessionService } from 'src/app/shared/services/session.service';
 import { ReserveEstablishmentService } from '../services/reserve-establishment.service';
 
 @Component({
@@ -23,15 +27,18 @@ export class ReserveEstablishmentComponent implements OnInit {
 
   reserves: ReservePerDay[] = [];
 
-  idEstablishment = JSON.parse(window.localStorage.getItem('UserSession')).id;
-
   constructor(
     private reserveService: ReserveEstablishmentService,
+    private readonly sessionService: SessionService,
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
+    if( this.sessionService.getLoginType() === AccountType.USER) {
+      this.router.navigate([RoutesEnum.RESERVE_USER]);
+    }
 
-    this.reserveService.getReservesByUserEstablishmentId(this.idEstablishment).subscribe(res => this.reserves = res);
+    this.reserveService.getReservesByUserEstablishmentId(this.sessionService.getUserSession().id).subscribe(res => this.reserves = res);
   }
 
   maskCpf(cpf: string): string {

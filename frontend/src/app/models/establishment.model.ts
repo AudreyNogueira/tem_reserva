@@ -14,6 +14,7 @@ export interface Establishment {
     phoneNumber?: string;
     carousel?: string[];
     actualNumberOfPeople?: number;
+    currentPeople?: any;
     maxNumberOfPeople?: number;
     averageStars?: number;
     restaurantImages?: Image[];

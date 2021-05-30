@@ -65,7 +65,6 @@ export class EstablishmentComponent implements OnInit {
       this.images = e.restaurantImages.map(img => img.image);
       this.dayDisabled = this.dayOfWeek.filter(disable => !this.establishment.restaurantDateTime.some(d => d.day === disable)).map(w => this.weekEnum[w]);
       this.treatOpenDays(this.establishment.restaurantDateTime);
-      console.log(this.datesWork);
     });
   }
 

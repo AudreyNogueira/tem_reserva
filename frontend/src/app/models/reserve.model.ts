@@ -1,7 +1,8 @@
+import { Establishment } from "./establishment.model";
 import { UserModel } from "./user.model";
 
 export interface Reserve {
-    idReserve?: number;
+    id?: number;
     idUser?: number;
     idRestaurant?: number;
     period: string;
@@ -9,6 +10,7 @@ export interface Reserve {
     amountOfPeople: number;
     observation?: string;
     user?: UserModel;
+    restaurant?: Establishment
 }
 
 export interface ReservePerDay {

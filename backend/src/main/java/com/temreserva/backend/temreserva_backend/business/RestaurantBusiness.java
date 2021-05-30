@@ -41,7 +41,6 @@ public class RestaurantBusiness {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantDateTimeRepository restaurantDateTimeRepository;
     private final CredentialBusiness credentialBusiness;
-    private final OAuthBusiness oauthBusiness;
     private final AddressRepository addressRepository;
     private final ImageBusiness imageBusiness;
     private final ReserveRepository reserveRepository;
@@ -54,7 +53,6 @@ public class RestaurantBusiness {
         this.restaurantDateTimeRepository = restaurantDateTimeRepository;
         this.credentialBusiness = credentialBusiness;
         this.imageBusiness = imageBusiness;
-        this.oauthBusiness = new OAuthBusiness();
         this.addressRepository = addressRepository;
         this.reserveRepository = reserveRepository;
     }
@@ -62,24 +60,6 @@ public class RestaurantBusiness {
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // BUSINESS
     // ------------------------------------------------------------------------------------------------------------------------------------------
-
-    public Restaurant restaurantLogin(String parameters, String authorization, String contentType) {
-        String username = parameters.substring(parameters.indexOf("=") + 1, parameters.indexOf("&")).replace("%40",
-                "@");
-        String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
-        String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
-
-        if (accessToken != null) {
-            Credential restaurantCredentials = credentialBusiness.getCredentialByEmail(username);
-            Restaurant restaurant = restaurantRepository.findByCredential(restaurantCredentials);
-            // restaurant.setAccessToken(accessToken);
-            restaurant.getCredential().setPassword(null);
-            return restaurant;
-        }
-
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                Enumerators.apiExceptionCodeEnum.USERNAME_OR_PASSWORD_INVALID.getEnumValue());
-    }
 
     private Restaurant validateNewRestaurantDto(RestaurantDTO dto) {
         if (credentialBusiness.validateNewCredential(dto.getEmail(), dto.getPassword()))
@@ -241,6 +221,10 @@ public class RestaurantBusiness {
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
     }
 
+    public Restaurant findByCredential(Credential credential) {
+        return restaurantRepository.findByCredential(credential);
+    }
+
     public List<RestaurantDateTimeModel> getListRestaurantDateTimeModel(List<RestaurantDateTime> list) {
         List<RestaurantDateTimeModel> response = new ArrayList<RestaurantDateTimeModel>();
 
@@ -307,10 +291,11 @@ public class RestaurantBusiness {
                         .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
                         .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
                         .restaurantName(restaurant.getRestaurantName())
-                        .currentPeople(getListCurrentPeopleModel(currentPeople)).restaurantImages(lstImages)
-                        .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
-                        .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
-                        .description(restaurant.getDescription()).restaurantDateTime(dateTime).build();
+                        .currentPeople(getListCurrentPeopleModel(currentPeople))
+                        .restaurantImages(lstImages).maxNumberOfPeople(restaurant.getMaxNumberOfPeople())
+                        .averageStars(restaurant.getAverageStars()).payment(restaurant.getPayment())
+                        .phoneNumber(restaurant.getPhoneNumber()).description(restaurant.getDescription())
+                        .restaurantDateTime(dateTime).build();
 
                 response.add(model);
             } catch (Exception ex) {

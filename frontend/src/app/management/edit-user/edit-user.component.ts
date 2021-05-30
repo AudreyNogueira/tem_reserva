@@ -10,6 +10,7 @@ import { cpfMask } from '../../masks/cpf-mask';
 import { ModalService } from 'src/app/modals/service/modal.service';
 import { first } from 'rxjs/operators';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { AccountType } from 'src/app/models/account.model';
 
 @Component({
   selector: 'edit-user',
@@ -103,7 +104,9 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
       if (this.passwordChange()) data = { ...data, password: this.formGroup.get('newPass').value, actualPassword: this.formGroup.get('currentPass').value };
 
-      this.editUserService.updateUserData(1, data).subscribe(() => { }, err => {
+      this.editUserService.updateUserData(1, data).subscribe(() => {
+        this.sessionService.set$userSession({ ...this.userData, ...data }, AccountType.USER);
+       }, err => {
         if (err.error.apicode === '0013') this.formGroup.get('currentPass').setValue('');
       });
     }

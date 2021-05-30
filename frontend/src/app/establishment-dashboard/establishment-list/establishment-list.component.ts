@@ -36,9 +36,6 @@ export class EstablishmentListComponent implements OnInit {
   searchRestaurant() {
     if (!this.search) this.customList = this.zone.restaurantList;
     else this.customList = this.zone.restaurantList.filter(e => e.restaurantName.toLowerCase().includes(this.search.toLocaleLowerCase()));
-
-    console.log(this.customList);
-
   }
 
 }

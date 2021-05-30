@@ -2,10 +2,10 @@
     <div class="container">
         <div class="header">
             <div class="name">
-                Ananda Gurgel
+                {{ userData.name }}
             </div>
             <div class="email">
-                gurgel.ananda@gmail.com
+                {{ userData.email }}
             </div>
         </div>
         <form class="form" [formGroup]="formGroup" (submit)="saveEdit()">

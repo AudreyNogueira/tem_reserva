@@ -44,7 +44,7 @@ export class MenuLoggedComponent implements OnInit {
   }
 
   getReserveRoute(): string {
-    return this.typeMenu === 'user' ? this.routesEnum.EDIT_USER : this.routesEnum.RESERVE_ESTABLISHMENT;
+    return this.typeMenu === 'user' ? this.routesEnum.RESERVE_USER : this.routesEnum.RESERVE_ESTABLISHMENT;
   }
 
   logout(): void {

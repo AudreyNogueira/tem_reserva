@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import com.temreserva.backend.temreserva_backend.business.CredentialBusiness;
 import com.temreserva.backend.temreserva_backend.business.ImageBusiness;
 import com.temreserva.backend.temreserva_backend.business.UserBusiness;
-import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -43,12 +41,6 @@ public class UserController {
     public HttpStatus createNewUser(@RequestBody @Valid UserDTO dto) {
         return business.createNewUser(dto);
         
-    }
-
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public User userLogin(@RequestHeader("Authorization") String authorization, @RequestHeader("Content-Type") String contentType, @RequestBody String parameters) {
-        return business.userLogin(parameters, authorization, contentType);
     }
 
     @PutMapping("/id={id}")
