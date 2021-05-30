@@ -4,6 +4,7 @@ import { EditEstablishmentComponent } from './edit-establishment/edit-establishm
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ManagementComponent } from './management.component';
 import { ReserveEstablishmentComponent } from './reserve-establishment/reserve-establishment.component';
+import { ReserveUserComponent } from './reserve-user/reserve-user.component';
 
 const routes: Routes = [
   {
@@ -19,8 +20,17 @@ const routes: Routes = [
         component: EditEstablishmentComponent,
       },
       {
-        path: 'reserva-estabelecimento',
-        component: ReserveEstablishmentComponent,
+        path: 'reserva',
+        children: [
+          {
+            path: 'estabelecimento',
+            component: ReserveEstablishmentComponent,
+          },
+          {
+            path: 'cliente',
+            component: ReserveUserComponent,
+          }
+        ]
       },
     ]
   },

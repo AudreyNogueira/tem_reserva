@@ -7,6 +7,7 @@ import { hourMadrugada, hourManha, hourTarde, hourNoite, Periodo } from '../../m
 import { ReservationService } from '../../establishment-dashboard/services/reservation.service';
 import { Reserve } from 'src/app/models/reserve.model';
 import { ModalService } from '../service/modal.service';
+import { SessionService } from 'src/app/shared/services/session.service';
 
 @Component({
   selector: 'modal-reserve',
@@ -45,6 +46,7 @@ export class ModalReserveComponent implements OnInit {
     private formBuilder: FormBuilder,
     private readonly reservationService: ReservationService,
     private modalServiceLocal: ModalService,
+    private readonly sessionService: SessionService,
   ) { }
 
   ngOnInit(): void {
@@ -121,7 +123,7 @@ export class ModalReserveComponent implements OnInit {
   makeReservation(): void {
     if (!this.validateForm()) {
       const reserve: Reserve = {
-        idUser: 1,
+        idUser: this.sessionService.getUserSession().id,
         idRestaurant: this.establishment.id,
         reserveDate: this.formGroup.get('hour').value,
         amountOfPeople: this.formGroup.get('quantity').value,

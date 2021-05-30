@@ -9,5 +9,6 @@ export enum RoutesEnum {
     ABOUT = '/sobre',
     EDIT_USER = '/perfil/editar-usuario',
     EDIT_ESTABLISHMENT = '/perfil/editar-estabelecimento',
-    RESERVE_ESTABLISHMENT = '/perfil/reserva-estabelecimento',
+    RESERVE_ESTABLISHMENT = '/perfil/reserva/estabelecimento',
+    RESERVE_USER = '/perfil/reserva/cliente',
 }

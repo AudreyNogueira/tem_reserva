@@ -1,0 +1,128 @@
+@import '../../../assets/variables';
+
+#reserve-user {
+    padding: 50px 0;
+
+    .reserve {
+        width: 100%;
+
+        .block {
+            max-width: 800px;
+            padding: 17px;
+            border: 1px solid $gray_text;
+            border-radius: 8px;
+            margin-bottom: 20px;
+
+            &.inactive {
+                opacity: 0.6;
+                pointer-events: none;
+            }
+
+            .image {
+                margin-right: 20px;
+                max-height: 200px;
+                flex: 1;
+            }
+            @media (max-width: 767px) {
+                .image {
+                    display: flex;
+                    justify-content: center;
+                    margin-right: 0;
+                    margin-bottom: 30px;
+                }
+            }
+
+            .informations {
+                position: relative;
+                flex: 2;
+                color: $black_text;
+                font-family: Mulish;
+                    
+                .restaurant {
+                    margin-bottom: 20px;
+                    position: relative;
+                    .property {
+                        font-size: 14px;
+                        display: block;
+                        
+                        &.bold {
+                            font-size: 16px;
+                            font-weight: bold;
+                        }
+                    }
+                }
+                
+                .footer {
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                    display: flex;
+                    justify-content: space-between;
+                    
+                    .people {
+                        font-size: 16px;
+                        font-weight: bold;
+                        font-family: Mulish;
+                    }
+
+                    .cancel {
+                        background: radial-gradient(125% 125% at 85.42% 0%, #FF8585 0%, #D72525 100%);
+                        border-radius: 8px;
+                        border: none;
+                        font-family: Mulish;
+                        height: 36px;
+                        color: $white;
+                    }
+                }
+                @media (max-width: 767px) {
+                    .footer {
+                        position: relative;
+                        display: block;
+
+                        .cancel {
+                            width: 100%;
+                            margin-top: 20px;
+                        }
+                    }
+                }
+                
+                .datetime {
+                    display: flex;
+                    height: max-content;
+                    margin-bottom: 30px;
+                    
+                    .day {
+                        text-align: end;
+                        border-right: 1px solid;
+                        padding-right: 6px;
+                        
+                        .number {
+                            font-size: 24px;
+                        }
+                        .month {
+                            margin-top: -8px;
+                            font-size: 18px;                            
+                        }
+                    }
+                    
+                    .time {
+                        align-self: center;
+                        font-size: 14px;
+                        text-align: center;
+                        padding-left: 6px;
+                        
+                        .hour {
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+            @media (max-width: 767px) {
+                .informations {
+                    display: block;
+                }
+            }
+
+        }
+    }
+}
