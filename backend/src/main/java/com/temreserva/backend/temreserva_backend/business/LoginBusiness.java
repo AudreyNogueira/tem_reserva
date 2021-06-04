@@ -38,7 +38,7 @@ public class LoginBusiness {
                 Boolean isUser = type.equals("user");
                 Credential credentials = credentialBusiness.getCredentialByEmail(username);
 
-                return doLogin(isUser, credentials);
+                return doLogin(isUser, credentials, accessToken);
             }
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -49,13 +49,13 @@ public class LoginBusiness {
         }
     }
 
-    private LoginModel doLogin(Boolean isUser, Credential credentials) {
+    private LoginModel doLogin(Boolean isUser, Credential credentials, String accessToken) {
         LoginModel response;
 
         if (isUser)
-            response = LoginModel.builder().user(userLogin(credentials)).build();
+            response = LoginModel.builder().accessToken(accessToken).user(userLogin(credentials)).build();
         else
-            response = LoginModel.builder().restaurant(restaurantLogin(credentials)).build();
+            response = LoginModel.builder().accessToken(accessToken).restaurant(restaurantLogin(credentials)).build();
 
         return response;
     }
