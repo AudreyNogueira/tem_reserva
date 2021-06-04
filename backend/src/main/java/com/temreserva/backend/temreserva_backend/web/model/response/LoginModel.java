@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class LoginModel {
+    private String accessToken;
+
     private UserModel user;
 
     private RestaurantModel restaurant;
