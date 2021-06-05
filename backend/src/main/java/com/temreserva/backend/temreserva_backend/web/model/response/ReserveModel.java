@@ -22,6 +22,8 @@ public class ReserveModel {
 
     private String observation;
 
+    private Boolean confirmed;
+
     private UserModel user;
 
     private RestaurantModel restaurant;

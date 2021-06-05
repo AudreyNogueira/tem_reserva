@@ -54,7 +54,7 @@ public class ReserveBusiness {
                     reserve.getUser().getName().substring(0, reserve.getUser().getName().indexOf(" "))
                             + ", sua reserva foi feita com sucesso!",
                     "reserve_success");
-            return ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
+            return ReserveModel.builder().confirmed(reserve.getConfirmed()).period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
                     .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
                     .user(userBusiness.getUserById(reserve.getUser().getId())).observation(reserve.getObservation())
                     .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build();
@@ -88,7 +88,7 @@ public class ReserveBusiness {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                             Enumerators.apiExceptionCodeEnum.FULL_RESTAURANT.getEnumValue());
 
-                return Reserve.builder().observation(dto.getObservation()).period(dto.getPeriod())
+                return Reserve.builder().confirmed(dto.getConfirmed()).observation(dto.getObservation()).period(dto.getPeriod())
                         .amountOfPeople(dto.getAmountOfPeople()).user(user).restaurant(restaurant)
                         .reserveDate(dto.getReserveDate()).build();
             } else
@@ -109,7 +109,7 @@ public class ReserveBusiness {
         for (Reserve reserve : reserves) {
             try {
                 response.add(ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
-                        .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
+                        .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId()).confirmed(reserve.getConfirmed())
                         .user(userBusiness.getUserById(reserve.getUser().getId())).observation(reserve.getObservation())
                         .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build());
             } catch (Exception ex) {
@@ -174,7 +174,7 @@ public class ReserveBusiness {
 
     public ReserveModel getReserveById(Long id) {
         return reserveRepository.findById(id).map(reserve -> {
-            return ReserveModel.builder().period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
+            return ReserveModel.builder().confirmed(reserve.getConfirmed()).period(reserve.getPeriod()).reserveDate(reserve.getReserveDate())
                     .amountOfPeople(reserve.getAmountOfPeople()).id(reserve.getId())
                     .observation(reserve.getObservation()).user(userBusiness.getUserById(reserve.getUser().getId()))
                     .restaurant(restaurantBusiness.getRestaurantById(reserve.getRestaurant().getId())).build();
@@ -194,6 +194,7 @@ public class ReserveBusiness {
             reserve.setAmountOfPeople(dto.getAmountOfPeople());
             reserve.setPeriod(dto.getPeriod());
             reserve.setReserveDate(dto.getReserveDate());
+            reserve.setConfirmed(dto.getConfirmed());
             return reserveRepository.save(reserve);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.RESERVE_NOT_FOUND.getEnumValue()));

@@ -50,4 +50,7 @@ public class Reserve {
 
     @Column(name = "QTD_PESSOAS", nullable = false, updatable = true)
     private Integer amountOfPeople;
+
+    @Column(name = "CONFIRMADO", nullable = false, updatable = true)
+    private Boolean confirmed;
 }
