@@ -16,9 +16,9 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     public Restaurant findByCredential(Credential restaurantCredentials);
 
-    @Query(value = "SELECT TOP :size * FROM TB_RESTAURANTE R", nativeQuery = true)
+    @Query(value = "SELECT * FROM TB_RESTAURANTE R LIMIT :size ", nativeQuery = true)
     public List<Restaurant> findBySize(@Param("size") Integer size);
 
-    @Query(value = "SELECT TOP :size * FROM TB_RESTAURANTE R ORDER BY R.NOTA_AVALIACAO_MEDIA DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM TB_RESTAURANTE R ORDER BY R.NOTA_AVALIACAO_MEDIA DESC LIMIT :size", nativeQuery = true)
     public List<Restaurant> findByAverageStars(@Param("size") Integer size);
 }
