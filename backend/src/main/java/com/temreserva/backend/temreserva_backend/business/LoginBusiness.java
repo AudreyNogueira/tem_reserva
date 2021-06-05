@@ -8,6 +8,7 @@ import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.temreserva.backend.temreserva_backend.web.model.dto.LoginDTO;
 import com.temreserva.backend.temreserva_backend.web.model.response.LoginModel;
 import com.temreserva.backend.temreserva_backend.web.model.response.RestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.response.UserModel;
@@ -26,13 +27,17 @@ public class LoginBusiness {
         this.restaurantBusiness = restaurantBusiness;
     }
 
-    public LoginModel login(String parameters, String authorization, String contentType) {
+    public LoginModel login(LoginDTO login, String authorization, String contentType) {
         try {
-            String username = parameters.substring(parameters.indexOf("=") + 1, parameters.indexOf("&")).replace("%40",
-                    "@");
-            String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
-            String type = parameters.substring(parameters.indexOf("&type=") + 6, parameters.length()).trim();
-            String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
+            // String username = parameters.substring(parameters.indexOf("=") + 1, parameters.indexOf("&")).replace("%40",
+            //         "@");
+            // String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
+            // String type = parameters.substring(parameters.indexOf("&type=") + 6, parameters.length()).trim();
+            
+             String username = login.getUser();
+             String password = login.getPassword();
+             String type = login.getLoginType();
+             String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
 
             if (accessToken != null) {
                 Boolean isUser = type.equals("user");

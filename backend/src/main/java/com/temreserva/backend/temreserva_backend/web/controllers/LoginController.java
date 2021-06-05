@@ -18,6 +18,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.ReserveReposito
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantDateTimeRepository;
+import com.temreserva.backend.temreserva_backend.web.model.dto.LoginDTO;
 import com.temreserva.backend.temreserva_backend.web.model.response.LoginModel;
 
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class LoginController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
     public LoginModel login(@RequestHeader("Authorization") String authorization,
-            @RequestHeader("Content-Type") String contentType, @RequestBody String parameters) {
-        return business.login(parameters, authorization, contentType);
+            @RequestHeader("Content-Type") String contentType, @RequestBody LoginDTO login) {
+        return business.login(login, authorization, contentType);
     }
 }
