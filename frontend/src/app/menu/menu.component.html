@@ -16,7 +16,7 @@
 
         <div class="collapse navbar-collapse" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
             <!-- Itens do Menu Não Logado-->
-            <div *ngIf="!sessionService.isAuthenticated()" class="navbar-collapse">
+            <div *ngIf="!sessionService.getAuthenticated()" class="navbar-collapse">
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                     <li class="nav-item text-center">
                         <a class="nav-link menu-item" (click)="closeMenu()" [routerLink]="routes.ABOUT">Sobre</a>
@@ -44,16 +44,16 @@
             <!-- Itens do Menu Não Logado -->
 
             <!-- Itens do Menu Logado -->
-            <div *ngIf="sessionService.isAuthenticated()" class="navbar-nav mx-auto mt-2 mt-lg-0 d-lg-none d-flex">
+            <div *ngIf="sessionService.getAuthenticated()" class="navbar-nav mx-auto mt-2 mt-lg-0 d-lg-none d-flex">
                 <menu-logged (closeMenu)="closeMenu()"></menu-logged>
             </div>
             <!-- Itens do Menu Logado -->
         </div>
 
         <!-- Botão Quando Autenticado -->
-        <div *ngIf="sessionService.isAuthenticated() && user" [routerLink]="getEditRoute()" class="d-none d-lg-flex name-button" type="button">
+        <div *ngIf="sessionService.getAuthenticated() && user" [routerLink]="getEditRoute()" class="d-none d-lg-flex name-button" type="button">
             <div class="name">{{ typeMenu === 'est' ? user.restaurantName : user.name }}</div>
-            <img class="icon" [src]="typeMenu === 'est' ? 'data:image/png;base64,' + user.profileImage.image : '../../assets/icons/icone_principal.png'">
+            <img class="icon" [src]="typeMenu === 'est' && user?.profileImage?.image ? 'data:image/png;base64,' + user.profileImage.image : '../../assets/icons/icone_principal.png'">
         </div>
         <!-- Botão Quando Autenticado -->
 

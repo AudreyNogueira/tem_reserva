@@ -12,19 +12,22 @@
                                     <div class="table-reserve">
                                         <div class="header d-none d-md-inline-flex">
                                             <div class="column-header small">Reserva</div>
-                                            <div class="column-header">Confirmado</div>
                                             <div class="column-header">Nome da Reserva</div>
                                             <div class="column-header">CPF</div>
                                             <div class="column-header">Qt. de Pessoas</div>
                                             <div class="column-header small">Horário</div>
+                                            <div class="column-header">Status</div>
                                         </div>
                                         <div class="content d-none d-md-inline-flex" *ngFor="let res of r.reserves">
                                             <div class="column-content small">{{res.id}}</div>
-                                            <div class="column-content">confirmado</div>
                                             <div class="column-content">{{res.user.name}}</div>
                                             <div class="column-content">{{ maskCpf(res.user.cpf) }}</div>
                                             <div class="column-content">{{res.amountOfPeople}}</div>
                                             <div class="column-content small">{{ maskHour(res.reserveDate) }}</div>
+                                            <div class="column-content center">
+                                                <img src="../../../assets/icons/svg/joinha-azul.svg" class="icon">
+                                                <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res.id)" class="icon down">
+                                            </div>
                                         </div>
                                         <div class="content-sm d-block d-md-none" *ngFor="let res of r.reserves">
                                             <div class="column-content">Reserva: {{res.id}}</div>
@@ -33,6 +36,11 @@
                                             <div class="column-content">CPF: {{ maskCpf(res.user.cpf) }}</div>
                                             <div class="column-content">Qt. de Pessoas: {{res.amountOfPeople}}</div>
                                             <div class="column-content">Horário: {{ maskHour(res.reserveDate) }}</div>
+                                            <div class="column-content center">
+                                                Status:
+                                                <img src="../../../assets/icons/svg/joinha-azul.svg" class="icon">
+                                                <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res.id)" class="icon down">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

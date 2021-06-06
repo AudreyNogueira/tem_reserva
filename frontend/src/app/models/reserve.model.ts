@@ -10,7 +10,8 @@ export interface Reserve {
     amountOfPeople: number;
     observation?: string;
     user?: UserModel;
-    restaurant?: Establishment
+    restaurant?: Establishment,
+    confirmed?: boolean;
 }
 
 export interface ReservePerDay {

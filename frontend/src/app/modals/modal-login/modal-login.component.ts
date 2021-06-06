@@ -49,17 +49,17 @@ export class ModalLoginComponent implements OnInit {
 
       this.submitting = true;
       this.loginService.login(auth).subscribe(authLogin => {
-        this.sessionService.setAuth(true);
+        this.sessionService.setAuth(authLogin.accessToken);
         this.modalService.hide();
         if (this.loginType === AccountType.USER) {
           this.sessionService.setTypeLogin(AccountType.USER);
           this.router.navigate([RoutesEnum.ESTABLISHMENTS_DASHBOARD]);
-          this.sessionService.set$userSession(authLogin, AccountType.USER);
+          this.sessionService.set$userSession(authLogin.user, AccountType.USER);
         }
         else {
           this.sessionService.setTypeLogin(AccountType.ESTABLISHMENT);
           this.router.navigate([RoutesEnum.RESERVE_ESTABLISHMENT]);
-          this.sessionService.set$userSession(authLogin, AccountType.ESTABLISHMENT);
+          this.sessionService.set$userSession(authLogin.restaurant, AccountType.ESTABLISHMENT);
         }
       }, () => this.submitting = false);
     }

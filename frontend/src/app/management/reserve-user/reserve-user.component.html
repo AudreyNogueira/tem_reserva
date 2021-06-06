@@ -1,42 +1,48 @@
 <div id="reserve-user">
     <div class="container">
-        <!-- <div *ngIf="reserves?.length > 0"> -->
-        <div class="reserve" *ngFor="let r of reserves">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-9">
-                    <div class="block">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-block d-md-flex">
-                                    <div class="image">
-                                        <img class="h-100" [src]="'data:image/png;base64,' + r.restaurant.profileImage.image" alt="">
-                                    </div>
-                                    <div class="informations">
-                                        <div class="d-block d-md-flex justify-content-between">
-                                            <div class="restaurant">
-                                                <div class="property bold">{{ r.restaurant.restaurantName }}</div>
-                                                <span class="property">{{ r.restaurant.phoneNumber }}</span>
-                                                <span class="property">{{ r.restaurant.address.address }}, {{
-                                                    r.restaurant.address.restaurantNumber }}</span>
-                                                <span class="property">{{ r.restaurant.address.zone }} - {{
-                                                    r.restaurant.address.locality }}</span>
-                                            </div>
-                                            <div class="datetime">
-                                                <div class="day">
-                                                    <div class="number">{{ transformDate(r.reserveDate).getDate() }}</div>
-                                                    <div class="month">{{ mesEnum[transformDate(r.reserveDate).getMonth()] }}</div>
-                                                </div>
-                                                <div class="time">
-                                                    <div class="hour">{{ getHour(r.reserveDate) }}</div>
-                                                    Horário
-                                                </div>
-                                            </div>
+        <div *ngIf="reserves?.length > 0">
+            <div class="reserve" *ngFor="let r of reserves">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-9">
+                        <div class="block">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-block d-md-flex">
+                                        <div class="image">
+                                            <img class="h-100"
+                                                [src]="'data:image/png;base64,' + r.restaurant.profileImage.image"
+                                                alt="">
                                         </div>
-                                        <div>
-                                            <div class="footer">
-                                                <div class="people">Reserva para {{ r.amountOfPeople }} {{
-                                                    r.amountOfPeople > 1 ? 'pessoas' : 'pessoa' }}</div>
-                                                <button (click)="cancelReservation(r)" class="cancel">Cancelar</button>
+                                        <div class="informations">
+                                            <div class="d-block d-md-flex justify-content-between">
+                                                <div class="restaurant">
+                                                    <div class="property bold">{{ r.restaurant.restaurantName }}</div>
+                                                    <span class="property">{{ r.restaurant.phoneNumber }}</span>
+                                                    <span class="property">{{ r.restaurant.address.address }}, {{
+                                                        r.restaurant.address.restaurantNumber }}</span>
+                                                    <span class="property">{{ r.restaurant.address.zone }} - {{
+                                                        r.restaurant.address.locality }}</span>
+                                                </div>
+                                                <div class="datetime">
+                                                    <div class="day">
+                                                        <div class="number">{{ transformDate(r.reserveDate).getDate() }}
+                                                        </div>
+                                                        <div class="month">{{
+                                                            mesEnum[transformDate(r.reserveDate).getMonth()] }}</div>
+                                                    </div>
+                                                    <div class="time">
+                                                        <div class="hour">{{ getHour(r.reserveDate) }}</div>
+                                                        Horário
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="footer">
+                                                    <div class="people">Reserva para {{ r.amountOfPeople }} {{
+                                                        r.amountOfPeople > 1 ? 'pessoas' : 'pessoa' }}</div>
+                                                    <button (click)="cancelReservation(r)"
+                                                        class="cancel">Cancelar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -46,12 +52,11 @@
                     </div>
                 </div>
             </div>
-            <!-- </div> -->
-            <!-- <div *ngIf="reserves?.length < 1">
+        </div>
+        <div *ngIf="reserves?.length < 1">
             <div class="block">
                 Você ainda não possui nenhuma reserva.
             </div>
-        </div> -->
         </div>
     </div>
 </div>
