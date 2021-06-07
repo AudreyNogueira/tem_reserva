@@ -127,7 +127,8 @@ export class ModalReserveComponent implements OnInit {
         idRestaurant: this.establishment.id,
         reserveDate: this.formGroup.get('hour').value,
         amountOfPeople: this.formGroup.get('quantity').value,
-        period: this.formGroup.get('period').value
+        period: this.formGroup.get('period').value,
+        confirmed: true,
       };
       this.loading = true;
       this.reservationService.makeReservation(reserve)

@@ -19,4 +19,6 @@ public class ReserveDTO {
     private Integer amountOfPeople;
 
     private String observation;
+
+    private Boolean confirmed;
 }

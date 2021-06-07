@@ -25,7 +25,7 @@
                 Pessoas</span>
             <div class="hour">
                 <div *ngFor="let item of [].constructor(10); let i = index" class="box"
-                    [ngClass]="{ 'selected': i === qtdSelected }" (click)="selectQuantity(i+0, i)">{{ i+1 }}</div>
+                    [ngClass]="{ 'selected': i === qtdSelected }" (click)="selectQuantity(i+1, i)">{{ i+1 }}</div>
                 <span class="text-aux">*Para reservas maiores, entrar em contato com o estabelecimento.</span>
             </div>
 

@@ -54,7 +54,7 @@ export class MenuComponent implements OnInit {
   }
 
   logoNavigation() {
-    if (this.sessionService.isAuthenticated()) {
+    if (this.sessionService.getAuthenticated()) {
       this.sessionService.getLoginType() === AccountType.USER ? this.router.navigate([RoutesEnum.ESTABLISHMENTS_DASHBOARD]) : this.router.navigate([RoutesEnum.RESERVE_ESTABLISHMENT]);
     } else {
       this.router.navigate([RoutesEnum.ABOUT]);

@@ -11,6 +11,8 @@ import { ModalService } from 'src/app/modals/service/modal.service';
 import { first } from 'rxjs/operators';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { AccountType } from 'src/app/models/account.model';
+import { RoutesEnum } from 'src/app/models/routes.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'edit-user',
@@ -41,6 +43,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     private readonly editUserService: EditUserService,
     private modalServiceLocal: ModalService,
     private sessionService: SessionService,
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -83,7 +86,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.modalServiceLocal.$openModal.next({ modalName: 'confirmModal' });
 
     this.modalServiceLocal.$comunication.pipe(first()).subscribe(resp => {
-      if (resp) this.editUserService.deleteUser(1).subscribe();
+      if (resp) this.editUserService.deleteUser(this.userData.id).subscribe(() => {
+        this.sessionService.logout();
+        this.router.navigate([RoutesEnum.ABOUT]);
+      }, () => {
+        setTimeout(() => {
+          this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'error', message: 'Erro ao deletar o estabelecimento, tente novamente.' });
+        }, 500);
+      });
     });
   }
 
@@ -104,7 +114,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
       if (this.passwordChange()) data = { ...data, password: this.formGroup.get('newPass').value, actualPassword: this.formGroup.get('currentPass').value };
 
-      this.editUserService.updateUserData(1, data).subscribe(() => {
+      this.editUserService.updateUserData(this.userData.id, data).subscribe(() => {
         this.sessionService.set$userSession({ ...this.userData, ...data }, AccountType.USER);
        }, err => {
         if (err.error.apicode === '0013') this.formGroup.get('currentPass').setValue('');

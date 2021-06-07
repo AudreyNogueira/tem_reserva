@@ -58,4 +58,8 @@ export class ReserveEstablishmentComponent implements OnInit {
     return `${this.dayOfWeek[day.getDay()]} ${day.toLocaleDateString('pt-br')}`;
   }
 
+  cancelReserve(id: number) {
+    this.reserveService.cancelReservation(id).subscribe();
+  }
+
 }

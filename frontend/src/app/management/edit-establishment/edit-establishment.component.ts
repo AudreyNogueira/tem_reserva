@@ -175,7 +175,7 @@ export class EditEstablishmentComponent implements OnInit, OnDestroy {
     this.modalServiceLocal.$openModal.next({ modalName: 'confirmModal' });
 
     this.modalServiceLocal.$comunication.pipe(first()).subscribe(resp => {
-      if (resp) this.editEstablishmentService.deleteEstablishment(1).subscribe(() => {
+      if (resp) this.editEstablishmentService.deleteEstablishment(this.userData.id).subscribe(() => {
         this.sessionService.logout();
         this.router.navigate([RoutesEnum.ABOUT]);
       }, () => {

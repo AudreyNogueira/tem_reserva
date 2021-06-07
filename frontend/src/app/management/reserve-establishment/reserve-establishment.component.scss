@@ -82,6 +82,29 @@
                         &.small {
                             flex: 0.5;
                         }
+
+                        &.center {
+                            display: flex;
+                            align-items: center;
+                        }
+
+                        .icon {
+                            width: 30px;
+                            margin: 0 12px;
+                            cursor: pointer;
+
+                            &.down {
+                                transform: rotate(180deg);
+                                
+                                &:hover {
+                                    transform: rotate(180deg) scale(1.1);
+                                }
+                            }
+
+                            &:hover {
+                                transform: scale(1.1);
+                            }
+                        }
                     }
 
                     &:hover {
@@ -105,6 +128,30 @@
                         text-overflow: ellipsis;
                         white-space: nowrap;
                         overflow: hidden;
+                        
+                        &.center {
+                            display: flex;
+                            align-items: center;
+                        }
+
+                        .icon {
+                            width: 30px;
+                            margin: 0 12px;
+                            cursor: pointer;
+
+                            &.down {
+                                transform: rotate(180deg);
+                                
+                                &:hover {
+                                    transform: rotate(180deg);
+                                    transform: scale(1.1);
+                                }
+                            }
+
+                            &:hover {
+                                transform: rotate(180deg) scale(1.1);
+                            }
+                        }
                     }
                 }
             }

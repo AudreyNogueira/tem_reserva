@@ -28,7 +28,7 @@ export class SessionService {
     localStorage.setItem('UserSession', JSON.stringify({ ...data }));
   }
 
-  setAuth(value: boolean) {
+  setAuth(value: string) {
     window.localStorage.setItem('authenticated', JSON.stringify(value));
   }
 
@@ -36,7 +36,7 @@ export class SessionService {
     window.localStorage.setItem('loginType', JSON.stringify(type));
   }
 
-  isAuthenticated(): boolean {
+  getAuthenticated() {
     return JSON.parse(window.localStorage.getItem('authenticated'));
   }
 

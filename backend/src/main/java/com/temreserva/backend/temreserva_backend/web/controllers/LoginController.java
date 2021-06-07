@@ -18,6 +18,7 @@ import com.temreserva.backend.temreserva_backend.data.repository.ReserveReposito
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantDateTimeRepository;
+import com.temreserva.backend.temreserva_backend.web.model.dto.LoginDTO;
 import com.temreserva.backend.temreserva_backend.web.model.response.LoginModel;
 
 import org.springframework.http.HttpStatus;
@@ -32,13 +33,14 @@ public class LoginController {
         business = new LoginBusiness(new CredentialBusiness(credentialRepository),
                 new RestaurantBusiness(restaurantRepository, new CredentialBusiness(credentialRepository),
                         new ImageBusiness(imageRepository), addressRepository, reserveRepository, restaurantDateTime),
-                new UserBusiness(userRepository, new ImageBusiness(imageRepository), new CredentialBusiness(credentialRepository)));
+                new UserBusiness(userRepository, new ImageBusiness(imageRepository),
+                        new CredentialBusiness(credentialRepository), reserveRepository));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
     public LoginModel login(@RequestHeader("Authorization") String authorization,
-            @RequestHeader("Content-Type") String contentType, @RequestBody String parameters) {
-        return business.login(parameters, authorization, contentType);
+            @RequestHeader("Content-Type") String contentType, @RequestBody LoginDTO login) {
+        return business.login(login, authorization, contentType);
     }
 }

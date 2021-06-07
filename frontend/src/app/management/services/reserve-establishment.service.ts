@@ -35,4 +35,8 @@ export class ReserveEstablishmentService {
     period.forEach(p => count += p.currentPeople);
     return count;
   }
+
+  cancelReservation(id: number): Observable<any> {
+    return this.http.delete<any>(`http://localhost:8080/reserve/${id}`);
+  }
 }

@@ -9,6 +9,7 @@ import com.temreserva.backend.temreserva_backend.business.ImageBusiness;
 import com.temreserva.backend.temreserva_backend.business.UserBusiness;
 import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.web.model.dto.UserDTO;
 import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
@@ -32,8 +33,8 @@ import org.springframework.http.HttpStatus;
 public class UserController {
     public final UserBusiness business;
 
-    public UserController(UserRepository userRepository,CredentialRepository credentialRepository, ImageRepository imageRepository) {
-        business = new UserBusiness(userRepository, new ImageBusiness(imageRepository), new CredentialBusiness(credentialRepository));
+    public UserController(UserRepository userRepository,CredentialRepository credentialRepository, ImageRepository imageRepository, ReserveRepository reserveRepository) {
+        business = new UserBusiness(userRepository, new ImageBusiness(imageRepository), new CredentialBusiness(credentialRepository), reserveRepository);
     }
 
     @PostMapping("/create")

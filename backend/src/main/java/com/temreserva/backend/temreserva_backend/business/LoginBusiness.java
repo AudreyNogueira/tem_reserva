@@ -8,6 +8,7 @@ import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.temreserva.backend.temreserva_backend.web.model.dto.LoginDTO;
 import com.temreserva.backend.temreserva_backend.web.model.response.LoginModel;
 import com.temreserva.backend.temreserva_backend.web.model.response.RestaurantModel;
 import com.temreserva.backend.temreserva_backend.web.model.response.UserModel;
@@ -26,36 +27,30 @@ public class LoginBusiness {
         this.restaurantBusiness = restaurantBusiness;
     }
 
-    public LoginModel login(String parameters, String authorization, String contentType) {
-        try {
-            String username = parameters.substring(parameters.indexOf("=") + 1, parameters.indexOf("&")).replace("%40",
-                    "@");
-            String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
-            String type = parameters.substring(parameters.indexOf("&type=") + 6, parameters.length()).trim();
-            String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
+    public LoginModel login(LoginDTO login, String authorization, String contentType) {            
+             String username = login.getUser();
+             String password = login.getPassword();
+             String type = login.getLoginType();
+             String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
 
             if (accessToken != null) {
                 Boolean isUser = type.equals("user");
                 Credential credentials = credentialBusiness.getCredentialByEmail(username);
 
-                return doLogin(isUser, credentials);
+                return doLogin(isUser, credentials, accessToken);
             }
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
-        } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
-        }
+                    Enumerators.apiExceptionCodeEnum.USERNAME_OR_PASSWORD_INVALID.getEnumValue());
     }
 
-    private LoginModel doLogin(Boolean isUser, Credential credentials) {
+    private LoginModel doLogin(Boolean isUser, Credential credentials, String accessToken) {
         LoginModel response;
 
         if (isUser)
-            response = LoginModel.builder().user(userLogin(credentials)).build();
+            response = LoginModel.builder().accessToken(accessToken).user(userLogin(credentials)).build();
         else
-            response = LoginModel.builder().restaurant(restaurantLogin(credentials)).build();
+            response = LoginModel.builder().accessToken(accessToken).restaurant(restaurantLogin(credentials)).build();
 
         return response;
     }
