@@ -28,8 +28,8 @@ public class WebConfig {
     // }
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Collections.singletonList("")); // <-- you may change ""
-        // configuration.setAllowedOrigins(Collections.singletonList("")); // <-- you may change ""
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*")); // <-- you may change "*"
+        // configuration.setAllowedOrigins(Collections.singletonList("*")); // <-- you may change "*"
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(

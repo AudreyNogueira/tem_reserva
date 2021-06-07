@@ -38,12 +38,10 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   ignoreRoutes(url: string): boolean {
-    console.log(url.includes('/login') ||
-      url.includes('/cadastrar-estabelecimento') ||
-      url.includes('/cadastrar-cliente'))
     return url.includes('/login') ||
-      url.includes('/cadastrar-estabelecimento') ||
-      url.includes('/cadastrar-cliente');
+      url.includes('/user/create') ||
+      url.includes('/restaurant/create') ||
+      url.includes('https://viacep.com.br');
   }
 
 }
