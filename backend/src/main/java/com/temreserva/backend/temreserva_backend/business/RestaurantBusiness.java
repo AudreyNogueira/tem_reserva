@@ -291,11 +291,10 @@ public class RestaurantBusiness {
                         .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
                         .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
                         .restaurantName(restaurant.getRestaurantName())
-                        .currentPeople(getListCurrentPeopleModel(currentPeople))
-                        .restaurantImages(lstImages).maxNumberOfPeople(restaurant.getMaxNumberOfPeople())
-                        .averageStars(restaurant.getAverageStars()).payment(restaurant.getPayment())
-                        .phoneNumber(restaurant.getPhoneNumber()).description(restaurant.getDescription())
-                        .restaurantDateTime(dateTime).build();
+                        .currentPeople(getListCurrentPeopleModel(currentPeople)).restaurantImages(lstImages)
+                        .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
+                        .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
+                        .description(restaurant.getDescription()).restaurantDateTime(dateTime).build();
 
                 response.add(model);
             } catch (Exception ex) {
@@ -354,6 +353,7 @@ public class RestaurantBusiness {
         restaurantRepository.findById(id).map(r -> {
             Long idCred = r.getCredential().getId();
             imageBusiness.deleteImageByOwnerId(id);
+            reserveRepository.findByRestaurant(r).forEach(reserve -> reserveRepository.delete(reserve));
             addressRepository.delete(addressRepository.findByRestaurant(r));
             restaurantDateTimeRepository.findByRestaurant(r).forEach(a -> restaurantDateTimeRepository.delete(a));
             restaurantRepository.delete(r);

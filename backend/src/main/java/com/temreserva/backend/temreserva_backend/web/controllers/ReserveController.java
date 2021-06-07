@@ -47,7 +47,7 @@ public class ReserveController {
         business = new ReserveBusiness(reserveRepository,
                 new RestaurantBusiness(restaurantRepository, credentialBusiness, imageBusiness, addressRepository,
                         reserveRepository, restaurantDateTime),
-                new UserBusiness(userRepository, imageBusiness, credentialBusiness), mailTemplateRepository);
+                new UserBusiness(userRepository, imageBusiness, credentialBusiness, reserveRepository), mailTemplateRepository);
     }
 
     @PostMapping("/create")

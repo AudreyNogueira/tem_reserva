@@ -27,13 +27,7 @@ public class LoginBusiness {
         this.restaurantBusiness = restaurantBusiness;
     }
 
-    public LoginModel login(LoginDTO login, String authorization, String contentType) {
-        try {
-            // String username = parameters.substring(parameters.indexOf("=") + 1, parameters.indexOf("&")).replace("%40",
-            //         "@");
-            // String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
-            // String type = parameters.substring(parameters.indexOf("&type=") + 6, parameters.length()).trim();
-            
+    public LoginModel login(LoginDTO login, String authorization, String contentType) {            
              String username = login.getUser();
              String password = login.getPassword();
              String type = login.getLoginType();
@@ -47,11 +41,7 @@ public class LoginBusiness {
             }
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
-        } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
-        }
+                    Enumerators.apiExceptionCodeEnum.USERNAME_OR_PASSWORD_INVALID.getEnumValue());
     }
 
     private LoginModel doLogin(Boolean isUser, Credential credentials, String accessToken) {
