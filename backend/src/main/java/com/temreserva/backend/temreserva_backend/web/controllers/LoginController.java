@@ -33,7 +33,8 @@ public class LoginController {
         business = new LoginBusiness(new CredentialBusiness(credentialRepository),
                 new RestaurantBusiness(restaurantRepository, new CredentialBusiness(credentialRepository),
                         new ImageBusiness(imageRepository), addressRepository, reserveRepository, restaurantDateTime),
-                new UserBusiness(userRepository, new ImageBusiness(imageRepository), new CredentialBusiness(credentialRepository)));
+                new UserBusiness(userRepository, new ImageBusiness(imageRepository),
+                        new CredentialBusiness(credentialRepository), reserveRepository));
     }
 
     @ResponseStatus(HttpStatus.OK)

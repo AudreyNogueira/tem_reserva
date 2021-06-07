@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import com.temreserva.backend.temreserva_backend.data.entity.Credential;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
+import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
 import com.temreserva.backend.temreserva_backend.web.model.dto.UserDTO;
 import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
@@ -24,12 +25,14 @@ public class UserBusiness {
     private final UserRepository userRepository;
     private final CredentialBusiness credentialBusiness;
     private final ImageBusiness imageBusiness;
+    private final ReserveRepository reserveRepository;
 
     public UserBusiness(UserRepository userRepository, ImageBusiness imageBusiness,
-            CredentialBusiness credentialBusiness) {
+            CredentialBusiness credentialBusiness, ReserveRepository reserveRepository) {
         this.userRepository = userRepository;
         this.credentialBusiness = credentialBusiness;
         this.imageBusiness = imageBusiness;
+        this.reserveRepository = reserveRepository;
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
@@ -110,6 +113,7 @@ public class UserBusiness {
         userRepository.findById(id).map(u -> {
             Long idCred = u.getCredential().getId();
             imageBusiness.deleteImageByOwnerId(id);
+            reserveRepository.findByUser(u).forEach(reserve -> reserveRepository.delete(reserve));
             userRepository.delete(u);
             credentialBusiness.deleteCredentialById(idCred);
             return Void.TYPE;
