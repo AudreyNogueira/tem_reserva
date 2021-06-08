@@ -22,6 +22,7 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     @Query(value = "SELECT iFnull(SUM(QTD_PESSOAS), 0) FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND PERIODO = :period AND CAST(DATA_RESERVA AS DATE) = CAST(:date AS DATE) AND CONFIRMADO = 1", nativeQuery = true)
     public Integer findNumberOfPeopleByRestaurantPeriodAndDate(@Param("idRestaurant") Long idRestaurant, @Param("period") String period, @Param("date") LocalDateTime date);
 
+    @Query(value = "SELECT * FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CONFIRMADO = 1", nativeQuery = true)
     public List<Reserve> findByRestaurant(Restaurant restaurant);
 
     public List<Reserve> findByUser(User user);
@@ -29,7 +30,7 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     @Query(value = "SELECT * FROM TB_RESERVA R WHERE R.ID_USUARIO = :idUser AND CAST(DATA_RESERVA AS DATE) = CAST(:date AS DATE)", nativeQuery = true)
     public List<Reserve> findByUserAndDate(Long idUser, @Param("date") LocalDateTime date);
 
-    @Query(value = "SELECT * FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CAST(DATA_RESERVA AS DATE) = CAST(:date AS DATE)", nativeQuery = true)
+    @Query(value = "SELECT * FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CAST(DATA_RESERVA AS DATE) = CAST(:date AS DATE) AND CONFIRMADO = 1", nativeQuery = true)
     public List<Reserve> findByRestaurantCurrentDay(Long idRestaurant, @Param("date") LocalDateTime date);
 
     @Query(value = "SELECT iFnull(SUM(R.QTD_PESSOAS), 0) AS currentPeople, PERIODO AS period FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CAST(R.DATA_RESERVA AS DATE) = :date AND CONFIRMADO = 1 GROUP BY R.PERIODO", nativeQuery = true)
