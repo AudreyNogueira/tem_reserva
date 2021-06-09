@@ -23,7 +23,7 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     public Integer findNumberOfPeopleByRestaurantPeriodAndDate(@Param("idRestaurant") Long idRestaurant, @Param("period") String period, @Param("date") LocalDateTime date);
 
     @Query(value = "SELECT * FROM TB_RESERVA R WHERE R.ID_RESTAURANTE = :idRestaurant AND CONFIRMADO = 1", nativeQuery = true)
-    public List<Reserve> findByRestaurant(Restaurant restaurant);
+    public List<Reserve> findByRestaurant(Long idRestaurant);
 
     public List<Reserve> findByUser(User user);
 

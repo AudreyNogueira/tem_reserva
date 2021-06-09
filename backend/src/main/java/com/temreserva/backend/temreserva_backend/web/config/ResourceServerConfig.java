@@ -34,6 +34,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         .antMatchers("/restaurant/create").permitAll()
         .antMatchers("/restaurant/*").authenticated()
         .antMatchers("/restaurant/image/*").authenticated()
-        .antMatchers("/reserve/").authenticated().antMatchers("/h2-console/*").permitAll();
+        .antMatchers("/reserve/*").authenticated().antMatchers("/h2-console/**").permitAll()
+        .antMatchers("/login/**").permitAll();
     }
 }

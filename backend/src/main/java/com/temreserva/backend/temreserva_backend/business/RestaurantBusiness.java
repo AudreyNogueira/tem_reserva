@@ -353,7 +353,7 @@ public class RestaurantBusiness {
         restaurantRepository.findById(id).map(r -> {
             Long idCred = r.getCredential().getId();
             imageBusiness.deleteImageByOwnerId(id);
-            reserveRepository.findByRestaurant(r).forEach(reserve -> reserveRepository.delete(reserve));
+            reserveRepository.findByRestaurant(r.getId()).forEach(reserve -> reserveRepository.delete(reserve));
             addressRepository.delete(addressRepository.findByRestaurant(r));
             restaurantDateTimeRepository.findByRestaurant(r).forEach(a -> restaurantDateTimeRepository.delete(a));
             restaurantRepository.delete(r);

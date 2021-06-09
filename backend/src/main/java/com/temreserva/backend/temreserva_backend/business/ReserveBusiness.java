@@ -161,7 +161,7 @@ public class ReserveBusiness {
     public List<ReserveRestaurantModel> getReservesByRestaurantId(Long restaurantId, LocalDateTime date) {
         Restaurant restaurant = restaurantBusiness.findById(restaurantId);
         List<Reserve> reserves = date != null ? reserveRepository.findByRestaurantCurrentDay(restaurantId, date)
-                : reserveRepository.findByRestaurant(restaurant);
+                : reserveRepository.findByRestaurant(restaurant.getId());
         return getReservesForRestaurant(getReserveModelListByReserveList(reserves));
     }
 
