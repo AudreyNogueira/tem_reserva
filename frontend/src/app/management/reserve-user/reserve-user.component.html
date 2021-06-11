@@ -4,12 +4,12 @@
             <div class="reserve" *ngFor="let r of reserves">
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-9">
-                        <div class="block">
+                        <div class="block" [ngClass]="{ 'confirmed': !r.confirmed }">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="d-block d-md-flex">
                                         <div class="image">
-                                            <img class="h-100"
+                                            <img class="size-img"
                                                 [src]="'data:image/png;base64,' + r.restaurant.profileImage.image"
                                                 alt="">
                                         </div>
@@ -40,7 +40,7 @@
                                                 <div class="footer">
                                                     <div class="people">Reserva para {{ r.amountOfPeople }} {{
                                                         r.amountOfPeople > 1 ? 'pessoas' : 'pessoa' }}</div>
-                                                    <button (click)="cancelReservation(r)"
+                                                    <button (click)="cancelReservation(r)" *ngIf="r.confirmed"
                                                         class="cancel">Cancelar</button>
                                                 </div>
                                             </div>

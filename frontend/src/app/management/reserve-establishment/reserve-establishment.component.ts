@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { switchMap } from 'rxjs/operators';
 import { AccountType } from 'src/app/models/account.model';
-import { ReservePerDay } from 'src/app/models/reserve.model';
+import { Reserve, ReservePerDay } from 'src/app/models/reserve.model';
 import { RoutesEnum } from 'src/app/models/routes.enum';
 import { DayOfWeekEnum } from 'src/app/models/week.enum';
 import { SessionService } from 'src/app/shared/services/session.service';
@@ -34,7 +35,7 @@ export class ReserveEstablishmentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if( this.sessionService.getLoginType() === AccountType.USER) {
+    if (this.sessionService.getLoginType() === AccountType.USER) {
       this.router.navigate([RoutesEnum.RESERVE_USER]);
     }
 
@@ -59,7 +60,17 @@ export class ReserveEstablishmentComponent implements OnInit {
   }
 
   cancelReserve(id: number) {
-    this.reserveService.cancelReservation(id).subscribe();
+    this.reserveService.cancelReservation(id).pipe(
+      switchMap(() => this.reserveService.getReservesByUserEstablishmentId(this.sessionService.getUserSession().id)))
+      .subscribe(res => this.reserves = res);
+  }
+
+  confirmReserve(r: Reserve) {
+    console.log(r);
+    r.confirmed = false;
+    this.reserveService.editReservation(r).pipe(
+      switchMap(() => this.reserveService.getReservesByUserEstablishmentId(this.sessionService.getUserSession().id)))
+      .subscribe(res => this.reserves = res);
   }
 
 }

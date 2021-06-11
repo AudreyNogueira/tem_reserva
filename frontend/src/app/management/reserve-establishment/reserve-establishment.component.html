@@ -25,7 +25,7 @@
                                             <div class="column-content">{{res.amountOfPeople}}</div>
                                             <div class="column-content small">{{ maskHour(res.reserveDate) }}</div>
                                             <div class="column-content center">
-                                                <img src="../../../assets/icons/svg/joinha-azul.svg" class="icon">
+                                                <img src="../../../assets/icons/svg/joinha-azul.svg" (click)="confirmReserve(res)" class="icon">
                                                 <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res.id)" class="icon down">
                                             </div>
                                         </div>
@@ -38,7 +38,7 @@
                                             <div class="column-content">Horário: {{ maskHour(res.reserveDate) }}</div>
                                             <div class="column-content center">
                                                 Status:
-                                                <img src="../../../assets/icons/svg/joinha-azul.svg" class="icon">
+                                                <img src="../../../assets/icons/svg/joinha-azul.svg" (click)="confirmReserve(res)" class="icon">
                                                 <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res.id)" class="icon down">
                                             </div>
                                         </div>
