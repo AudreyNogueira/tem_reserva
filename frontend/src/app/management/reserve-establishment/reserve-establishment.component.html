@@ -1,6 +1,6 @@
 <div id="reserve-establishment">
     <div class="container-fluid">
-        <div *ngIf="reserves?.length > 0">
+        <div *ngIf="reserves?.length > 0 && !loading">
             <div *ngFor="let r of reserves">
                 <div class="row">
                     <div class="col-12 col-xl-9 order-2 order-xl-1">
@@ -61,9 +61,13 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="reserves?.length < 1">
+        <div *ngIf="reserves?.length < 1 && !loading">
             <div class="block">
                 Você ainda não possui nenhuma reserva.
+            </div>
+        </div>
+        <div *ngIf="loading" class="gif">
+            <div class="spinner-border text-dark" role="status">
             </div>
         </div>
     </div>

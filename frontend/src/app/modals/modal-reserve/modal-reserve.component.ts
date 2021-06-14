@@ -8,6 +8,7 @@ import { ReservationService } from '../../establishment-dashboard/services/reser
 import { Reserve } from 'src/app/models/reserve.model';
 import { ModalService } from '../service/modal.service';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { EstablishmentListService } from 'src/app/establishment-dashboard/services/establishment-list.service';
 
 @Component({
   selector: 'modal-reserve',
@@ -47,6 +48,7 @@ export class ModalReserveComponent implements OnInit {
     private readonly reservationService: ReservationService,
     private modalServiceLocal: ModalService,
     private readonly sessionService: SessionService,
+    private readonly establishmentService: EstablishmentListService,
   ) { }
 
   ngOnInit(): void {
@@ -139,6 +141,15 @@ export class ModalReserveComponent implements OnInit {
           this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'error', message: 'Erro ao criar sua reserva, tente novamente' });
         });
     }
+  }
+
+  getQuantity(period: string) {
+    return this.establishment.currentPeople.find(p => p.period === period)?.currentPeople ?
+      this.establishment.currentPeople.find(p => p.period === period)?.currentPeople : 0;
+  }
+
+  confirmedReserve() {
+    this.establishmentService.reserve$.next(true);
   }
 
 }

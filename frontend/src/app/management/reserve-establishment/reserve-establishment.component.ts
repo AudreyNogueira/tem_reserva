@@ -27,6 +27,7 @@ export class ReserveEstablishmentComponent implements OnInit {
   ];
 
   reserves: ReservePerDay[] = [];
+  loading = true;
 
   constructor(
     private reserveService: ReserveEstablishmentService,
@@ -39,7 +40,10 @@ export class ReserveEstablishmentComponent implements OnInit {
       this.router.navigate([RoutesEnum.RESERVE_USER]);
     }
 
-    this.reserveService.getReservesByUserEstablishmentId(this.sessionService.getUserSession().id).subscribe(res => this.reserves = res);
+    this.reserveService.getReservesByUserEstablishmentId(this.sessionService.getUserSession().id).subscribe(res => {
+      this.reserves = res;
+      this.loading = false;
+    });
   }
 
   maskCpf(cpf: string): string {

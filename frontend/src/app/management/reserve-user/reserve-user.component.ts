@@ -31,6 +31,7 @@ export class ReserveUserComponent implements OnInit {
   ]
 
   reserves: Reserve[];
+  loading = true;
 
   constructor(
     private readonly sessionService: SessionService,
@@ -45,11 +46,12 @@ export class ReserveUserComponent implements OnInit {
 
     this.getReserves();
   }
-  
+
   getReserves(): void {
-        this.reserveService.getReservesByUserId(this.sessionService.getUserSession().id).subscribe(res => {
+    this.reserveService.getReservesByUserId(this.sessionService.getUserSession().id).subscribe(res => {
       this.reserves = this.orderReserve(res);
-  });
+      this.loading = false;
+    });
   }
 
   orderReserve(reserve: Reserve[]) {
