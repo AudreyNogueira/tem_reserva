@@ -96,6 +96,10 @@
                             align-items: center;
                         }
 
+                        &.yellow {
+                            color: $yellow;
+                        }
+
                         .icon {
                             width: 30px;
                             margin: 0 12px;
@@ -121,6 +125,9 @@
                         .column-content {
                             font-weight: bold;
                             color: $black_text;
+                            &.yellow {
+                                color: $yellow;
+                            }
                         }
                         
                     }
@@ -140,6 +147,10 @@
                         &.center {
                             display: flex;
                             align-items: center;
+                        }
+
+                        &.yellow {
+                            color: $yellow;
                         }
 
                         .icon {

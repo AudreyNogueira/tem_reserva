@@ -14,26 +14,7 @@ export class ReserveEstablishmentService {
   ) { }
 
   getReservesByUserEstablishmentId(id: string): Observable<ReservePerDay[]> {
-    return this.http.get<any>(`http://localhost:8080/reserve/restaurantId=${id}`).pipe(map(r => {
-      const response = [];
-      r.forEach(reserve => response.push(this.mapReservePerDay(reserve)));
-      return response;
-    }));
-  }
-
-  mapReservePerDay(reserve: any): ReservePerDay {
-    return {
-      day: reserve.day,
-      maxNumberOfPeople: reserve.maxNumberOfPeople,
-      reserves: reserve.reserves,
-      currentPeople: this.mapCurrentPeople(reserve.currentPeople),
-    }
-  }
-
-  mapCurrentPeople(period: any[]) {
-    let count = 0;
-    period.forEach(p => count += p.currentPeople);
-    return count;
+    return this.http.get<any>(`http://localhost:8080/reserve/restaurantId=${id}`);
   }
 
   cancelReservation(id: number): Observable<any> {
