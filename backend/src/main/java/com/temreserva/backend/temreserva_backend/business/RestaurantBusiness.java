@@ -173,9 +173,12 @@ public class RestaurantBusiness {
             r.setUpdateDate(LocalDateTime.now());
             r.setPhoneNumber(restaurant.getPhoneNumber() == null ? r.getPhoneNumber() : restaurant.getPhoneNumber());
             r.setPayment(restaurant.getPayment() == null ? r.getPayment() : restaurant.getPayment());
-            restaurantDateTimeRepository.findByRestaurant(r).forEach(a -> restaurantDateTimeRepository.delete(a));
-            restaurant.getRestaurantDateTime().forEach(rest -> createRestaurantDateTime(r, rest));
-            credentialBusiness.updateEmailByID(r.getCredential().getId(), restaurant.getEmail());
+            if(restaurant.getRestaurantDateTime() != null) {
+                restaurantDateTimeRepository.findByRestaurant(r).forEach(a -> restaurantDateTimeRepository.delete(a));
+                restaurant.getRestaurantDateTime().forEach(rest -> createRestaurantDateTime(r, rest));
+            }            
+            if(restaurant.getEmail() != null)
+                credentialBusiness.updateEmailByID(r.getCredential().getId(), restaurant.getEmail());
             return restaurantRepository.save(r);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
