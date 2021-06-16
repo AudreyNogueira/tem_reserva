@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.temreserva.backend.temreserva_backend.data.entity.Reserve;
-import com.temreserva.backend.temreserva_backend.data.entity.Restaurant;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.web.model.interfaces.ICurrentPeopleModel;
 

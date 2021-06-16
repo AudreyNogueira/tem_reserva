@@ -28,6 +28,8 @@ public class RestaurantModel {
 
     private Integer maxNumberOfPeople;
 
+    private Integer actualNumberOfPeople;
+
     private List<CurrentPeopleModel> currentPeople;
 
     private Integer averageStars;

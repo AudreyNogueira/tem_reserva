@@ -54,4 +54,5 @@ public class RestaurantDTO {
 
     private AddressDTO address;   
 
-    private List<RestaurantDateTimeDTO> restaurantDateTime;}
+    private List<RestaurantDateTimeDTO> restaurantDateTime;
+}
