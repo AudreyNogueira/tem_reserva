@@ -210,9 +210,11 @@ public class RestaurantBusiness {
                     .findCurrentPeopleModelByRestaurant(restaurant.getId(), LocalDate.now());
             List<RestaurantDateTimeModel> dateTime = getListRestaurantDateTimeModel(
                     restaurantDateTimeRepository.findByRestaurant(restaurant));
-            return RestaurantModel.builder().id(restaurant.getId()).email(restaurant.getCredential().getEmail())
-                    .profileImage(img).cnpj(restaurant.getCnpj()).cleaning(restaurant.getCleaning())
-                    .address(getAddressModelFromAddress(address)).restaurantName(restaurant.getRestaurantName())
+            return RestaurantModel.builder().id(restaurant.getId())
+                    .actualNumberOfPeople(restaurant.getActualNumberOfPeople())
+                    .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
+                    .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
+                    .restaurantName(restaurant.getRestaurantName())
                     .currentPeople(getListCurrentPeopleModel(currentPeople)).restaurantImages(lstImages)
                     .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
                     .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
@@ -287,7 +289,8 @@ public class RestaurantBusiness {
                         .findCurrentPeopleModelByRestaurant(restaurant.getId(), LocalDate.now());
                 List<RestaurantDateTimeModel> dateTime = getListRestaurantDateTimeModel(
                         restaurantDateTimeRepository.findByRestaurant(restaurant));
-                RestaurantModel model = RestaurantModel.builder().id(restaurant.getId())
+                RestaurantModel model = RestaurantModel.builder()
+                        .actualNumberOfPeople(restaurant.getActualNumberOfPeople()).id(restaurant.getId())
                         .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
                         .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
                         .restaurantName(restaurant.getRestaurantName())
