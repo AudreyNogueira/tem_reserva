@@ -8,6 +8,7 @@ import { Reserve, ReservePerDay } from 'src/app/models/reserve.model';
 import { RoutesEnum } from 'src/app/models/routes.enum';
 import { DayOfWeekEnum } from 'src/app/models/week.enum';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { EditEstablishmentService } from '../services/edit-establishment.service';
 import { ReserveEstablishmentService } from '../services/reserve-establishment.service';
 
 @Component({
@@ -29,18 +30,24 @@ export class ReserveEstablishmentComponent implements OnInit {
 
   reserves: ReservePerDay[] = [];
   loading = true;
+  restaurantLocal = 0;
 
   constructor(
     private reserveService: ReserveEstablishmentService,
     private readonly sessionService: SessionService,
     private readonly router: Router,
     private readonly establishmentListService: EstablishmentListService,
+    private readonly editEstablishmentService: EditEstablishmentService,
   ) { }
 
   ngOnInit(): void {
     if (this.sessionService.getLoginType() === AccountType.USER) {
       this.router.navigate([RoutesEnum.RESERVE_USER]);
     }
+
+    this.establishmentListService.getEstablishmentById(this.sessionService.getUserSession().id).subscribe(r => {
+      this.restaurantLocal = r.actualNumberOfPeople;
+    })
 
     this.reserveService.getReservesByUserEstablishmentId(this.sessionService.getUserSession().id).subscribe(res => {
       this.reserves = this.orderReserves(res);
@@ -79,18 +86,37 @@ export class ReserveEstablishmentComponent implements OnInit {
     return `${this.dayOfWeek[day.getDay()]} ${day.toLocaleDateString('pt-br')}`;
   }
 
-  cancelReserve(id: number) {
-    this.reserveService.cancelReservation(id).pipe(
+  cancelReserve(resCancel: Reserve) {
+    this.reserveService.cancelReservation(resCancel.id).pipe(
       switchMap(() => this.reserveService.getReservesByUserEstablishmentId(this.sessionService.getUserSession().id)))
-      .subscribe(res => this.reserves = res);
+      .subscribe(res => {
+        this.reserves = this.orderReserves(res);
+        if (new Date(resCancel.reserveDate).getDate() === new Date().getDate()) {
+          const actualNumber = {
+            actualNumberOfPeople: this.restaurantLocal - resCancel.amountOfPeople,
+          }
+          this.editEstablishmentService.updateEstablishment(this.sessionService.getUserSession().id, actualNumber).subscribe(() => {
+            this.restaurantLocal = actualNumber.actualNumberOfPeople;
+          });
+        }
+      });
   }
 
   confirmReserve(r: Reserve) {
-    console.log(r);
     r.confirmed = false;
     this.reserveService.editReservation(r).pipe(
       switchMap(() => this.reserveService.getReservesByUserEstablishmentId(this.sessionService.getUserSession().id)))
-      .subscribe(res => this.reserves = this.orderReserves(res));
+      .subscribe(res => {
+        this.reserves = this.orderReserves(res);
+        if (new Date(r.reserveDate).getDate() === new Date().getDate()) {
+          const actualNumber = {
+            actualNumberOfPeople: this.restaurantLocal - r.amountOfPeople,
+          }
+          this.editEstablishmentService.updateEstablishment(this.sessionService.getUserSession().id, actualNumber).subscribe(() => {
+            this.restaurantLocal = actualNumber.actualNumberOfPeople;
+          });
+        }
+      });
   }
 
   getCurrentPeople(date: string) {
@@ -102,4 +128,12 @@ export class ReserveEstablishmentComponent implements OnInit {
         .find(p => p.period === this.establishmentListService.getPeriod())?.currentPeople : 0;
   }
 
+  changeNumber(isSub: boolean): void {
+    if (isSub) {
+      this.restaurantLocal--;
+    } else {
+      this.restaurantLocal++;
+    }
+    this.editEstablishmentService.updateEstablishment(this.sessionService.getUserSession().id, { actualNumberOfPeople: this.restaurantLocal }).subscribe();
+  }
 }

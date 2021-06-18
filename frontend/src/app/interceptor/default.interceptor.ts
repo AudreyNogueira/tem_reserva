@@ -30,8 +30,8 @@ export class DefaultInterceptor implements HttpInterceptor {
         if (error.status === 401) {
           this.sessionService.logout();
           this.router.navigate([RoutesEnum.ABOUT]);
-          return throwError(error);
         }
+        return throwError(error);
       }));
     }
     return next.handle(request);

@@ -1,7 +1,12 @@
 <div id="reserve-establishment">
     <div class="container-fluid">
+        <div class="panel">
+            <button [ngClass]="{ 'wEvent': restaurantLocal === 0 }" (click)="changeNumber(true)" class="control-button minus">-</button>
+            <div class="cont">{{ restaurantLocal }}</div>
+            <button (click)="changeNumber(false)" class="control-button plus">+</button>
+        </div>
         <div *ngIf="reserves?.length > 0 && !loading">
-            <div *ngFor="let r of reserves">
+            <div *ngFor="let r of reserves; let i = index">
                 <div class="row">
                     <div class="col-12 col-xl-9 order-2 order-xl-1">
                         <div class="block">
@@ -28,7 +33,7 @@
                                             </div>
                                             <div class="column-content center">
                                                 <img src="../../../assets/icons/svg/joinha-azul.svg" (click)="confirmReserve(res)" class="icon">
-                                                <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res.id)" class="icon down">
+                                                <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res)" class="icon down">
                                             </div>
                                         </div>
                                         <div class="content-sm d-block d-md-none" *ngFor="let res of r.reserves">
@@ -50,15 +55,13 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-                    <div class="col-12 col-xl-3 order-1 order-xl-2">
+                    <div *ngIf="i === 0" class="col-12 col-xl-3 order-1 order-xl-2">
                         <div class="block block-capacity">
                             <h6 class="second-title">Capacidade de Clientes</h6>
                             <div class="day">{{ mapDate(r.day) }}</div>
                             <div class="capacity">
-                                <div class="current">{{ getCurrentPeople(r.day) }}</div>/<div class="max">{{ r.maxNumberOfPeople }}</div>
+                                <div class="current">{{ restaurantLocal }}</div>/<div class="max">{{ r.maxNumberOfPeople }}</div>
                             </div>
                         </div>
                     </div>

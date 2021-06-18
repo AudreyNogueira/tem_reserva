@@ -3,6 +3,45 @@
 #reserve-establishment {
     padding: 45px 0;
 
+    .panel {
+        display: flex;
+        margin-bottom: 30px;
+        font-size: 30px;
+
+        .cont {
+            width: 100px;
+            height: 100px;
+            background-color: $light_blue;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        .control-button {
+            font-weight: bold;
+            color: $white;
+            border: none;
+            height: 100px;
+            width: 50px;
+            font-family: Mulish;
+
+            &.wEvent {
+                pointer-events: none;
+                cursor: auto;
+            }
+
+            &.minus {
+                background-color: $error_feedback;
+                border-bottom-left-radius: 10px;
+                border-top-left-radius: 10px;
+            }
+            &.plus {
+                background-color: $success_feedback;
+                border-bottom-right-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+        }
+    }
+
     .gif {
         width: 100%;
         margin-top: 200px;

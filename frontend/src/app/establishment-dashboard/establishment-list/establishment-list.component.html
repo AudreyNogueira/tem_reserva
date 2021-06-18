@@ -16,7 +16,7 @@
                 <img [src]="'data:image/png;base64,' + est?.profileImage?.image" class="img-establishment">
                 <div class="name">{{ est.restaurantName }}</div>
                 <div class="address">{{ est.address.address }}, {{ est.address.restaurantNumber }}</div>
-                <div class="capacity">Lotação atual {{ est.currentPeople}}/{{ est.maxNumberOfPeople }}</div>
+                <div class="capacity">Lotação atual {{ est?.actualNumberOfPeople }}/{{ est.maxNumberOfPeople }}</div>
             </div>
         </div>
         <div *ngIf="customList.length === 0">
