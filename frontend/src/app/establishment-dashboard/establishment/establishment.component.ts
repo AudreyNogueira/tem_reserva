@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { switchMap } from 'rxjs/operators';
 import { ModalService } from 'src/app/modals/service/modal.service';
 import { DayOfWeekModel } from 'src/app/models/day-hour.model';
 import { Establishment } from 'src/app/models/establishment.model';
@@ -66,6 +67,15 @@ export class EstablishmentComponent implements OnInit {
       this.dayDisabled = this.dayOfWeek.filter(disable => !this.establishment.restaurantDateTime.some(d => d.day === disable)).map(w => this.weekEnum[w]);
       this.treatOpenDays(this.establishment.restaurantDateTime);
     });
+
+    this.establishmentListService.reserve$.pipe(switchMap(() =>
+      this.establishmentListService.getEstablishmentById(Number(idEstablishment))
+    )).subscribe(e => {
+      this.establishment = e;
+      this.images = e.restaurantImages.map(img => img.image);
+      this.dayDisabled = this.dayOfWeek.filter(disable => !this.establishment.restaurantDateTime.some(d => d.day === disable)).map(w => this.weekEnum[w]);
+      this.treatOpenDays(this.establishment.restaurantDateTime);
+    });
   }
 
   /**
@@ -115,4 +125,10 @@ export class EstablishmentComponent implements OnInit {
       );
     });
   }
+
+  getCurrentPeople() {
+    return this.establishment.currentPeople.find(p => p.period === this.establishmentListService.getPeriod())?.currentPeople ?
+      this.establishment.currentPeople.find(p => p.period === this.establishmentListService.getPeriod())?.currentPeople : 0;
+  }
+
 }

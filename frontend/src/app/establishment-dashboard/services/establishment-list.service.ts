@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Establishment, EstablishmentZone, Zone } from '../../models/establishment.model';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -12,6 +12,7 @@ import { Periodo } from 'src/app/models/time.model';
 export class EstablishmentListService {
 
   loadMock$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+  reserve$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private readonly http: HttpClient,
@@ -34,7 +35,7 @@ export class EstablishmentListService {
   mapCurrentPeopleNow(est: EstablishmentZone) {
     est.topRated.forEach(tp => tp.currentPeople =
       tp?.currentPeople.find(p => p.period === this.getPeriod())?.currentPeople ? tp?.currentPeople.find(p => p.period === this.getPeriod())?.currentPeople : 0);
-    est.zone.forEach(z => z.restaurantList.forEach(tp => tp.currentPeople = 
+    est.zone.forEach(z => z.restaurantList.forEach(tp => tp.currentPeople =
       tp?.currentPeople.find(p => p.period === this.getPeriod())?.currentPeople ? tp?.currentPeople.find(p => p.period === this.getPeriod())?.currentPeople : 0));
     return est;
   }

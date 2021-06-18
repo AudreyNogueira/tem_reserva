@@ -18,5 +18,5 @@ export interface ReservePerDay {
     day: string;
     maxNumberOfPeople: number;
     reserves: Reserve[];
-    currentPeople: number;
+    currentPeople: any[];
 }

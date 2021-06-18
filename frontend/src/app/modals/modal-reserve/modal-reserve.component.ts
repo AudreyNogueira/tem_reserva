@@ -8,6 +8,8 @@ import { ReservationService } from '../../establishment-dashboard/services/reser
 import { Reserve } from 'src/app/models/reserve.model';
 import { ModalService } from '../service/modal.service';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { EstablishmentListService } from 'src/app/establishment-dashboard/services/establishment-list.service';
+import { EditEstablishmentService } from 'src/app/management/services/edit-establishment.service';
 
 @Component({
   selector: 'modal-reserve',
@@ -47,6 +49,8 @@ export class ModalReserveComponent implements OnInit {
     private readonly reservationService: ReservationService,
     private modalServiceLocal: ModalService,
     private readonly sessionService: SessionService,
+    private readonly establishmentService: EstablishmentListService,
+    private readonly editEstablishmentService: EditEstablishmentService,
   ) { }
 
   ngOnInit(): void {
@@ -135,10 +139,28 @@ export class ModalReserveComponent implements OnInit {
         .subscribe(() => {
           this.loading = false;
           this.isFeedback = true;
+          if (this.choosedDay.getDate() === new Date().getDate()) {
+            const actualNumber: Establishment = {
+              actualNumberOfPeople: reserve.amountOfPeople + this.establishment.actualNumberOfPeople,
+            }
+            this.editEstablishmentService.updateEstablishment(reserve.idRestaurant, actualNumber).subscribe();
+          }
         }, () => {
           this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'error', message: 'Erro ao criar sua reserva, tente novamente' });
         });
     }
+  }
+
+  getQuantity(period: string) {
+    if (period === this.establishmentService.getPeriod() && this.choosedDay.getDate() === new Date().getDate()) {
+      return this.establishment.actualNumberOfPeople;
+    }
+    return this.establishment.currentPeople.find(p => p.period === period)?.currentPeople ?
+      this.establishment.currentPeople.find(p => p.period === period)?.currentPeople : 0;
+  }
+
+  confirmedReserve() {
+    this.establishmentService.reserve$.next(true);
   }
 
 }

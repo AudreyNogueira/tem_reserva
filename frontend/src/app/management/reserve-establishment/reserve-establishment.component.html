@@ -1,7 +1,12 @@
 <div id="reserve-establishment">
     <div class="container-fluid">
-        <div *ngIf="reserves?.length > 0">
-            <div *ngFor="let r of reserves">
+        <div class="panel">
+            <button [ngClass]="{ 'wEvent': restaurantLocal === 0 }" (click)="changeNumber(true)" class="control-button minus">-</button>
+            <div class="cont">{{ restaurantLocal }}</div>
+            <button (click)="changeNumber(false)" class="control-button plus">+</button>
+        </div>
+        <div *ngIf="reserves?.length > 0 && !loading">
+            <div *ngFor="let r of reserves; let i = index">
                 <div class="row">
                     <div class="col-12 col-xl-9 order-2 order-xl-1">
                         <div class="block">
@@ -23,10 +28,12 @@
                                             <div class="column-content">{{res.user.name}}</div>
                                             <div class="column-content">{{ maskCpf(res.user.cpf) }}</div>
                                             <div class="column-content">{{res.amountOfPeople}}</div>
-                                            <div class="column-content small">{{ maskHour(res.reserveDate) }}</div>
+                                            <div class="column-content small" [ngClass]="{ 'yellow': res.period !== establishmentListService.getPeriod() }">
+                                                {{ maskHour(res.reserveDate) }}
+                                            </div>
                                             <div class="column-content center">
-                                                <img src="../../../assets/icons/svg/joinha-azul.svg" class="icon">
-                                                <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res.id)" class="icon down">
+                                                <img src="../../../assets/icons/svg/joinha-azul.svg" (click)="confirmReserve(res)" class="icon">
+                                                <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res)" class="icon down">
                                             </div>
                                         </div>
                                         <div class="content-sm d-block d-md-none" *ngFor="let res of r.reserves">
@@ -35,10 +42,12 @@
                                             <div class="column-content">Nome da Reserva: {{res.user.name}}</div>
                                             <div class="column-content">CPF: {{ maskCpf(res.user.cpf) }}</div>
                                             <div class="column-content">Qt. de Pessoas: {{res.amountOfPeople}}</div>
-                                            <div class="column-content">Horário: {{ maskHour(res.reserveDate) }}</div>
+                                            <div class="column-content" [ngClass]="{ 'yellow': res.period !== establishmentListService.getPeriod() }">
+                                                Horário: {{ maskHour(res.reserveDate) }}
+                                            </div>
                                             <div class="column-content center">
                                                 Status:
-                                                <img src="../../../assets/icons/svg/joinha-azul.svg" class="icon">
+                                                <img src="../../../assets/icons/svg/joinha-azul.svg" (click)="confirmReserve(res)" class="icon">
                                                 <img src="../../../assets/icons/svg/joinha-vermelho.svg" (click)="cancelReserve(res.id)" class="icon down">
                                             </div>
                                         </div>
@@ -46,24 +55,26 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-                    <div class="col-12 col-xl-3 order-1 order-xl-2">
+                    <div *ngIf="i === 0" class="col-12 col-xl-3 order-1 order-xl-2">
                         <div class="block block-capacity">
                             <h6 class="second-title">Capacidade de Clientes</h6>
                             <div class="day">{{ mapDate(r.day) }}</div>
                             <div class="capacity">
-                                <div class="current">{{ r.currentPeople }}</div>/<div class="max">{{ r.maxNumberOfPeople }}</div>
+                                <div class="current">{{ restaurantLocal }}</div>/<div class="max">{{ r.maxNumberOfPeople }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div *ngIf="reserves?.length < 1">
+        <div *ngIf="reserves?.length < 1 && !loading">
             <div class="block">
                 Você ainda não possui nenhuma reserva.
+            </div>
+        </div>
+        <div *ngIf="loading" class="gif">
+            <div class="spinner-border text-dark" role="status">
             </div>
         </div>
     </div>

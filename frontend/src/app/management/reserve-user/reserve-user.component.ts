@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { AccountType } from 'src/app/models/account.model';
-import { Establishment } from 'src/app/models/establishment.model';
 import { Reserve } from 'src/app/models/reserve.model';
 import { RoutesEnum } from 'src/app/models/routes.enum';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { EditEstablishmentService } from '../services/edit-establishment.service';
 import { ReserveUserService } from '../services/reserve-user.service';
 
 @Component({
@@ -31,11 +31,13 @@ export class ReserveUserComponent implements OnInit {
   ]
 
   reserves: Reserve[];
+  loading = true;
 
   constructor(
     private readonly sessionService: SessionService,
     private readonly router: Router,
     private readonly reserveService: ReserveUserService,
+    private readonly editEstablishmentService: EditEstablishmentService,
   ) { }
 
   ngOnInit(): void {
@@ -45,11 +47,12 @@ export class ReserveUserComponent implements OnInit {
 
     this.getReserves();
   }
-  
+
   getReserves(): void {
-        this.reserveService.getReservesByUserId(this.sessionService.getUserSession().id).subscribe(res => {
+    this.reserveService.getReservesByUserId(this.sessionService.getUserSession().id).subscribe(res => {
       this.reserves = this.orderReserve(res);
-  });
+      this.loading = false;
+    });
   }
 
   orderReserve(reserve: Reserve[]) {
@@ -61,7 +64,13 @@ export class ReserveUserComponent implements OnInit {
   }
 
   cancelReservation(reserve: Reserve): void {
-    this.reserveService.cancelReservation(reserve.id).subscribe(() => this.getReserves());
+    this.reserveService.cancelReservation(reserve.id).subscribe(() => {
+      this.getReserves();
+      const numberPeople = {
+        actualNumberOfPeople: reserve.restaurant.actualNumberOfPeople - reserve.amountOfPeople
+      }
+      this.editEstablishmentService.updateEstablishment(reserve.restaurant.id, numberPeople).subscribe();
+    });
   }
 
   transformDate(date: string): Date {

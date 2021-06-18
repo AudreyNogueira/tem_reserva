@@ -11,7 +11,7 @@
             <div *ngFor="let p of periodAvaible()">
                 <div *ngIf="hoursAvaible(timeAvailable[p]).length > 0">
                     <div class="w-100">
-                        <div class="period">{{ p }}</div>
+                        <div class="period">{{ p }} - Lotação {{ getQuantity(p) }}/{{ establishment.maxNumberOfPeople }}</div>
                     </div>
                     <div class="hour">
                         <div *ngFor="let time of hoursAvaible(timeAvailable[p]); let i = index" class="box"
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <button type="button" class="button-ok" (click)="modalService.hide()">OK</button>
+            <button type="button" class="button-ok" (click)="modalService.hide(); confirmedReserve()">OK</button>
         </div>
     </div>
 </div>
