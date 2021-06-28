@@ -1,17 +1,30 @@
 <div id="edit-establishment">
     <div class="container">
+
+        <!-- Cabeçalho -->
         <div class="header">
-            <div class="name">
-                Ananda Gurgel
+            <div class="img-establishment" [ngStyle]="{ 'background': 'url('+pic+')'} ">
             </div>
-            <div class="email">
-                gurgel.ananda@gmail.com
+            <div>
+                <div class="name">
+                    {{ userData?.restaurantName }}
+                </div>
+                <div class="email">
+                    {{ userData?.email }}
+                </div>
+                <div class="change-image">
+                    <label class="label" for="profileImg">Trocar Foto</label>
+                    <input id="profileImg" class="d-none" accept="image/*" type="file" (change)="onFileChanged($event, true)">
+                </div>
             </div>
         </div>
+        <!-- Cabeçalho -->
+
+        <!-- Dados Gerais da Conta-->
         <form class="form" [formGroup]="formGroup" (submit)="saveEdit()">
-            <div class="section-title">Dados do Estabelecimento</div>
+            <div class="section-title main">Dados da Conta</div>
             <div class="row">
-                <div class="col-4 mb-3 mb-md-4">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
                     <div class="field" [ngClass]="{ '-error': formGroup.get('restaurantName').invalid && submitted }">
                         <label class="label" for="restaurantName">Nome do Estabelecimento</label>
                         <input class="input"
@@ -55,6 +68,8 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Dados do Endereço -->
             <div class="section-title">Logradouro</div>
             <div class="row">
                 <div class="col-12 col-md-4 mb-3 mb-md-4">
@@ -73,7 +88,7 @@
                 </div>
                 <div class="col-12 col-md-4 mb-3 mb-md-4">
                     <div class="field" [ngClass]="{ '-error': formGroup.get('zone').invalid && submitted }">
-                        <label class="label" for="estabNumber">Zona</label>
+                        <label class="label" for="zone">Zona</label>
                             <select class="input"
                                 formControlName="zone">
                                 <option *ngFor="let zone of zones" [ngValue]="zone">{{ zone }}</option>
@@ -101,6 +116,7 @@
                             formControlName="estabNumber"
                             autocomplete="off"
                             (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('estabNumber', $event)"
                             name="estabNumber"
                             type="text">
                         <div class="underline"></div>
@@ -113,13 +129,15 @@
                             formControlName="district"
                             autocomplete="off"
                             name="district"
-                            (keypress)="spaceNotAllowed($event)"
                             type="text">
                         <div class="underline"></div>
                     </div>
                 </div>
             </div>
-            <div class="section-title">Dados da Conta</div>
+            <!-- Dados do Endereço -->
+
+            <!-- Dados para o Login -->
+            <div class="section-title">Conta</div>
             <div class="row mb-4">
                 <div class="col-12 col-md-4 mb-3 mb-md-4">
                     <div class="field" [ngClass]="{ '-error': formGroup.get('email').invalid && submitted }">
@@ -158,9 +176,149 @@
                     </div>
                 </div>
             </div>
+            <!-- Dados para o Login -->
+
+
+            <!-- Informações Do Estabelecimento-->
+            <div class="section-title main">Meu Estabelecimento</div>
+
+            <!-- Campos de Horário -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('hourWork').invalid && submitted }">
+                        <label class="label">Horário de Funcionamento</label>
+                    </div>
+                    <div *ngIf="hourArray.length > 0" >
+                        <div class="hourDay" *ngFor="let day of hourArray">
+                            ({{ day.dayOfWeek.day }}) Abre- {{ day.dayOfWeek.openingTime }} Fecha- {{ day.dayOfWeek.closingTime }}
+                            <button class="remove-hour" (click)="removeHour(day)">
+                                <span class="icon" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <form [formGroup]="formHour" (submit)="addHour()">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4 col-md-3 mb-3 mb-md-4">
+                                <div class="text-box" [ngClass]="{ '-error': formHour.get('day').invalid && submittedHour }">
+                                    <label class="label">Dia</label>
+                                    <select class="input" formControlName="day">
+                                    <option *ngFor="let day of dayOfWeek" [ngValue]="day">{{ day }}</option>
+                                </select>
+                            </div>
+                            </div>
+                            <div class="col-4 col-md-3 mb-3 mb-md-4">
+                                <div class="text-box" [ngClass]="{ '-error': formHour.get('open').invalid && submittedHour }">
+                                    <label class="label">Abre</label>
+                                    <input class="input"
+                                        placeholder="XX:XX"
+                                        formControlName="open"
+                                        [textMask]="{ mask: maskHour, guide: true }"
+                                        type="text">
+                                </div>
+                            </div>
+                            <div class="col-4 col-md-3 mb-3 mb-md-4">
+                                <div class="text-box" [ngClass]="{ '-error': formHour.get('close').invalid && submittedHour }">
+                                    <label class="label">Fecha</label>
+                                    <input class="input"
+                                        placeholder="XX:XX"
+                                        [textMask]="{ mask: maskHour, guide: true }"
+                                        formControlName="close"
+                                        type="text">
+                                </div>
+                            </div>
+                            <div class="col-3 mb-3 mb-md-4 align-button">
+                                <button type="submit" class="add-hour">Adicionar Horário</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Campos de Horário -->
+
+            <div class="row mb-4">
+                <div class="col-12 mb-3 mb-md-4">
+                    <div class="text-box" [ngClass]="{ '-error': formGroup.get('description').invalid && submitted }">
+                        <label class="label" for="description">Sobre o Estabelecimento</label>
+                        <input class="input"
+                            formControlName="description"
+                            autocomplete="off"
+                            name="description"
+                            type="text">
+                    </div>
+                </div>
+                <div class="col-12 mb-3 mb-md-4">
+                    <div class="text-box" [ngClass]="{ '-error': formGroup.get('payment').invalid && submitted }">
+                        <label class="label" for="payment">Formas de Pagamento</label>
+                        <input class="input"
+                            formControlName="payment"
+                            autocomplete="off"
+                            name="payment"
+                            type="text">
+                    </div>
+                </div>
+                <div class="col-12 mb-3 mb-md-4">
+                    <label class="label">Protocolos de Saúde</label>
+                    <div *ngFor="let protocol of cleaningProtocol">
+                        <label class="label-checkbox">
+                        <input class="checkbox" type="checkbox" [value]="protocol.value" [checked]="protocol.checked" (change)="onCheckboxChange(protocol)" />
+                          {{ protocol.value }}
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <!-- Informações Do Estabelecimento-->
+
+
+            <!-- Carrossel de Fotos-->
+            <div class="section-title main">Fotos</div>
+            <div class="row mb-4">
+                <div class="col-12 mb-3 mb-md-4">
+                    <label class="add-img" for="addRestaurantImg">Adicionar Foto</label>
+                    <input id="addRestaurantImg" class="d-none" accept="image/*" type="file" (change)="onFileChanged($event, false)">
+                </div>
+                <div *ngIf="userData?.restaurantImages?.length > 0" class="col-12 mb-3 mb-md-4">
+                    <div class="w-100">
+                        <div class="carousel">
+                            <div #slide class="slide">
+                                <div *ngIf="userData" class="elements-scroll">
+                                    <div *ngFor="let estImg of userData?.restaurantImages" #element class="establishment">
+                                        <img [src]="'data:image/png;base64,' + estImg?.image" class="img-establishment">
+                                        <div class="d-flex justify-content-center">
+                                            <div>        
+                                                <button type="button" class="deleteImg" (click)="deleteImage(estImg.id)">Deletar Foto</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <a (click)="navigateCarousel('prev')" class="control left d-none d-lg-flex">
+                                <img src="../../../assets/icons/svg/arrow-left.svg">
+                            </a>
+                            <a (click)="navigateCarousel('next')" class="control right d-none d-lg-flex">
+                                <img src="../../../assets/icons/svg/arrow-right.svg">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Carrossel de Fotos-->
+        
+            <!-- Feedback de erro -->
             <div *ngIf="formGroup.get('cep')?.errors?.outRange">Somente estabelecimentos de São Paulo Capital</div>
+            <!-- Feedback de erro -->
+
+            <!-- Botão para EXCLUIR conta-->
             <button type="button" (click)="deleteUser()" class="delete-button mb-3 mb-md-4">Excluir Conta</button>
+            <!-- Botão para EXCLUIR CONTA-->
+
+            <!-- Botão para ATUALIZAR dados da conta-->
             <button type="submit" class="save-button mb-3 mb-md-4">Salvar Alterações</button>
+            <!-- Botão para ATUALIZAR dados da conta-->
         </form>
+        <!-- Dados Gerais da Conta-->
+
     </div>
 </div>

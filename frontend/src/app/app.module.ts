@@ -11,13 +11,17 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalLoginComponent } from './modals/modal-login/modal-login.component';
 import { RegisterEstablishmentComponent } from './register/register-establishment/register-establishment.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ModalConfirmComponent } from './modals/modal-confirm/modal-confirm.component';
 import { RegisterClientComponent } from './register/register-client/register-client.component';
+import { ModalReserveComponent } from './modals/modal-reserve/modal-reserve.component';
+import { ModalFeedbackComponent } from './modals/modal-feedback/modal-feedback.component';
+import { AuthGuard } from './guards/auth.guard';
+import { DefaultInterceptor } from './interceptor/default.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,6 +34,8 @@ import { RegisterClientComponent } from './register/register-client/register-cli
     HomeComponent,
     ModalConfirmComponent,
     RegisterClientComponent,
+    ModalReserveComponent,
+    ModalFeedbackComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +48,14 @@ import { RegisterClientComponent } from './register/register-client/register-cli
     SharedModule,
     TextMaskModule,
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: DefaultInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

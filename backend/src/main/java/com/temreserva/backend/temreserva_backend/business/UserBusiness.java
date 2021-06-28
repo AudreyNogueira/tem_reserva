@@ -7,9 +7,11 @@ import javax.transaction.Transactional;
 
 import com.temreserva.backend.temreserva_backend.data.entity.Credential;
 import com.temreserva.backend.temreserva_backend.data.entity.User;
+import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.UserDTO;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.UserModel;
+import com.temreserva.backend.temreserva_backend.web.model.dto.UserDTO;
+import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.UserModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
 import org.springframework.http.HttpStatus;
@@ -23,36 +25,19 @@ public class UserBusiness {
     private final UserRepository userRepository;
     private final CredentialBusiness credentialBusiness;
     private final ImageBusiness imageBusiness;
-    private final OAuthBusiness oauthBusiness;
+    private final ReserveRepository reserveRepository;
 
     public UserBusiness(UserRepository userRepository, ImageBusiness imageBusiness,
-            CredentialBusiness credentialBusiness) {
+            CredentialBusiness credentialBusiness, ReserveRepository reserveRepository) {
         this.userRepository = userRepository;
         this.credentialBusiness = credentialBusiness;
         this.imageBusiness = imageBusiness;
-        oauthBusiness = new OAuthBusiness();
+        this.reserveRepository = reserveRepository;
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // BUSINESS
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public User userLogin(String parameters, String authorization, String contentType) {
-        String username = parameters.substring(parameters.indexOf("=") + 1, parameters.indexOf("&")).replace("%40",
-                "@");
-        String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
-        String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
-
-        if (accessToken != null) {
-            Credential userCredentials = credentialBusiness.getCredentialByEmail(username);
-            User user = userRepository.findByCredential(userCredentials);
-            // user.setAccessToken(accessToken);
-            user.getCredential().setPassword(null);
-            return user;
-        }
-
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                Enumerators.apiExceptionCodeEnum.USERNAME_OR_PASSWORD_INVALID.getEnumValue());
-    }
 
     public HttpStatus createNewUser(UserDTO dto) {
         User user = validateNewUserDto(dto);
@@ -99,7 +84,15 @@ public class UserBusiness {
         }
     }
 
-    public HttpStatus userImageUpload(MultipartFile file, Long id) throws IOException {
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public User findByCredential(Credential credential) {
+        return userRepository.findByCredential(credential).orElse(null);
+    }
+
+    public ImageModel userImageUpload(MultipartFile file, Long id) throws IOException {
         if (userRepository.findById(id).orElse(null) != null)
             return imageBusiness.imageUpload(file, id, true, false);
 
@@ -120,6 +113,7 @@ public class UserBusiness {
         userRepository.findById(id).map(u -> {
             Long idCred = u.getCredential().getId();
             imageBusiness.deleteImageByOwnerId(id);
+            reserveRepository.findByUser(u).forEach(reserve -> reserveRepository.delete(reserve));
             userRepository.delete(u);
             credentialBusiness.deleteCredentialById(idCred);
             return Void.TYPE;

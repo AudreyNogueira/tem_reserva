@@ -1,94 +1,108 @@
 <div class="section">
-    <div class="container">
-    <form [formGroup]="formCliente" (ngSubmit)="onSubmit()">
+    <div class="container-fluid">
+        <form [formGroup]="formCliente" (ngSubmit)="onSubmit()">
             <div class="register-client">
-                    <div class="section1">
-                        <img class="logo" src="../../../assets/icons/icone_principal.png" alt="logo">
-                        <h1>Bem vindo ao Tem Reserva?</h1>
-                        <p>Já possui uma conta?</p>
-                        <a class="entrar" href="./login">Entrar</a>
-                        <!-- Formulário Nome -->
-                        <div class="input">
-                            <div class="form-row">
-                                <div class="col-md-11 mb-3">
-                                    <label for="nome">Nome<span class="asterisk">*</span></label>
-                                    <input class="form-control" type="text" name="nome" id="nome" placeholder="Seu nome"
-                                        formControlName="nome" required>
-                                </div>
-                            </div>
-                            <!-- Formulário Sobrenome -->
-                            <div class="col-md-7 mb-3">
-                                <label for="sobrenome">Sobrenome<span class="asterisk">*</span></label>
-                                <input class="form-control" type="text" name="sobrenome" id="sobrenome"
-                                    placeholder="Seu sobrenome" formControlName="sobrenome" required>
+                <div class="section1">
+                    <img class="logo" src="../../../assets/icons/icone_principal.png" alt="logo">
+                    <h1>Bem vindo ao Tem Reserva?</h1>
+                    <p>Já possui uma conta?</p>
+                    <a class="entrar" href="./login">Entrar</a>
+                    <!-- Formulário Nome -->
+                    <div class="input">
+                        <div class="form-row">
+                            <div class="col-md-11 mb-3">
+                                <label for="nome">Nome<span class="asterisk">*</span></label>
+                                <input class="form-control" type="text" name="nome" id="nome" placeholder="Seu nome"
+                                    formControlName="nome" required>
                             </div>
                         </div>
-                        <!-- Formulário Data -->
-                        <div class="estilo">
-                            <div class="form-group">
-                                <div class="col-md-11 mb-11">
-                                    <label for="dataNascimento">Data de nascimento<span class="asterisk">*</span></label>
-                                    <input type="date" class="form-control" name="dataNascimento" id="dataNascimento"
-                                        formControlName="dataNascimento" required>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Formulário Sexo -->
-                        <div class="genero1">
-                            <div class="form-group col-md-6">
-                                <label>Sexo<span class="asterisk">*</span></label>
-                                <br>
-                                <br>
-                                <input class="border border-primary col-md-1 d-inline p-2" type="radio" name="sexo"
-                                    id="masculino" formControlName="sexo" [value]="1">
-                                <label style="margin-left: 5px;">Masculino</label>
-                                <input style="margin-left: 13px;" class="col-md-1 d-inline p-2" type="radio" name="sexo"
-                                    [value]="2" id="feminino" formControlName="sexo" required>
-                                <label style="margin-left: 5px;">Feminino</label>
-                            </div>
-                        </div>
-                        <!-- celular -->
-                        <div class="estilo">
-                            <div class="form-group col-md-11">
-                                <label for="inputFone" class="control-label">Celular<span class="asterisk">*</span></label>
-                                <input type="text" class="form-control" id="inputFone" placeholder="(xx)xxxxx-xxxx" required
-                                    formControlName="celular" (keypress)="onlyInputNumber($event)"
-                                    (paste)="onlyPasteNumber($event)">
-                                <div class="help-block with-errors"></div>
-                            </div>
-                            <!-- email -->
-                        </div>
-                        <div class="estilo">
-                            <div class="form-group col-md-11">
-                                <label for="inputEmail" class="control-label">Email<span class="asterisk">*</span></label>
-                                <input type="email" class="form-control" id="inputEmail" pattern="[^ @]*@[^ @]*" size="30"
-                                    placeholder="Digite seu e-mail" required formControlName="email">
-                                <div class="help-block with-errors"></div>
-                            </div>
-                        </div>
-                        <!-- senha -->
-                        <div class="estilo">
-                            <div class="form-group col-md-11">
-                                <label for="inputSenha" class="control-label">Senha<span class="asterisk">*</span></label>
-                                <input type="password" class="form-control" id="inputSenha" placeholder="Digite sua senha"
-                                    required formControlName="senha" required>
-                                <div class="help-block with-errors"></div>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="form-check form-check-inline mx-5">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"
-                                formControlName="permissao" required>
-                            <label class="form-check-label" for="inlineCheckbox1">Eu concordo com os termos e
-                                condições.</label>
-                        </div>
-                        <!-- botão -->
-                        <div class="check">
-                            <button style="color: white;" type="submit"
-                                class="btn btn-lg btn-block confirm-button">Finalizar cadastro</button>
+                        <!-- Formulário Sobrenome -->
+                        <div class="col-md-7 mb-3">
+                            <label for="sobrenome">Sobrenome<span class="asterisk">*</span></label>
+                            <input class="form-control" type="text" name="sobrenome" id="sobrenome"
+                                placeholder="Seu sobrenome" formControlName="sobrenome" required>
                         </div>
                     </div>
+                    <!-- Formulário Data -->
+                    <div class="estilo">
+                        <div class="form-group">
+                            <div class="col-md-11 mb-11">
+                                <label for="dataNascimento">Data de nascimento<span class="asterisk">*</span></label>
+                                <input type="date" class="form-control" name="dataNascimento" id="dataNascimento"
+                                    formControlName="dataNascimento" required>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- cpf -->
+                    <div class="estilo">
+                        <div class="form-group">
+                            <div class="col-md-11 mb-11">
+                                <label for="cpf">CPF<span class="asterisk">*</span></label>
+                                <input type="text" class="form-control" name="dataNascimento" id="cpf"
+                                    [textMask]="{ mask: maskCPF, guide: true }" formControlName="cpf"
+                                    (keypress)="onlyInputNumber($event)" (paste)="onlyPasteNumber('cpf', $event)"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Formulário Sexo -->
+                    <div class="genero1">
+                        <div class="form-group col-md-6">
+                            <label>Sexo<span class="asterisk">*</span></label>
+                            <br>
+                            <br>
+                            <input class="border border-primary col-md-1 d-inline p-2" type="radio" name="sexo"
+                                id="masculino" formControlName="sexo" [value]="1">
+                            <label style="margin-left: 5px;">Masculino</label>
+                            <input style="margin-left: 13px;" class="col-md-1 d-inline p-2" type="radio" name="sexo"
+                                [value]="2" id="feminino" formControlName="sexo" required>
+                            <label style="margin-left: 5px;">Feminino</label>
+                        </div>
+                    </div>
+                    <!-- celular -->
+                    <div class="estilo">
+                        <div class="form-group col-md-11">
+                            <label for="inputFone" class="control-label">Celular<span class="asterisk">*</span></label>
+                            <input type="text" class="form-control" id="inputFone" placeholder="(xx)xxxxx-xxxx" required
+                                formControlName="celular" (keypress)="onlyInputNumber($event)"
+                                [textMask]="{ mask: maskPhone, guide: true }"
+                                (paste)="onlyPasteNumber('celular', $event)">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <!-- email -->
+                    </div>
+                    <div class="estilo">
+                        <div class="form-group col-md-11">
+                            <label for="inputEmail" class="control-label">Email<span class="asterisk">*</span></label>
+                            <input type="email" class="form-control" id="inputEmail" pattern="[^ @]*@[^ @]*" size="30"
+                                placeholder="Digite seu e-mail" required formControlName="email">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <!-- senha -->
+                    <div class="estilo">
+                        <div class="form-group col-md-11">
+                            <label for="inputSenha" class="control-label">Senha<span class="asterisk">*</span></label>
+                            <input type="password" class="form-control" id="inputSenha" placeholder="Digite sua senha"
+                                required formControlName="senha" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <br />
+                    <!-- condições -->
+                    <div class="form-check form-check-inline mx-5">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"
+                            formControlName="permissao" required>
+                        <label class="form-check-label" for="inlineCheckbox1">Eu concordo com os termos e
+                            condições.</label>
+                    </div>
+                    <!-- botão -->
+                    <div class="check">
+                        <button style="color: white;" type="submit"
+                            class="btn btn-lg btn-block confirm-button">Finalizar cadastro</button>
+                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+</div>

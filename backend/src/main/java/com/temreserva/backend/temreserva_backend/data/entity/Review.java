@@ -40,14 +40,18 @@ public class Review {
     @JoinColumn(name = "ID_RESTAURANTE",nullable = false, updatable = false)
     private Restaurant restaurant;
 
-    @Column(name = "NOTA_AVALIACAO", nullable = false, updatable = false)
-    private Integer numberOfStars;
+    @OneToOne
+    @JoinColumn(name="ID_RESERVA", nullable = false, updatable = false)
+    private Reserve reserve;
 
-    @Column(name = "TITULO", nullable = false, length = 100, updatable = false)
+    @Column(name = "NOTA_AVALIACAO", nullable = false, updatable = true)
+    private Integer stars;
+
+    @Column(name = "TITULO", nullable = false, length = 100, updatable = true)
     @NotEmpty(message = "Titulo não pode ser vazio")
     private String title;
 
-    @Column(name = "DESCRICAO", nullable = false, length = 1000, updatable = false)
+    @Column(name = "DESCRICAO", nullable = true, length = 1000, updatable = true)
     @NotEmpty(message = "Descrição não pode ser vazia")
     private String description;
 

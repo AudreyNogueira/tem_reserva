@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.UserDTO;
+import com.temreserva.backend.temreserva_backend.web.model.dto.UserDTO;
 
 import org.hibernate.validator.constraints.br.CPF;
 

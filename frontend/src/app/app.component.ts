@@ -12,8 +12,7 @@ export class AppComponent implements OnInit {
   title = 'tem-reserva-front';
 
   @ViewChild('modalTemplate') modalTemplate: TemplateRef<any>;
-  modalName: string;
-  loginType: string;
+  dataModal: any;
 
   mock: Establishment[];
   cont = 0;
@@ -27,8 +26,7 @@ export class AppComponent implements OnInit {
     /** Abre a modal na qual foi passada como parâmetro */
     this.modalServiceLocal.$openModal.subscribe(m => {
       this.modalService.show(this.modalTemplate, { class: 'modal-dialog-centered' });
-      this.modalName = m.modalName;
-      this.loginType = m.loginType;
+      this.dataModal = m;
     });
 
   }
