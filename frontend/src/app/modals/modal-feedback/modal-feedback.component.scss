@@ -1,0 +1,46 @@
+@import "../../../assets/variables";
+
+#modal-feedback {
+    background-color: $light_gray;
+    .m-header {
+        position: relative;
+        
+        .close-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    }
+
+    .m-body {
+        padding: 30px 20px 20px;
+
+        .message {
+            font-size: 20px;
+            font-family: Mulish;
+            color: $white;
+            text-align: center;
+        }
+
+        .button-ok {
+            border: none;
+            color: $white;
+            background-color: $yellow;
+            height: 30px;
+            width: 120px;
+        }
+    }
+
+    &.success {
+        background-color: $white;
+        .m-body {
+            .message {
+                color: $black_text;
+            }
+        }
+    }
+    
+    &.error {
+        background-color: $error_feedback;
+    }
+}

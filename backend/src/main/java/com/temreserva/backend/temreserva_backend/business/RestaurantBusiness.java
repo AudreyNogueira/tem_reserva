@@ -1,20 +1,30 @@
 package com.temreserva.backend.temreserva_backend.business;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import com.temreserva.backend.temreserva_backend.data.entity.*;
 import com.temreserva.backend.temreserva_backend.data.repository.AddressRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.RestaurantDateTimeRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.RestaurantRepository;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.RestaurantDTO;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.AddressModel;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.HomeRestaurantsModel;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.RestaurantModel;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantModel;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.ZoneRestaurantsViewModel;
+import com.temreserva.backend.temreserva_backend.web.model.dto.RestaurantDTO;
+import com.temreserva.backend.temreserva_backend.web.model.dto.RestaurantDateTimeDTO;
+import com.temreserva.backend.temreserva_backend.web.model.interfaces.ICurrentPeopleModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.AddressModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.CurrentPeopleModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.HomeRestaurantsModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.RestaurantDateTimeModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.RestaurantModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.ZoneRestaurantModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.ZoneRestaurantsViewModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -26,44 +36,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 
 @Service
+@Transactional
 public class RestaurantBusiness {
     private final RestaurantRepository restaurantRepository;
+    private final RestaurantDateTimeRepository restaurantDateTimeRepository;
     private final CredentialBusiness credentialBusiness;
-    private final OAuthBusiness oauthBusiness;
     private final AddressRepository addressRepository;
     private final ImageBusiness imageBusiness;
+    private final ReserveRepository reserveRepository;
 
     @Autowired
     public RestaurantBusiness(RestaurantRepository restaurantRepository, CredentialBusiness credentialBusiness,
-            ImageBusiness imageBusiness, AddressRepository addressRepository) {
+            ImageBusiness imageBusiness, AddressRepository addressRepository, ReserveRepository reserveRepository,
+            RestaurantDateTimeRepository restaurantDateTimeRepository) {
         this.restaurantRepository = restaurantRepository;
+        this.restaurantDateTimeRepository = restaurantDateTimeRepository;
         this.credentialBusiness = credentialBusiness;
         this.imageBusiness = imageBusiness;
-        this.oauthBusiness = new OAuthBusiness();
         this.addressRepository = addressRepository;
+        this.reserveRepository = reserveRepository;
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // BUSINESS
     // ------------------------------------------------------------------------------------------------------------------------------------------
-
-    public Restaurant restaurantLogin(String parameters, String authorization, String contentType) {
-        String username = parameters.substring(parameters.indexOf("=") + 1, parameters.indexOf("&")).replace("%40",
-                "@");
-        String password = parameters.substring(parameters.indexOf("&") + 10, parameters.indexOf("&grant_type"));
-        String accessToken = oauthBusiness.getAcessToken(username, password, authorization, contentType);
-
-        if (accessToken != null) {
-            Credential restaurantCredentials = credentialBusiness.getCredentialByEmail(username);
-            Restaurant restaurant = restaurantRepository.findByCredential(restaurantCredentials);
-            // restaurant.setAccessToken(accessToken);
-            restaurant.getCredential().setPassword(null);
-            return restaurant;
-        }
-
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                Enumerators.apiExceptionCodeEnum.USERNAME_OR_PASSWORD_INVALID.getEnumValue());
-    }
 
     private Restaurant validateNewRestaurantDto(RestaurantDTO dto) {
         if (credentialBusiness.validateNewCredential(dto.getEmail(), dto.getPassword()))
@@ -73,9 +69,9 @@ public class RestaurantBusiness {
                     Enumerators.apiExceptionCodeEnum.CREATE_EXISTING_USER.getEnumValue());
     }
 
-    public HttpStatus restaurantImageUpload(MultipartFile file, Long id) throws IOException {
+    public ImageModel restaurantImageUpload(MultipartFile file, Long id, Boolean isProfilePic) throws IOException {
         if (restaurantRepository.findById(id).orElse(null) != null)
-            return imageBusiness.restaurantImageUpload(file, id);
+            return imageBusiness.imageUpload(file, id, isProfilePic, true);
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue());
@@ -120,7 +116,7 @@ public class RestaurantBusiness {
             restaurant.setCredential(credentialBusiness.createNewCredential(dto.getEmail(), dto.getPassword()));
 
         if (restaurant.getCredential() != null)
-            return createRestaurant(restaurant, address);
+            return createRestaurant(restaurant, address, dto.getRestaurantDateTime());
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 Enumerators.apiExceptionCodeEnum.CREATE_CREDENTIAL_ERROR.getEnumValue());
@@ -129,52 +125,143 @@ public class RestaurantBusiness {
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // CREATE
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    private HttpStatus createRestaurant(Restaurant restaurant, Address address) {
+    private HttpStatus createRestaurant(Restaurant restaurant, Address address,
+            List<RestaurantDateTimeDTO> restaurantDateTime) {
         try {
             restaurantRepository.save(restaurant);
             address.setRestaurant(restaurant);
             addressRepository.save(address);
+            if (restaurantDateTime != null)
+                restaurantDateTime.forEach(r -> createRestaurantDateTime(restaurant, r));
             return HttpStatus.CREATED;
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
+                    Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
+        }
+    }
+
+    private void createRestaurantDateTime(Restaurant restaurant, RestaurantDateTimeDTO dto) {
+        try {
+            restaurantDateTimeRepository.save(RestaurantDateTime.builder().restaurant(restaurant).day(dto.getDay())
+                    .openingTime(dto.getOpeningTime()).closingTime(dto.getClosingTime()).build());
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // UPDATE
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public void updateRestaurant(Long id, Long idCredential, Restaurant restaurant) {
-        restaurantRepository.findById(id).map(r -> {
-            r.setOpenDaysOfWeek(restaurant.getOpenDaysOfWeek());
-            r.setOpeningTime(restaurant.getOpeningTime());
-            r.setClosingTime(restaurant.getClosingTime());
-            r.setSpacingOfTables(restaurant.getSpacingOfTables());
-            r.setHandicappedAdapted(restaurant.getHandicappedAdapted());
-            r.setCleaningPeriodicity(restaurant.getCleaningPeriodicity());
-            r.setMaxNumberOfPeople(restaurant.getMaxNumberOfPeople());
-            r.setActualNumberOfPeople(restaurant.getMaxNumberOfPeople());
-            r.setAverageStars(restaurant.getAverageStars());
+    @Transactional(rollbackOn = Exception.class)
+    public void updateRestaurant(Long id, RestaurantDTO restaurant) {
+        Restaurant restaurantResponse = restaurantRepository.findById(id).map(r -> {
+            r.setCnpj(restaurant.getCnpj() == null ? r.getCnpj() : restaurant.getCnpj());
+            r.setDescription(restaurant.getDescription() == null ? r.getDescription() : restaurant.getDescription());
+            r.setRestaurantName(
+                    restaurant.getRestaurantName() == null ? r.getRestaurantName() : restaurant.getRestaurantName());
+            r.setSpacingOfTables(
+                    restaurant.getSpacingOfTables() == null ? r.getSpacingOfTables() : restaurant.getSpacingOfTables());
+            r.setHandicappedAdapted(restaurant.getHandicappedAdapted() == null ? r.getHandicappedAdapted()
+                    : restaurant.getHandicappedAdapted());
+            r.setCleaning(restaurant.getCleaning() == null ? r.getCleaning() : restaurant.getCleaning());
+            r.setMaxNumberOfPeople(restaurant.getMaxNumberOfPeople() == null ? r.getMaxNumberOfPeople()
+                    : restaurant.getMaxNumberOfPeople());
+            r.setActualNumberOfPeople(restaurant.getActualNumberOfPeople() == null ? r.getActualNumberOfPeople()
+                    : restaurant.getActualNumberOfPeople());
+            r.setAverageStars(
+                    restaurant.getAverageStars() == null ? r.getAverageStars() : restaurant.getAverageStars());
             r.setUpdateDate(LocalDateTime.now());
-            if (r.getCredential().getId() == idCredential)
-                return restaurantRepository.save(r);
-            else
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                        Enumerators.apiExceptionCodeEnum.UPDATE_RESTAURANT_UNAUTHORIZED.getEnumValue());
+            r.setPhoneNumber(restaurant.getPhoneNumber() == null ? r.getPhoneNumber() : restaurant.getPhoneNumber());
+            r.setPayment(restaurant.getPayment() == null ? r.getPayment() : restaurant.getPayment());
+            if(restaurant.getRestaurantDateTime() != null) {
+                restaurantDateTimeRepository.findByRestaurant(r).forEach(a -> restaurantDateTimeRepository.delete(a));
+                restaurant.getRestaurantDateTime().forEach(rest -> createRestaurantDateTime(r, rest));
+            }            
+            if(restaurant.getEmail() != null)
+                credentialBusiness.updateEmailByID(r.getCredential().getId(), restaurant.getEmail());
+            return restaurantRepository.save(r);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
+
+        if (restaurant.getAddress() != null) {
+            Address currentAddress = addressRepository.findByRestaurant(restaurantResponse);
+            Address address = getAddressByDto(restaurant);
+            address.setRestaurant(currentAddress.getRestaurant());
+            address.setId(currentAddress.getId());
+            addressRepository.save(address);
+        }
+
+        if (restaurant.getActualPassword() != null && restaurant.getPassword() != null) {
+            if (restaurantResponse.getCredential().getPassword().equals(restaurant.getActualPassword()))
+                credentialBusiness.updatePasswordById(restaurantResponse.getCredential().getId(),
+                        restaurant.getPassword());
+            else
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        Enumerators.apiExceptionCodeEnum.WRONG_PASSWORD.getEnumValue());
+        }
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // GET
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public Restaurant getRestaurantById(long id) {
-        return restaurantRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+    public RestaurantModel getRestaurantById(long id) {
+        return restaurantRepository.findById(id).map(restaurant -> {
+            Address address = addressRepository.findByRestaurant(restaurant);
+            ImageModel img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
+            List<ImageModel> lstImages = imageBusiness.getRestaurantImagesByOwner(address.getRestaurant().getId());
+            List<ICurrentPeopleModel> currentPeople = reserveRepository
+                    .findCurrentPeopleModelByRestaurant(restaurant.getId(), LocalDate.now());
+            List<RestaurantDateTimeModel> dateTime = getListRestaurantDateTimeModel(
+                    restaurantDateTimeRepository.findByRestaurant(restaurant));
+            return RestaurantModel.builder().id(restaurant.getId())
+                    .actualNumberOfPeople(restaurant.getActualNumberOfPeople())
+                    .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
+                    .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
+                    .restaurantName(restaurant.getRestaurantName())
+                    .currentPeople(getListCurrentPeopleModel(currentPeople)).restaurantImages(lstImages)
+                    .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
+                    .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
+                    .description(restaurant.getDescription()).restaurantDateTime(dateTime).build();
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
     }
 
-    public List<Restaurant> getRestaurantByName(String name) {
-        return restaurantRepository.findByName(name);
+    public Restaurant findByCredential(Credential credential) {
+        return restaurantRepository.findByCredential(credential);
+    }
+
+    public List<RestaurantDateTimeModel> getListRestaurantDateTimeModel(List<RestaurantDateTime> list) {
+        List<RestaurantDateTimeModel> response = new ArrayList<RestaurantDateTimeModel>();
+
+        for (RestaurantDateTime rest : list) {
+            RestaurantDateTimeModel model = RestaurantDateTimeModel.builder().day(rest.getDay())
+                    .closingTime(rest.getClosingTime()).openingTime(rest.getOpeningTime()).build();
+            response.add(model);
+        }
+
+        return response;
+    }
+
+    public List<CurrentPeopleModel> getListCurrentPeopleModel(List<ICurrentPeopleModel> iCurrentPeopleModels) {
+        List<CurrentPeopleModel> response = new ArrayList<CurrentPeopleModel>();
+        for (ICurrentPeopleModel current : iCurrentPeopleModels) {
+            try {
+                response.add(CurrentPeopleModel.builder().currentPeople(current.getCurrentPeople())
+                        .period(current.getPeriod()).build());
+            } catch (Exception e) {
+                continue;
+            }
+        }
+
+        return response;
+    }
+
+    public List<RestaurantModel> getRestaurantByName(String name) {
+        return getListOfRestaurant(restaurantRepository.findByName(name));
+    }
+
+    public Restaurant findById(Long id) {
+        return restaurantRepository.findById(id).orElse(null);
     }
 
     private AddressModel getAddressModelFromAddress(Address address) {
@@ -199,13 +286,21 @@ public class RestaurantBusiness {
         for (Restaurant restaurant : restaurants) {
             try {
                 Address address = addressRepository.findByRestaurant(restaurant);
-                byte[] img = imageBusiness.getImageByRestaurantId(address.getRestaurant().getId());
-                RestaurantModel model = RestaurantModel.builder().id(restaurant.getId())
-                        .email(restaurant.getCredential().getEmail()).image(img)
-                        .address(getAddressModelFromAddress(address)).restaurantName(restaurant.getRestaurantName())
-                        .actualNumberOfPeople(restaurant.getActualNumberOfPeople())
+                ImageModel img = imageBusiness.getProfileImageByOwnerId(address.getRestaurant().getId(), true);
+                List<ImageModel> lstImages = imageBusiness.getRestaurantImagesByOwner(address.getRestaurant().getId());
+                List<ICurrentPeopleModel> currentPeople = reserveRepository
+                        .findCurrentPeopleModelByRestaurant(restaurant.getId(), LocalDate.now());
+                List<RestaurantDateTimeModel> dateTime = getListRestaurantDateTimeModel(
+                        restaurantDateTimeRepository.findByRestaurant(restaurant));
+                RestaurantModel model = RestaurantModel.builder()
+                        .actualNumberOfPeople(restaurant.getActualNumberOfPeople()).id(restaurant.getId())
+                        .email(restaurant.getCredential().getEmail()).profileImage(img).cnpj(restaurant.getCnpj())
+                        .cleaning(restaurant.getCleaning()).address(getAddressModelFromAddress(address))
+                        .restaurantName(restaurant.getRestaurantName())
+                        .currentPeople(getListCurrentPeopleModel(currentPeople)).restaurantImages(lstImages)
                         .maxNumberOfPeople(restaurant.getMaxNumberOfPeople()).averageStars(restaurant.getAverageStars())
-                        .build();
+                        .payment(restaurant.getPayment()).phoneNumber(restaurant.getPhoneNumber())
+                        .description(restaurant.getDescription()).restaurantDateTime(dateTime).build();
 
                 response.add(model);
             } catch (Exception ex) {
@@ -257,4 +352,24 @@ public class RestaurantBusiness {
                 Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue());
     }
 
+    // ------------------------------------------------------------------------------------------------------------------------------------------
+    // DELETE
+    // ------------------------------------------------------------------------------------------------------------------------------------------
+    public void deleteRestaurant(Long id) {
+        restaurantRepository.findById(id).map(r -> {
+            Long idCred = r.getCredential().getId();
+            imageBusiness.deleteImageByOwnerId(id);
+            reserveRepository.findByRestaurant(r.getId()).forEach(reserve -> reserveRepository.delete(reserve));
+            addressRepository.delete(addressRepository.findByRestaurant(r));
+            restaurantDateTimeRepository.findByRestaurant(r).forEach(a -> restaurantDateTimeRepository.delete(a));
+            restaurantRepository.delete(r);
+            credentialBusiness.deleteCredentialById(idCred);
+            return Void.TYPE;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                Enumerators.apiExceptionCodeEnum.RESTAURANT_NOT_FOUND.getEnumValue()));
+    }
+
+    public void deleteImage(Long id) {
+        imageBusiness.deleteImageById(id);
+    }
 }

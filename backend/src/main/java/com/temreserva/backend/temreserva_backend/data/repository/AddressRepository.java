@@ -17,7 +17,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     @Query(value = "SELECT DISTINCT(E.ZONA) FROM TB_ENDERECO E", nativeQuery = true)
     public List<String> findByDistinctZoneNames();
 
-    @Query(value = "SELECT TOP 4 * FROM TB_ENDERECO E WHERE E.ZONA LIKE %:zone%", nativeQuery = true)
+    @Query(value = "SELECT * FROM TB_ENDERECO E WHERE E.ZONA LIKE %:zone% LIMIT 4", nativeQuery = true)
     public List<Address> findByZoneForHome(@Param("zone") String zone);
 
     public List<Address> findByZone(String zone);
