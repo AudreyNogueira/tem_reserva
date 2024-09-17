@@ -10,7 +10,7 @@ import java.util.zip.Inflater;
 
 import com.temreserva.backend.temreserva_backend.data.entity.Image;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.ImageModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
 import com.temreserva.backend.temreserva_backend.web.utils.Enumerators;
 
 import org.springframework.http.HttpStatus;
@@ -75,7 +75,7 @@ public class ImageBusiness {
     // ------------------------------------------------------------------------------------------------------------------------------------------
     // CREATE
     // ------------------------------------------------------------------------------------------------------------------------------------------
-    public HttpStatus imageUpload(MultipartFile file, Long imageOwnerId, Boolean isProfilePic, Boolean isRestaurant)
+    public ImageModel imageUpload(MultipartFile file, Long imageOwnerId, Boolean isProfilePic, Boolean isRestaurant)
             throws IOException {
 
         Image image = imageRepository.findImage(imageOwnerId, isProfilePic, isRestaurant).map(i -> {
@@ -92,10 +92,11 @@ public class ImageBusiness {
 
         if (image != null) {
             imageRepository.save(image);
-            return HttpStatus.OK;
+            return ImageModel.builder().id(image.getId()).image(decompressBytes(image.getPicByte())).build();
         }
 
-        return HttpStatus.INTERNAL_SERVER_ERROR;
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+        Enumerators.apiExceptionCodeEnum.DEFAULT_ERROR.getEnumValue());
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------

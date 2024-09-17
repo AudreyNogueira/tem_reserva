@@ -18,7 +18,12 @@
 
 <!-- Modal -->
 <ng-template #modalTemplate>
-  <modal-login *ngIf="modalName === 'loginModal'" [loginType]="loginType"></modal-login>
-  <modal-confirm *ngIf="modalName === 'confirmModal'"></modal-confirm>
+  <modal-login *ngIf="dataModal.modalName === 'loginModal'" [loginType]="dataModal.loginType"></modal-login>
+  <modal-confirm *ngIf="dataModal.modalName === 'confirmModal'"></modal-confirm>
+  <modal-reserve *ngIf="dataModal.modalName === 'reserveModal'" [choosedDay]="dataModal.choosedDay"
+    [establishment]="dataModal.establishment" [openTime]="dataModal.openingTime" [closeTime]="dataModal.closingTime">
+  </modal-reserve>
+  <modal-feedback *ngIf="dataModal.modalName === 'feedbackModal'" [type]="dataModal.type" [message]="dataModal.message">
+  </modal-feedback>
 </ng-template>
 <!-- Modal -->

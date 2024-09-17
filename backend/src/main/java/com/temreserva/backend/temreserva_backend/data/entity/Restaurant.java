@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.RestaurantDTO;
+import com.temreserva.backend.temreserva_backend.web.model.dto.RestaurantDTO;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 
@@ -119,7 +119,7 @@ public class Restaurant {
         cleaning = dto.getCleaning();   
         maxNumberOfPeople = dto.getMaxNumberOfPeople() == null ? 0 : dto.getMaxNumberOfPeople(); 
         handicappedAdapted = false;
-        actualNumberOfPeople = 0;
+        actualNumberOfPeople = dto.getActualNumberOfPeople() != null ? dto.getActualNumberOfPeople() : 0;
         averageStars = 0;
         registerDate = LocalDateTime.now();
         updateDate = LocalDateTime.now(); 

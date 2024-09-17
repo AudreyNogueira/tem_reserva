@@ -15,7 +15,7 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     @Query(value = "SELECT * FROM TB_IMAGEM I WHERE I.ID_DONO = :imageOwnerId", nativeQuery = true)
     Optional<List<Image>> findByOwnerId(@Param("imageOwnerId") Long imageOwnerId);
 
-    @Query(value = "SELECT TOP 1 * FROM TB_IMAGEM I WHERE I.ID_DONO = :imageOwnerId AND I.RESTAURANTE = :isRestaurant AND I.FOTO_PERFIL = :isProfilePic", nativeQuery = true)
+    @Query(value = "SELECT * FROM TB_IMAGEM I WHERE I.ID_DONO = :imageOwnerId AND I.RESTAURANTE = :isRestaurant AND I.FOTO_PERFIL = :isProfilePic LIMIT 1", nativeQuery = true)
     Optional<Image> findImage(@Param("imageOwnerId") Long imageOwnerId, @Param("isProfilePic") Boolean isProfilePic, @Param("isRestaurant") Boolean isRestaurant);
 
     @Query(value = "SELECT * FROM TB_IMAGEM I WHERE I.ID_DONO = :imageOwnerId AND I.RESTAURANTE = :isRestaurant AND I.FOTO_PERFIL = :isProfilePic", nativeQuery = true)

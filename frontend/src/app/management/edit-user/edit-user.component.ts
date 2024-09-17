@@ -9,6 +9,10 @@ import { phoneValidator } from '../../validators/phone-validator';
 import { cpfMask } from '../../masks/cpf-mask';
 import { ModalService } from 'src/app/modals/service/modal.service';
 import { first } from 'rxjs/operators';
+import { SessionService } from 'src/app/shared/services/session.service';
+import { AccountType } from 'src/app/models/account.model';
+import { RoutesEnum } from 'src/app/models/routes.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'edit-user',
@@ -20,6 +24,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
   maskPhone = phoneMask;
   maskCPF = cpfMask;
   submitted = false;
+
+  userData: UserModel;
 
   formGroup: FormGroup = this.formBuilder.group({
     name: [null, [Validators.required]],
@@ -36,13 +42,41 @@ export class EditUserComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private readonly editUserService: EditUserService,
     private modalServiceLocal: ModalService,
+    private sessionService: SessionService,
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
+    this.sessionService.$userSession.subscribe(user => {
+      if (user) {
+        this.userData = user.user;
+        this.initialValues(this.userData);
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.modalServiceLocal.$comunication.unsubscribe();
+  }
+
+  /**
+    * Método para tratar os dados do restaurante na tela de edição
+    * @param userData objeto do estabelecimento
+    */
+  initialValues(user: UserModel): void {
+    this.formGroup.get('name').setValue(this.treatName(user.name));
+    this.formGroup.get('lastName').setValue(this.treatName(user.name, true));
+    this.formGroup.get('email').setValue(user.email);
+    this.formGroup.get('cpf').setValue(user.cpf);
+    this.formGroup.get('birthDate').setValue(user.birthDate);
+    this.formGroup.get('phone').setValue(user.phoneNumber);
+  }
+
+  treatName(completeName: string, isLastName?: boolean): string {
+    const names = completeName.split(' ');
+    if (isLastName) return names[names.length - 1];
+    names.pop();
+    return names.toString().replace(',', ' ');
   }
 
   /**
@@ -52,8 +86,15 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.modalServiceLocal.$openModal.next({ modalName: 'confirmModal' });
 
     this.modalServiceLocal.$comunication.pipe(first()).subscribe(resp => {
-      if (resp) this.editUserService.deleteUser(1).subscribe();
-    })
+      if (resp) this.editUserService.deleteUser(this.userData.id).subscribe(() => {
+        this.sessionService.logout();
+        this.router.navigate([RoutesEnum.ABOUT]);
+      }, () => {
+        setTimeout(() => {
+          this.modalServiceLocal.$openModal.next({ modalName: 'feedbackModal', type: 'error', message: 'Erro ao deletar o estabelecimento, tente novamente.' });
+        }, 500);
+      });
+    });
   }
 
   /**
@@ -73,7 +114,9 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
       if (this.passwordChange()) data = { ...data, password: this.formGroup.get('newPass').value, actualPassword: this.formGroup.get('currentPass').value };
 
-      this.editUserService.updateUserData(1, data).subscribe(() => { }, err => {
+      this.editUserService.updateUserData(this.userData.id, data).subscribe(() => {
+        this.sessionService.set$userSession({ ...this.userData, ...data }, AccountType.USER);
+       }, err => {
         if (err.error.apicode === '0013') this.formGroup.get('currentPass').setValue('');
       });
     }

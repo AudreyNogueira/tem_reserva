@@ -7,12 +7,13 @@ import javax.validation.Valid;
 import com.temreserva.backend.temreserva_backend.business.CredentialBusiness;
 import com.temreserva.backend.temreserva_backend.business.ImageBusiness;
 import com.temreserva.backend.temreserva_backend.business.UserBusiness;
-import com.temreserva.backend.temreserva_backend.data.entity.User;
 import com.temreserva.backend.temreserva_backend.data.repository.CredentialRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.ImageRepository;
+import com.temreserva.backend.temreserva_backend.data.repository.ReserveRepository;
 import com.temreserva.backend.temreserva_backend.data.repository.UserRepository;
-import com.temreserva.backend.temreserva_backend.web.model.DTOs.UserDTO;
-import com.temreserva.backend.temreserva_backend.web.model.Responses.UserModel;
+import com.temreserva.backend.temreserva_backend.web.model.dto.UserDTO;
+import com.temreserva.backend.temreserva_backend.web.model.response.ImageModel;
+import com.temreserva.backend.temreserva_backend.web.model.response.UserModel;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,8 +33,8 @@ import org.springframework.http.HttpStatus;
 public class UserController {
     public final UserBusiness business;
 
-    public UserController(UserRepository userRepository,CredentialRepository credentialRepository, ImageRepository imageRepository) {
-        business = new UserBusiness(userRepository, new ImageBusiness(imageRepository), new CredentialBusiness(credentialRepository));
+    public UserController(UserRepository userRepository,CredentialRepository credentialRepository, ImageRepository imageRepository, ReserveRepository reserveRepository) {
+        business = new UserBusiness(userRepository, new ImageBusiness(imageRepository), new CredentialBusiness(credentialRepository), reserveRepository);
     }
 
     @PostMapping("/create")
@@ -44,12 +44,6 @@ public class UserController {
         
     }
 
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public User userLogin(@RequestHeader("Authorization") String authorization, @RequestHeader("Content-Type") String contentType, @RequestBody String parameters) {
-        return business.userLogin(parameters, authorization, contentType);
-    }
-
     @PutMapping("/id={id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
@@ -57,7 +51,7 @@ public class UserController {
     }
 
     @PostMapping("/upload")
-    public HttpStatus userImageUpload(@RequestParam("imageFile") MultipartFile file,
+    public ImageModel userImageUpload(@RequestParam("imageFile") MultipartFile file,
             @RequestParam("userId") Long id) throws IOException {
         return business.userImageUpload(file, id);
     }

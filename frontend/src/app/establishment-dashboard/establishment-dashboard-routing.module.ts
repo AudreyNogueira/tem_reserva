@@ -15,7 +15,7 @@ const routes: Routes = [
     component: ZoneComponent,
   },
   {
-    path: 'selecionado/:establishment',
+    path: 'selecionado/:id/:establishment',
     component: EstablishmentComponent,
   },
   {
