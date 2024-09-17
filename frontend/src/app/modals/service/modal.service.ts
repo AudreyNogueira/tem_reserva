@@ -8,6 +8,7 @@ import { ModalData } from '../../models/modal-data.model';
 export class ModalService {
 
   $openModal = new Subject<ModalData>();
+  $comunication = new Subject<any>();
 
   constructor() { }
 }

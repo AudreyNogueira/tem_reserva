@@ -31,17 +31,26 @@ public class Reserve {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "ID_USUARIO",nullable = false, updatable = false)
+    @JoinColumn(name = "ID_USUARIO",nullable = false, updatable = true)
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "ID_RESTAURANTE",nullable = false, updatable = false)
+    @JoinColumn(name = "ID_RESTAURANTE",nullable = false, updatable = true)
     private Restaurant restaurant;
+ 
+    @Column(name = "PERIODO", nullable = false, updatable = true)
+    private String period;    
 
-    @Column(name = "DATA_RESERVA", nullable = false, updatable = false)
+    @Column(name = "OBSERVACAO", nullable = true, updatable = true)
+    private String observation;
+
+    @Column(name = "DATA_RESERVA", nullable = false, updatable = true)
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime reserveDate;
 
-    @Column(name = "QTD_PESSOAS", nullable = false, updatable = false)
+    @Column(name = "QTD_PESSOAS", nullable = false, updatable = true)
     private Integer amountOfPeople;
+
+    @Column(name = "CONFIRMADO", nullable = false, updatable = true)
+    private Boolean confirmed;
 }

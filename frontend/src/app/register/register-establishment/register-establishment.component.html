@@ -18,12 +18,12 @@
                                 class="input"
                                 name="cnpj"
                                 type="text"
-                                maxlength="14"
+                                [textMask]="{ mask: maskCnpj, guide: true }"
                                 (keypress)="onlyInputNumber($event)"
-                                (paste)="onlyPasteNumber($event)"
+                                (paste)="onlyPasteNumber('cnpj', $event)"
                                 autocomplete="nope"
                                 placeholder="Digite seu CNPJ">
-                            <div *ngIf="cnpjInvalid" class="feedback">
+                            <div *ngIf="submitted && this.formGroup.get('cnpj').getError('invalidCnpj')" class="feedback">
                                 <div class="text">CNPJ inválido</div>
                             </div>
                         </div>
@@ -33,9 +33,52 @@
                             placeholder="Digite o nome do estabelecimento">
                         </div>
                         <div class="field">
-                            <label class="label" for="address">Endereço do Estabelecimento<span class="asterisk">*</span></label>
-                            <input formControlName="address" class="input" name="address" type="text"
-                            placeholder="Digite o endereço do estabelecimento">
+                            <label class="label" for="cep">CEP<span class="asterisk">*</span></label>
+                            <input formControlName="cep"
+                                class="input"
+                                name="cep"
+                                type="text"
+                                (keyup)="getAddressByCep()"
+                                (paste)="onlyPasteNumber('cep', $event)"
+                                [textMask]="{ mask: maskCep, guide: true }"
+                                autocomplete="nope"
+                                placeholder="Digite o CEP do estabelecimento">
+                        </div>
+                        <div class="field">
+                            <label class="label" for="zone">Zona<span class="asterisk">*</span></label>
+                            <select class="input"
+                                formControlName="zone">
+                                <option *ngFor="let zone of zones" [ngValue]="zone">{{ zone }}</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="street">Endereço<span class="asterisk">*</span></label>
+                            <input formControlName="street"
+                                class="input"
+                                name="street"
+                                type="text"
+                                autocomplete="nope"
+                                placeholder="Digite a rua do estabelecimento">
+                        </div>
+                        <div class="field">
+                            <label class="label" for="estabNumber">Número do Estabelecimento<span class="asterisk">*</span></label>
+                            <input formControlName="estabNumber"
+                                class="input"
+                                name="estabNumber"
+                                type="text"
+                                (paste)="onlyPasteNumber('cep', $event)"
+                                (keypress)="onlyInputNumber($event)"
+                                autocomplete="nope"
+                                placeholder="Digite o número do estabelecimento">
+                        </div>
+                        <div class="field">
+                            <label class="label" for="district">Bairro<span class="asterisk">*</span></label>
+                            <input formControlName="district"
+                                class="input"
+                                name="district"
+                                type="text"
+                                autocomplete="nope"
+                                placeholder="Digite o Bairro do estabelecimento">
                         </div>
                         <div class="field">
                             <label class="label" for="capacity">Qual a capacide de pessoas que o lugar comporta<span class="asterisk">*</span></label>
@@ -45,7 +88,7 @@
                                 type="text"
                                 maxlength="6"
                                 (keypress)="onlyInputNumber($event)"
-                                (paste)="onlyPasteNumber($event)"
+                                (paste)="onlyPasteNumber('capacity', $event)"
                                 autocomplete="nope"
                                 placeholder="Digite a quantidade de pessoas que o lugar comporta">
                         </div>
@@ -69,7 +112,7 @@
                             <input formControlName="password"
                                 class="input"
                                 name="capacity"
-                                type="text"
+                                type="password"
                                 autocomplete="nope"
                                 placeholder="Digite a quantidade de pessoas que o lugar comporta">
                             <div class="checkbox-box">
@@ -90,7 +133,7 @@
                     <button type="submit" class="btn btn-lg btn-block confirm-button">
                         {{ buttonLabel }}<img *ngIf="isFirstForm" class="icon-button" src="../../../assets/icons/svg/seta.svg">
                     </button>
-                    <button *ngIf="!isFirstForm" (click)="isFirstForm = !isFirstForm" class="btn btn-lg btn-block back-button">Voltar</button>
+                    <button *ngIf="!isFirstForm" (click)="isFirstForm = !isFirstForm; feedbacks = []; checkboxValue = false" class="btn btn-lg btn-block back-button">Voltar</button>
                     <!-- Botão do Formulário -->
                 </form>
             </div>

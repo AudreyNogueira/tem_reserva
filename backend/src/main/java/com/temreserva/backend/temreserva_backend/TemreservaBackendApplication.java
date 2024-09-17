@@ -10,5 +10,4 @@ public class TemreservaBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TemreservaBackendApplication.class, args);
 	}
-
 }
