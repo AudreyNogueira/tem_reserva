@@ -7,11 +7,11 @@
     <div class="carousel">
         <div #slide class="slide">
             <div *ngIf="carouselElements" class="elements-scroll">
-                <div *ngFor="let est of carouselElements" #element class="establishment">
-                    <img [src]="'data:image/png;base64,' + est.image" class="img-establishment">
-                    <div class="name">{{ est.restaurantName }}</div>
-                    <div class="address">{{ est.address.address }}, {{ est.address.restaurantNumber }}</div>
-                    <div class="capacity">Lotação disponivel {{ est.actualNumberOfPeople}}/{{ est.maxNumberOfPeople }}</div>
+                <div *ngFor="let est of carouselElements" #element class="establishment" (click)="navigateToEstablishment(est)">
+                    <img [src]="'data:image/png;base64,' + est?.profileImage?.image" class="img-establishment">
+                    <div class="name">{{ est?.restaurantName }}</div>
+                    <div class="address">{{ est?.address?.address }}, {{ est?.address?.restaurantNumber }}</div>
+                    <div class="capacity">Lotação atual {{ est?.actualNumberOfPeople }}/{{ est?.maxNumberOfPeople }}</div>
                 </div>
             </div>
         </div>

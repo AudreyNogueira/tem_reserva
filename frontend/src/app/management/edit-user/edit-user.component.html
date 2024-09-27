@@ -1,0 +1,125 @@
+<div id="edit-user">
+    <div class="container">
+        <div class="header">
+            <div class="name">
+                {{ userData.name }}
+            </div>
+            <div class="email">
+                {{ userData.email }}
+            </div>
+        </div>
+        <form class="form" [formGroup]="formGroup" (submit)="saveEdit()">
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('name').invalid && submitted }">
+                        <label class="label" for="name">Nome</label>
+                        <input class="input"
+                            formControlName="name"
+                            autocomplete="nope"
+                            (keypress)="onlyInputAlphanumeric($event)"
+                            (paste)="onlyPasteAlphanumeric('name', $event)"
+                            name="name"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('lastName').invalid && submitted }">
+                        <label class="label" for="lastName">Sobrenome</label>
+                        <input class="input"
+                            formControlName="lastName"
+                            autocomplete="nope"
+                            (keypress)="onlyInputAlphanumeric($event)"
+                            (paste)="onlyPasteAlphanumeric('lastName', $event)"
+                            name="lastName"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('cpf').invalid && submitted }">
+                        <label class="label" for="cpf">CPF</label>
+                        <input class="input"
+                            formControlName="cpf"
+                            autocomplete="off"
+                            (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('cpf', $event)"
+                            name="cpf"
+                            [textMask]="{ mask: maskCPF, guide: true }"
+                            type="text">
+                            <div class="underline"></div>
+                        </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('birthDate').invalid && submitted }">
+                        <label class="label" for="birthDate">Data de Nascimento</label>
+                        <input class="input"
+                            formControlName="birthDate"
+                            autocomplete="off"
+                            name="birthDate"
+                            type="date">
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('phone').invalid && submitted }">
+                        <label class="label" for="phone">Telefone</label>
+                        <input class="input"
+                            formControlName="phone"
+                            autocomplete="nope"
+                            (keypress)="onlyInputNumber($event)"
+                            (paste)="onlyPasteNumber('phone', $event)"
+                            name="phone"
+                            [textMask]="{ mask: maskPhone, guide: true }"
+                            type="text">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': formGroup.get('email').invalid && submitted }">
+                        <label class="label" for="email">E-mail</label>
+                        <input class="input"
+                            formControlName="email"
+                            autocomplete="off"
+                            name="email"
+                            type="email">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('currentPass').value === '' && formGroup.get('newPass').value !== '' }">
+                        <label class="label" for="currentPass">Senha Atual</label>
+                        <input class="input"
+                            formControlName="currentPass"
+                            autocomplete="off"
+                            (keypress)="spaceNotAllowed($event)"
+                            name="currentPass"
+                            type="password">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-4">
+                    <div class="field" [ngClass]="{ '-error': submitted && formGroup.get('currentPass').value !== '' && formGroup.get('newPass').value === '' }">
+                        <label class="label" for="newPass">Trocar Senha</label>
+                        <input class="input"
+                            formControlName="newPass"
+                            autocomplete="off"
+                            name="newPass"
+                            (keypress)="spaceNotAllowed($event)"
+                            type="password"
+                            placeholder="Digite sua nova senha">
+                        <div class="underline"></div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" (click)="deleteUser()" class="delete-button mb-3 mb-md-4">Excluir Conta</button>
+            <button type="submit" class="save-button mb-3 mb-md-4">Salvar Alterações</button>
+        </form>
+    </div>
+</div>

@@ -5,18 +5,18 @@
     <!-- Componente de estabelecimentos com melhores avaliações -->
     
     <!-- Filtros inativos -->
-    <div class="filtro">    
+    <!-- <div class="filtro">    
         <span class="text-muted">Filtrar por:</span>
             <button class="btn btn btn-sm">Pontuações</button>
             <button class="btn btn btn-sm">Promoções</button>
             <button class="btn btn btn-sm">Avaliações</button>
             <button class="btn btn btn-sm">Todos</button>
-    </div>
+    </div> -->
     <!-- Filtros inativos -->
 
     <!-- Componente de lista de estabelecimentos -->
     <div>
-        <establishment-list [param]="zoneResponse.zoneName" [zone]="zoneResponse"></establishment-list>
+        <establishment-list [param]="zoneResponse.zoneName" [zone]="zoneResponse" [showFilter]="true"></establishment-list>
     </div>
     <!-- Componente de lista de estabelecimentos -->
     

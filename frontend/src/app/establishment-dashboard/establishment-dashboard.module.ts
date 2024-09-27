@@ -6,9 +6,9 @@ import { TopRatedComponent } from './top-rated/top-rated.component';
 import { EstablishmentHomeComponent } from './establishment-home/establishment-home.component';
 import { EstablishmentDashboardRoutingModule } from './establishment-dashboard-routing.module';
 import { ZoneComponent } from './zone/zone.component';
-import { HttpClientModule } from '@angular/common/http';
 import { EstablishmentComponent } from './establishment/establishment.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,8 +22,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     EstablishmentDashboardRoutingModule,
-    HttpClientModule,
     BsDatepickerModule.forRoot(),
   ],
 })
